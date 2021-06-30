@@ -30,12 +30,12 @@ const NewClientForm = () => {
 		setClient({ ...client, address: e.target.value });
 	const onIsVirtualChange = (e) =>
 		setClient({ ...client, isVirtual: !e.target.checked });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
-	const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
+	// const onNameChange = (e) => setClient({ ...client, name: e.target.value });
 
 	return (
 		<section>
