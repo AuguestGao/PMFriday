@@ -4,10 +4,7 @@ import { CardLinkContainer, CardContainer } from "./Card.styles";
 
 const Card = ({ id, name, createdAt }) => {
   return (
-    <CardLinkContainer
-      to={`/cards/${id}`}
-      //   onClick={() => history.push(`/cards/${id}`)}
-    >
+    <CardLinkContainer to={`/cards/${id}`}>
       <CardContainer>
         <span className="name">{name}</span>
         <span>{createdAt}</span>

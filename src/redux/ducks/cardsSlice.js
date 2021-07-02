@@ -11,6 +11,16 @@ const initialState = [
     name: "Harley Quinn",
     createdAt: "2020-04-07",
   },
+  {
+    id: "3",
+    name: "Sally Brown",
+    createdAt: "2020-04-07",
+  },
+  {
+    id: "4",
+    name: "Blah Who's who",
+    createdAt: "2020-04-07",
+  },
 ];
 const cardsSlice = createSlice({
   name: "cards",

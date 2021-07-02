@@ -1,6 +1,7 @@
 import React from "react";
 
 import FormInput from "../FormInput/FormInput.component";
+import AddButton from "../AddButton/AddButton.component";
 
 import SearchContainer from "./Search.styles";
 
@@ -18,6 +19,7 @@ const Search = ({ searchValue, handleChange }) => {
           name="search"
         />
       </form>
+      <AddButton onClick={() => console.log("Clicked")} />
     </SearchContainer>
   );
 };

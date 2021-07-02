@@ -15,6 +15,7 @@ export const CardContainer = styled.div`
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 4px 4px 2px 1px gray;
 
   .name {
     color: coral;
@@ -24,6 +25,7 @@ export const CardContainer = styled.div`
 
   span {
     font-size: x-small;
+    color: black;
   }
 
   &:hover {
