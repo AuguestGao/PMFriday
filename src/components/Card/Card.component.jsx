@@ -1,13 +1,19 @@
-import React from 'react'
-import CardContainer from './Card.styles';
+import React from "react";
+import { CardLinkContainer, CardContainer } from "./Card.styles";
+// import { withRouter } from "react-router-dom";
 
-const Card = ({title,createdAt }) => {
-    return(
-        <CardContainer>
-            <h2>{title}</h2>
-            <span>Date: {createdAt}</span>
-        </CardContainer>
-    )
-}
+const Card = ({ id, name, createdAt }) => {
+  return (
+    <CardLinkContainer
+      to={`/cards/${id}`}
+      //   onClick={() => history.push(`/cards/${id}`)}
+    >
+      <CardContainer>
+        <span className="name">{name}</span>
+        <span>{createdAt}</span>
+      </CardContainer>
+    </CardLinkContainer>
+  );
+};
 
 export default Card;

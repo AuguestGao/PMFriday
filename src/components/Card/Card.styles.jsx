@@ -1,20 +1,32 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const CardContainer = styled.div`
-border: 2px solid coral;
-width: 30vw;
-margin: 5px 10px;
-padding: 5px;
-border-radius: 10px;
+export const CardLinkContainer = styled(Link)`
+  text-decoration: none;
+`;
 
-h2 {
-  color: coral;
-  font-weight: bolder;
-}
+export const CardContainer = styled.div`
+  display: flex;
 
-span {
-  font-size: x-small;
-}
-`
+  border: 2px solid coral;
+  width: 400px;
+  margin: 10px 20px;
+  padding: 20px 20px;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
 
-export default CardContainer;
+  .name {
+    color: coral;
+    font-weight: bolder;
+    font-size: 1.3rem;
+  }
+
+  span {
+    font-size: x-small;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
