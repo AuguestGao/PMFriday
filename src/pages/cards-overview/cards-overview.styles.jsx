@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const CardsOverviewContainer = styled.div`
+export const CardsOverviewContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -10,4 +10,9 @@ const CardsOverviewContainer = styled.div`
   padding: 10px 10px;
 `;
 
-export default CardsOverviewContainer;
+export const NoRecordContainer = styled.h1`
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  color: black;
+`;

@@ -4,7 +4,10 @@ import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card.component";
 import Search from "../../components/Search/Search.component";
 
-import CardsOverviewContainer from "./cards-overview.styles";
+import {
+  CardsOverviewContainer,
+  NoRecordContainer,
+} from "./cards-overview.styles";
 
 const CardsOverview = () => {
   const cards = useSelector((state) => state.cards);
@@ -20,13 +23,20 @@ const CardsOverview = () => {
   );
 
   const renderFilteredCards = () =>
-    filteredCards.map((card) => <Card key={card.id} {...card} />);
+    filteredCards.length ? (
+      filteredCards.map((card) => <Card key={card.id} {...card} />)
+    ) : (
+      <NoRecordContainer>
+        ooops...
+        <br />
+        no record found
+      </NoRecordContainer>
+    );
 
   return (
     <React.Fragment>
       <Search searchValue={searchValue} handleChange={handleChange} />
       <CardsOverviewContainer>{renderFilteredCards()}</CardsOverviewContainer>
-      <h1>{searchValue}</h1>
     </React.Fragment>
   );
 };
