@@ -1,13 +1,16 @@
 import React from "react";
 import { CardLinkContainer, CardContainer } from "./Card.styles";
-// import { withRouter } from "react-router-dom";
 
 const Card = ({ id, name, createdAt }) => {
+  const date = `${createdAt.getFullYear()}-${
+    createdAt.getMonth() + 1
+  }-${createdAt.getDate()}`;
+
   return (
     <CardLinkContainer to={`/cards/${id}`}>
       <CardContainer>
         <span className="name">{name}</span>
-        <span>{createdAt}</span>
+        <span>{date}</span>
       </CardContainer>
     </CardLinkContainer>
   );

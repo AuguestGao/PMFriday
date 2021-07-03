@@ -16,3 +16,14 @@ export const NoRecordContainer = styled.h1`
   left: 50%;
   color: black;
 `;
+
+export const SearchAndAddContainer = styled.div`
+  width: 100%;
+  /* margin: 0 auto; */
+  padding: 0 10%;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+`;

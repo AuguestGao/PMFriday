@@ -8,7 +8,7 @@ const Header = () => {
         PM
         <span className="Friday">Friday</span>
       </span>
-      <span>your personal boy Friday</span>
+      <span>your personal PM assisstant Friday</span>
     </HeaderContainer>
   );
 };

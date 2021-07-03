@@ -8,7 +8,6 @@ const shrinkLabelStyles = css`
 
 export const GroupContainer = styled.div`
   position: relative;
-  margin: 45px 0;
 `;
 
 export const FormInputContainer = styled.input`

@@ -9,10 +9,13 @@ const CardDetail = ({ match }) => {
 
   if (card) {
     const { id, name, createdAt } = card;
+    const date = `${createdAt.getFullYear()}-${
+      createdAt.getMonth() + 1
+    }-${createdAt.getDate()}`;
     return (
       <div>
         <h1>{name}</h1>
-        <h6>created at: {createdAt}</h6>
+        <h6>created at: {date}</h6>
         <span>id: {id}</span>
       </div>
     );

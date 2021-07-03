@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 
 import Card from "../../components/Card/Card.component";
 import Search from "../../components/Search/Search.component";
+import AddButton from "../../components/AddButton/AddButton.component";
 
 import {
   CardsOverviewContainer,
   NoRecordContainer,
+  SearchAndAddContainer,
 } from "./cards-overview.styles";
 
 const CardsOverview = () => {
@@ -35,7 +37,10 @@ const CardsOverview = () => {
 
   return (
     <React.Fragment>
-      <Search searchValue={searchValue} handleChange={handleChange} />
+      <SearchAndAddContainer>
+        <Search searchValue={searchValue} handleChange={handleChange} />
+        <AddButton />
+      </SearchAndAddContainer>
       <CardsOverviewContainer>{renderFilteredCards()}</CardsOverviewContainer>
     </React.Fragment>
   );
