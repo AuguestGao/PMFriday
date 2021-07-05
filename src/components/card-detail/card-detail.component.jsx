@@ -7,11 +7,13 @@ import CustomButton from "../CustomButtom/CustomButton.component";
 import FormInput from "../FormInput/FormInput.component";
 
 import {
+  PageContainer,
   CardDetailContainer,
   NameContainer,
   NormalTextContainer,
   SmallTextContainer,
   ConfirmDeleteContainer,
+  InteractionsContainer,
 } from "./card-detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -31,10 +33,6 @@ const CardDetail = ({ match }) => {
     setHideConfirmBox(false);
   };
 
-  // const handleConfirmNameChange = (e) => {
-  //   setConfirmName(e.target.value);
-  // };
-
   const handleConfirmDelete = () => {
     if (confirmName === card.name) {
       dispatch(deleteCard(cardId));
@@ -44,18 +42,23 @@ const CardDetail = ({ match }) => {
     }
   };
 
+  const handelEditButtonClick = () => {
+    console.log("edit needed");
+  };
+
   if (card) {
     const { name, createdAt, address, email, phone } = card;
     return (
-      <CardDetailContainer>
-        <NameContainer>{name}</NameContainer>
-        <SmallTextContainer>
-          created at: {createdAt.slice(0, 10)}
-        </SmallTextContainer>
-        <NormalTextContainer>Address: {address}</NormalTextContainer>
-        <NormalTextContainer>Email: {email}</NormalTextContainer>
-        <NormalTextContainer>Phone: {phone}</NormalTextContainer>
-
+      <PageContainer>
+        <CardDetailContainer>
+          <NameContainer>{name}</NameContainer>
+          <SmallTextContainer>
+            created at: {createdAt.slice(0, 10)}
+          </SmallTextContainer>
+          <NormalTextContainer>Address: {address}</NormalTextContainer>
+          <NormalTextContainer>Email: {email}</NormalTextContainer>
+          <NormalTextContainer>Phone: {phone}</NormalTextContainer>
+        </CardDetailContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>
             <FormInput
@@ -64,20 +67,33 @@ const CardDetail = ({ match }) => {
               label={"Enter Client Name"}
               value={confirmName}
             />
-
-            <CustomButton deletebutton onClick={handleConfirmDelete}>
-              Confirm Delete
-            </CustomButton>
+            <InteractionsContainer>
+              <CustomButton deletebutton onClick={handleConfirmDelete}>
+                Confirm
+              </CustomButton>
+              <CustomButton
+                cancelbutton
+                onClick={() => setHideConfirmBox(true)}
+              >
+                Cancel
+              </CustomButton>
+            </InteractionsContainer>
           </ConfirmDeleteContainer>
         ) : (
-          <CustomButton deletebutton onClick={handleDeleteButtonClick}>
-            DELETE
-          </CustomButton>
+          <InteractionsContainer>
+            <CustomButton deletebutton onClick={handleDeleteButtonClick}>
+              DELETE
+            </CustomButton>
+            <CustomButton editbutton onClick={handelEditButtonClick}>
+              Edit
+            </CustomButton>
+          </InteractionsContainer>
         )}
-      </CardDetailContainer>
+      </PageContainer>
     );
   }
-  return <h1>no card {cardId}</h1>;
+
+  return <h1>No card {cardId}</h1>;
 };
 
 export default CardDetail;

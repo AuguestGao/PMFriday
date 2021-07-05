@@ -22,8 +22,19 @@ const createbuttonstyles = css`
   }
 `;
 
+const editbuttonstyles = css`
+  border-color: burlywood;
+  color: burlywood;
+
+  &:hover {
+    background-color: burlywood;
+    border-color: white;
+    color: white;
+  }
+`;
+
 const deletebuttonstyles = css`
-  margin: 10px auto;
+  ${"" /* margin: 10px auto; */}
   border-color: red;
   color: red;
 
@@ -60,14 +71,16 @@ const getButtonStyle = (props) => {
     return deletebuttonstyles;
   } else if (props.cancelbutton) {
     return cancelbuttonstyles;
+  } else if (props.editbutton) {
+    return editbuttonstyles;
   } else {
     return null;
   }
 };
 
 const CustomButtonContainer = styled.button`
-  /* width: 100px; */
-  height: 45px;
+  width: 90px;
+  height: 40px;
   border-radius: 10px;
   border-width: 3px;
   border-style: solid;

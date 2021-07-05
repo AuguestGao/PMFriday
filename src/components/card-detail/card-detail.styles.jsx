@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-export const CardDetailContainer = styled.div`
-  width: 50%;
+export const PageContainer = styled.div`
+  width: 40vw;
   margin: 20px auto;
   padding: 10px;
+`;
+
+export const CardDetailContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   border: 2px solid black;
@@ -38,15 +42,26 @@ export const SmallTextContainer = styled.div`
 
 export const ConfirmDeleteContainer = styled.div`
   width: 100%;
-  height: 120px;
   box-sizing: border-box;
   border: 2px solid red;
   /* position: absolute; */
   background-color: white;
-  margin: 20px, auto;
+  margin: 20px auto;
   padding: 30px;
 
-  .warning {
-    color: red;
+  button {
+    width: 40%;
   }
+`;
+
+export const InteractionsContainer = styled.div`
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+
+  /* flex-direction: row; */
+  /* flex-wrap: nowrap; */
+  justify-content: space-between;
+  align-items: center;
 `;
