@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import HeaderContainer from "./Header.styles";
 
 const Header = () => {
@@ -8,7 +10,9 @@ const Header = () => {
         PM
         <span className="Friday">Friday</span>
       </span>
-      <span>your personal PM assisstant Friday</span>
+      <Link to="/">
+        <span>Back</span>
+      </Link>
     </HeaderContainer>
   );
 };

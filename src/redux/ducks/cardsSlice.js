@@ -25,7 +25,8 @@ const cardsSlice = createSlice({
         return {
           payload: {
             id: nanoid(),
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
+            isArchived: false,
             name,
             address,
             email,

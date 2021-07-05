@@ -2,15 +2,11 @@ import React from "react";
 import { CardLinkContainer, CardContainer } from "./Card.styles";
 
 const Card = ({ id, name, createdAt }) => {
-  const date = `${createdAt.getFullYear()}-${
-    createdAt.getMonth() + 1
-  }-${createdAt.getDate()}`;
-
   return (
     <CardLinkContainer to={`/cards/${id}`}>
       <CardContainer>
         <span className="name">{name}</span>
-        <span>{date}</span>
+        <span>{createdAt.slice(0, 10)}</span>
       </CardContainer>
     </CardLinkContainer>
   );

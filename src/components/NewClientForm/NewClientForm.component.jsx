@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { createCard } from "../../redux/ducks/cardsSlice";
 
 import FormInput from "../FormInput/FormInput.component";
-import CustomButton from "../CustomConfirmButton/CustomConfirmButton.component";
-import FormContainer from "./NewClientForm.styles";
+import CustomButton from "../CustomButtom/CustomButton.component";
+import { FormContainer } from "./NewClientForm.styles";
 
 const NewClientForm = () => {
   const [file, setFile] = useState({
@@ -36,6 +36,7 @@ const NewClientForm = () => {
   //   setFile({ ...file, planning: e.target.value });
 
   const handleCreateButtonClicked = () => {
+    console.log(file);
     dispatch(createCard(file));
     setFile({
       name: "",
@@ -87,7 +88,7 @@ const NewClientForm = () => {
         onChange={onIsVirtualChange}
       /> */}
       <Link to="/">
-        <CustomButton handleClick={handleCreateButtonClicked}>
+        <CustomButton createbutton onClick={handleCreateButtonClicked}>
           CREATE
         </CustomButton>
       </Link>

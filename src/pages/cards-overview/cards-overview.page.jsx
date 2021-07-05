@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import Card from "../../components/Card/Card.component";
 import Search from "../../components/Search/Search.component";
-import AddButton from "../../components/AddButton/AddButton.component";
+import CustomButton from "../../components/CustomButtom/CustomButton.component";
 
 import {
   CardsOverviewContainer,
@@ -26,7 +27,9 @@ const CardsOverview = () => {
 
   const renderFilteredCards = () =>
     filteredCards.length ? (
-      filteredCards.map((card) => <Card key={card.id} {...card} />)
+      filteredCards.map((card) =>
+        !card.isArchived ? <Card key={card.id} {...card} /> : null
+      )
     ) : (
       <NoRecordContainer>
         ooops...
@@ -39,7 +42,9 @@ const CardsOverview = () => {
     <React.Fragment>
       <SearchAndAddContainer>
         <Search searchValue={searchValue} handleChange={handleChange} />
-        <AddButton />
+        <Link to="/add">
+          <CustomButton addbutton>ADD</CustomButton>
+        </Link>
       </SearchAndAddContainer>
       <CardsOverviewContainer>{renderFilteredCards()}</CardsOverviewContainer>
     </React.Fragment>

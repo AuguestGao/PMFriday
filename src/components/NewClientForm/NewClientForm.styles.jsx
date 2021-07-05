@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FormContainer = styled.form`
+export const FormContainer = styled.form`
   width: 40%;
   border: 2px solid black;
   border-radius: 20px;
@@ -11,5 +11,3 @@ const FormContainer = styled.form`
   flex-wrap: nowrap;
   gap: 25px;
 `;
-
-export default FormContainer;
