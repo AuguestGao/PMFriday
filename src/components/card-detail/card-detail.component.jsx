@@ -1,6 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { parseISO } from "date-fns";
+import { useSelector } from "react-redux";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 
@@ -9,7 +8,6 @@ const CardDetail = ({ match }) => {
   const card = useSelector((state) =>
     state.cards.find((card) => card.id === cardId)
   );
-  const dispatch = useDispatch();
 
   const handleDeleteButtonClick = (e) => {
     console.log(e.target);

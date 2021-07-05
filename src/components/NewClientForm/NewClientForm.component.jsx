@@ -13,13 +13,7 @@ const NewClientForm = () => {
     name: "",
     address: "",
     email: "",
-    isVirtual: false,
-    treatment: 0,
-    travel: 0,
-    documentation: 0,
-    planning: 0,
-    fileSearch: 0,
-    assessment: 0,
+    mobile: "",
     note: "",
     todo: [],
   });
@@ -29,11 +23,7 @@ const NewClientForm = () => {
   const onNameChange = (e) => setFile({ ...file, name: e.target.value });
   const onAddressChange = (e) => setFile({ ...file, address: e.target.value });
   const onEmailChange = (e) => setFile({ ...file, email: e.target.value });
-  // const onIsVirtualChange = (e) =>
-  //   setFile({ ...file, isVirtual: !e.target.checked });
-  // const onEmailChange = (e) => setFile({ ...file, email: e.target.value });
-  // const onPlanTimeChange = (e) =>
-  //   setFile({ ...file, planning: e.target.value });
+  const onMobileChange = (e) => setFile({ ...file, mobile: e.target.value });
 
   const handleCreateButtonClicked = () => {
     console.log(file);
@@ -42,13 +32,7 @@ const NewClientForm = () => {
       name: "",
       address: "",
       email: "",
-      isVirtual: false,
-      treatment: 0,
-      travel: 0,
-      documentation: 0,
-      planning: 0,
-      fileSearch: 0,
-      assessment: 0,
+      phone: "",
       note: "",
       todo: [],
     });
@@ -73,20 +57,22 @@ const NewClientForm = () => {
       />
 
       <FormInput
-        type="Email"
+        type="email"
         name="email"
         value={file.email}
         label="Email"
         onChange={onEmailChange}
       />
-      {/* 
-      <label htmlFor="fileIsVirtual">Virtual </label>
-      <input
-        type="checkbox"
-        id="fileIsVirtual"
-        name="fileIsVirtual"
-        onChange={onIsVirtualChange}
-      /> */}
+
+      <FormInput
+        type="tel"
+        name="Mobile"
+        value={file.mobile}
+        label="Mobile (xxx-xxx-xxxx)"
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        onChange={onMobileChange}
+      />
+
       <Link to="/">
         <CustomButton createbutton onClick={handleCreateButtonClicked}>
           CREATE
