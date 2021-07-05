@@ -23,11 +23,24 @@ const createbuttonstyles = css`
 `;
 
 const deletebuttonstyles = css`
-  border-color: tomato;
-  color: tomato;
+  margin: 10px auto;
+  border-color: red;
+  color: red;
 
   &:hover {
-    background-color: tomato;
+    background-color: red;
+    border-color: white;
+    color: white;
+  }
+`;
+
+const cancelbuttonstyles = css`
+  margin: 0 auto;
+  border-color: gray;
+  color: gray;
+
+  &:hover {
+    background-color: gray;
     border-color: white;
     color: white;
   }
@@ -45,15 +58,17 @@ const getButtonStyle = (props) => {
     return props.disabled ? disabledButton : createbuttonstyles;
   } else if (props.deletebutton) {
     return deletebuttonstyles;
+  } else if (props.cancelbutton) {
+    return cancelbuttonstyles;
   } else {
     return null;
   }
 };
 
 const CustomButtonContainer = styled.button`
-  width: 100px;
+  /* width: 100px; */
   height: 45px;
-  border-radius: 5px;
+  border-radius: 10px;
   border-width: 3px;
   border-style: solid;
   background-color: white;

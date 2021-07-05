@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { createCard } from "../../redux/ducks/cardsSlice";
 
@@ -20,6 +20,8 @@ const NewClientForm = () => {
 
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
   const onNameChange = (e) => setFile({ ...file, name: e.target.value });
   const onAddressChange = (e) => setFile({ ...file, address: e.target.value });
   const onEmailChange = (e) => setFile({ ...file, email: e.target.value });
@@ -35,11 +37,24 @@ const NewClientForm = () => {
       note: "",
       todo: [],
     });
+    history.push("/");
+  };
+
+  const handleCancelButtonClicked = () => {
+    setFile({
+      name: "",
+      address: "",
+      email: "",
+      phone: "",
+      note: "",
+      todo: [],
+    });
+    history.push("/");
   };
 
   return (
     <FormContainer>
-      <h2>Create a new client file</h2>
+      <h2>New Client</h2>
       <FormInput
         type="text"
         name="fileName"
@@ -72,15 +87,16 @@ const NewClientForm = () => {
         onChange={onMobileChange}
       />
 
-      <Link to="/">
-        <CustomButton
-          createbutton
-          onClick={handleCreateButtonClicked}
-          disabled={!file.name.length}
-        >
-          CREATE
-        </CustomButton>
-      </Link>
+      <CustomButton
+        createbutton
+        onClick={handleCreateButtonClicked}
+        disabled={!file.name.length}
+      >
+        CREATE
+      </CustomButton>
+      <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
+        CANCEL
+      </CustomButton>
     </FormContainer>
   );
 };

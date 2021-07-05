@@ -10,6 +10,10 @@ export const CardDetailContainer = styled.div`
   box-sizing: border-box;
   border-radius: 10px;
   justify-items: flex-start;
+
+  button {
+    width: 100%;
+  }
 `;
 
 export const NameContainer = styled.h1`
@@ -30,4 +34,19 @@ export const SmallTextContainer = styled.div`
   font-size: 0.6rem;
   color: black;
   margin: 10px auto;
+`;
+
+export const ConfirmDeleteContainer = styled.div`
+  width: 100%;
+  height: 120px;
+  box-sizing: border-box;
+  border: 2px solid red;
+  /* position: absolute; */
+  background-color: white;
+  margin: 20px, auto;
+  padding: 30px;
+
+  .warning {
+    color: red;
+  }
 `;

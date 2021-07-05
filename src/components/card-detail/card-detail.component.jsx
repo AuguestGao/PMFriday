@@ -1,13 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteCard } from "../../redux/ducks/cardsSlice";
+import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
+import FormInput from "../FormInput/FormInput.component";
 
 import {
   CardDetailContainer,
   NameContainer,
   NormalTextContainer,
   SmallTextContainer,
+  ConfirmDeleteContainer,
 } from "./card-detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -16,8 +20,28 @@ const CardDetail = ({ match }) => {
     state.cards.find((card) => card.id === cardId)
   );
 
-  const handleDeleteButtonClick = (e) => {
-    console.log(e.target);
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  const [hideConfirmBox, setHideConfirmBox] = useState(true);
+  const [confirmName, setConfirmName] = useState("");
+
+  const handleDeleteButtonClick = () => {
+    setHideConfirmBox(false);
+  };
+
+  // const handleConfirmNameChange = (e) => {
+  //   setConfirmName(e.target.value);
+  // };
+
+  const handleConfirmDelete = () => {
+    if (confirmName === card.name) {
+      dispatch(deleteCard(cardId));
+      history.push("/");
+    } else {
+      window.alert("Unmatching name, delete failed");
+    }
   };
 
   if (card) {
@@ -32,9 +56,24 @@ const CardDetail = ({ match }) => {
         <NormalTextContainer>Email: {email}</NormalTextContainer>
         <NormalTextContainer>Phone: {phone}</NormalTextContainer>
 
-        <CustomButton deletebutton onClick={handleDeleteButtonClick}>
-          DELETE
-        </CustomButton>
+        {!hideConfirmBox ? (
+          <ConfirmDeleteContainer>
+            <FormInput
+              type="text"
+              onChange={(e) => setConfirmName(e.target.value)}
+              label={"Enter Client Name"}
+              value={confirmName}
+            />
+
+            <CustomButton deletebutton onClick={handleConfirmDelete}>
+              Confirm Delete
+            </CustomButton>
+          </ConfirmDeleteContainer>
+        ) : (
+          <CustomButton deletebutton onClick={handleDeleteButtonClick}>
+            DELETE
+          </CustomButton>
+        )}
       </CardDetailContainer>
     );
   }

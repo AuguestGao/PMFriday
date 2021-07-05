@@ -11,8 +11,11 @@ export const FormContainer = styled.form`
   flex-wrap: nowrap;
   gap: 25px;
 
+  h2 {
+    text-align: center;
+  }
+
   button {
-    margin-top: 30px;
     width: 100%;
   }
 `;

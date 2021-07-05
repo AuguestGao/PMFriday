@@ -34,9 +34,16 @@ const cardsSlice = createSlice({
         };
       },
     },
+
+    deleteCard(state, action) {
+      const existingCard = state.find((card) => card.id === action.payload);
+      if (existingCard) {
+        existingCard.isArchived = true;
+      }
+    },
   },
 });
 
-export const { createCard } = cardsSlice.actions;
+export const { createCard, deleteCard } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
