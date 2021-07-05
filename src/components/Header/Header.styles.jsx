@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const HeaderContainer = styled.header`
   width: 100%;
-  background-color: black;
+  background-color: slategrey;
   text-align: center;
   display: flex;
   flex-direction: row;
@@ -17,7 +17,7 @@ const HeaderContainer = styled.header`
     margin: 13px 20px;
 
     .Friday {
-      color: coral;
+      color: black;
       font-size: 1.5rem;
       margin: 0;
     }

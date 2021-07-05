@@ -11,7 +11,7 @@ const Header = () => {
         <span className="Friday">Friday</span>
       </span>
       <Link to="/">
-        <span>Back</span>
+        <span>HOME</span>
       </Link>
     </HeaderContainer>
   );

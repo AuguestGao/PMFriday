@@ -10,4 +10,9 @@ export const FormContainer = styled.form`
   flex-direction: column;
   flex-wrap: nowrap;
   gap: 25px;
+
+  button {
+    margin-top: 30px;
+    width: 100%;
+  }
 `;

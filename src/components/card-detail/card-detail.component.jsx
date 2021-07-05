@@ -3,6 +3,13 @@ import { useSelector } from "react-redux";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 
+import {
+  CardDetailContainer,
+  NameContainer,
+  NormalTextContainer,
+  SmallTextContainer,
+} from "./card-detail.styles";
+
 const CardDetail = ({ match }) => {
   const { cardId } = match.params;
   const card = useSelector((state) =>
@@ -14,16 +21,21 @@ const CardDetail = ({ match }) => {
   };
 
   if (card) {
-    const { id, name, createdAt } = card;
+    const { name, createdAt, address, email, phone } = card;
     return (
-      <div>
-        <h1>{name}</h1>
-        <h6>created at: {createdAt.slice(0, 10)}</h6>
-        <span>id: {id}</span>
+      <CardDetailContainer>
+        <NameContainer>{name}</NameContainer>
+        <SmallTextContainer>
+          created at: {createdAt.slice(0, 10)}
+        </SmallTextContainer>
+        <NormalTextContainer>Address: {address}</NormalTextContainer>
+        <NormalTextContainer>Email: {email}</NormalTextContainer>
+        <NormalTextContainer>Phone: {phone}</NormalTextContainer>
+
         <CustomButton deletebutton onClick={handleDeleteButtonClick}>
           DELETE
         </CustomButton>
-      </div>
+      </CardDetailContainer>
     );
   }
   return <h1>no card {cardId}</h1>;
