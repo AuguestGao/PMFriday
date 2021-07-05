@@ -26,7 +26,6 @@ const NewClientForm = () => {
   const onMobileChange = (e) => setFile({ ...file, mobile: e.target.value });
 
   const handleCreateButtonClicked = () => {
-    console.log(file);
     dispatch(createCard(file));
     setFile({
       name: "",
@@ -74,7 +73,11 @@ const NewClientForm = () => {
       />
 
       <Link to="/">
-        <CustomButton createbutton onClick={handleCreateButtonClicked}>
+        <CustomButton
+          createbutton
+          onClick={handleCreateButtonClicked}
+          disabled={!file.name.length}
+        >
           CREATE
         </CustomButton>
       </Link>

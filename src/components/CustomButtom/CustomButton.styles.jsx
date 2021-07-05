@@ -33,11 +33,16 @@ const deletebuttonstyles = css`
   }
 `;
 
+const disabledButton = css`
+  border-color: gray;
+  color: gray;
+`;
+
 const getButtonStyle = (props) => {
   if (props.addbutton) {
     return addbuttonstyles;
   } else if (props.createbutton) {
-    return createbuttonstyles;
+    return props.disabled ? disabledButton : createbuttonstyles;
   } else if (props.deletebutton) {
     return deletebuttonstyles;
   } else {
