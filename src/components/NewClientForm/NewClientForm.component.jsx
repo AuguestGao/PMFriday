@@ -9,45 +9,42 @@ import CustomButton from "../CustomButtom/CustomButton.component";
 import { FormContainer } from "./NewClientForm.styles";
 
 const NewClientForm = () => {
-  const [file, setFile] = useState({
+  const [profile, setProfile] = useState({
     name: "",
     address: "",
     email: "",
     mobile: "",
-    note: "",
-    todo: [],
   });
 
   const dispatch = useDispatch();
 
   const history = useHistory();
 
-  const onNameChange = (e) => setFile({ ...file, name: e.target.value });
-  const onAddressChange = (e) => setFile({ ...file, address: e.target.value });
-  const onEmailChange = (e) => setFile({ ...file, email: e.target.value });
-  const onMobileChange = (e) => setFile({ ...file, mobile: e.target.value });
+  const onNameChange = (e) => setProfile({ ...profile, name: e.target.value });
+  const onAddressChange = (e) =>
+    setProfile({ ...profile, address: e.target.value });
+  const onEmailChange = (e) =>
+    setProfile({ ...profile, email: e.target.value });
+  const onMobileChange = (e) =>
+    setProfile({ ...profile, mobile: e.target.value });
 
   const handleCreateButtonClicked = () => {
-    dispatch(createCard(file));
-    setFile({
+    dispatch(createCard(profile));
+    setProfile({
       name: "",
       address: "",
       email: "",
-      phone: "",
-      note: "",
-      todo: [],
+      mobile: "",
     });
     history.push("/");
   };
 
   const handleCancelButtonClicked = () => {
-    setFile({
+    setProfile({
       name: "",
       address: "",
       email: "",
       phone: "",
-      note: "",
-      todo: [],
     });
     history.push("/");
   };
@@ -57,31 +54,31 @@ const NewClientForm = () => {
       <h2>New Client</h2>
       <FormInput
         type="text"
-        name="fileName"
-        value={file.name}
+        name="profileName"
+        value={profile.name}
         label="Name"
         onChange={onNameChange}
       />
       <FormInput
         type="text"
-        name="fileAddress"
-        value={file.address}
+        name="profileAddress"
+        value={profile.address}
         label="Address"
         onChange={onAddressChange}
       />
 
       <FormInput
         type="email"
-        name="email"
-        value={file.email}
+        name="proemail"
+        value={profile.email}
         label="Email"
         onChange={onEmailChange}
       />
 
       <FormInput
         type="tel"
-        name="Mobile"
-        value={file.mobile}
+        name="profilMobile"
+        value={profile.mobile}
         label="Mobile (xxx-xxx-xxxx)"
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         onChange={onMobileChange}
@@ -90,7 +87,7 @@ const NewClientForm = () => {
       <CustomButton
         createbutton
         onClick={handleCreateButtonClicked}
-        disabled={!file.name.length}
+        disabled={!profile.name.length}
       >
         CREATE
       </CustomButton>

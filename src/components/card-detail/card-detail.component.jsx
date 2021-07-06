@@ -15,11 +15,12 @@ import {
   ConfirmDeleteContainer,
   InteractionsContainer,
 } from "./card-detail.styles";
+import { render } from "@testing-library/react";
 
 const CardDetail = ({ match }) => {
   const { cardId } = match.params;
   const card = useSelector((state) =>
-    state.cards.find((card) => card.id === cardId)
+    state.cards.find((card) => card.meta.id === cardId)
   );
 
   const dispatch = useDispatch();
@@ -28,6 +29,14 @@ const CardDetail = ({ match }) => {
 
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
+
+  const renderData = (uid, data) => {
+    return Object.entries(data).map(([k, v]) => (
+      <NormalTextContainer key={uid}>
+        {`${k.toUpperCase()}: ${v}`}
+      </NormalTextContainer>
+    ));
+  };
 
   const handleDeleteButtonClick = () => {
     setHideConfirmBox(false);
@@ -47,7 +56,8 @@ const CardDetail = ({ match }) => {
   };
 
   if (card) {
-    const { name, createdAt, address, email, phone } = card;
+    const { createdAt } = card.meta;
+    const { name, ...otherFields } = card.profile;
     return (
       <PageContainer>
         <CardDetailContainer>
@@ -55,9 +65,7 @@ const CardDetail = ({ match }) => {
           <SmallTextContainer>
             created at: {createdAt.slice(0, 10)}
           </SmallTextContainer>
-          <NormalTextContainer>Address: {address}</NormalTextContainer>
-          <NormalTextContainer>Email: {email}</NormalTextContainer>
-          <NormalTextContainer>Phone: {phone}</NormalTextContainer>
+          {renderData(cardId, otherFields)}
         </CardDetailContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>
@@ -85,7 +93,7 @@ const CardDetail = ({ match }) => {
               DELETE
             </CustomButton>
             <CustomButton editbutton onClick={handelEditButtonClick}>
-              Edit
+              EDIT
             </CustomButton>
           </InteractionsContainer>
         )}

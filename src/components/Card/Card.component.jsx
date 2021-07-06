@@ -1,7 +1,9 @@
 import React from "react";
 import { CardLinkContainer, CardContainer } from "./Card.styles";
 
-const Card = ({ id, name, createdAt }) => {
+const Card = ({ meta, profile }) => {
+  const { id, createdAt } = meta;
+  const { name } = profile;
   return (
     <CardLinkContainer to={`/cards/${id}`}>
       <CardContainer>

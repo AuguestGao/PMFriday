@@ -25,13 +25,13 @@ const CardsOverview = () => {
 
   const filteredCards = cards.filter(
     (card) =>
-      !card.isArchived &&
-      card.name.toLowerCase().includes(searchValue.toLowerCase())
+      !card.meta.isArchived &&
+      card.profile.name.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const renderFilteredCards = () =>
     filteredCards.length ? (
-      filteredCards.map((card) => <Card key={card.id} {...card} />)
+      filteredCards.map((card) => <Card key={card.meta.id} {...card} />)
     ) : (
       <NoRecordContainer>no record found...</NoRecordContainer>
     );
