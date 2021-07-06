@@ -65,3 +65,11 @@ export const InteractionsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const CustomFieldContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+`;

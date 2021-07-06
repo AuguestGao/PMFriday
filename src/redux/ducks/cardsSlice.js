@@ -2,7 +2,8 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = [];
 // {
-//  profile: [{}, {}, {}],
+//  meta: { }
+//  profile: {...},
 //  ot: [{}, {}, {}],
 //  note: '',
 //  todo: [{}, {}]
@@ -31,14 +32,28 @@ const cardsSlice = createSlice({
     },
 
     deleteCard(state, action) {
-      const existingCard = state.find((card) => card.id === action.payload);
+      const existingCard = state.find(
+        (card) => card.meta.id === action.payload
+      );
       if (existingCard) {
-        existingCard.isArchived = true;
+        existingCard.meta.isArchived = true;
+      }
+    },
+
+    addField(state, action) {
+      const { cardId, field } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        if (!existingCard.profile.hasOwnProperty("customFields")) {
+          existingCard.profile.customFields = [field];
+        } else {
+          existingCard.profile.customFields.push(field);
+        }
       }
     },
   },
 });
 
-export const { createCard, deleteCard } = cardsSlice.actions;
+export const { createCard, deleteCard, addField } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

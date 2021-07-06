@@ -79,8 +79,7 @@ const NewClientForm = () => {
         type="tel"
         name="profilMobile"
         value={profile.mobile}
-        label="Mobile (xxx-xxx-xxxx)"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        label="Mobile"
         onChange={onMobileChange}
       />
 

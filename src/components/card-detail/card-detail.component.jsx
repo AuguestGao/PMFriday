@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCard } from "../../redux/ducks/cardsSlice";
+import { deleteCard, addField } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
@@ -14,8 +14,8 @@ import {
   SmallTextContainer,
   ConfirmDeleteContainer,
   InteractionsContainer,
+  CustomFieldContainer,
 } from "./card-detail.styles";
-import { render } from "@testing-library/react";
 
 const CardDetail = ({ match }) => {
   const { cardId } = match.params;
@@ -29,21 +29,20 @@ const CardDetail = ({ match }) => {
 
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
+  const [hideCustomField, toggleHideCustomField] = useState(true);
 
-  const renderData = (uid, data) => {
-    return Object.entries(data).map(([k, v]) => (
-      <NormalTextContainer key={uid}>
-        {`${k.toUpperCase()}: ${v}`}
-      </NormalTextContainer>
-    ));
-  };
+  const [field, setField] = useState({
+    name: "",
+    type: "",
+    value: "",
+  });
 
   const handleDeleteButtonClick = () => {
     setHideConfirmBox(false);
   };
 
   const handleConfirmDelete = () => {
-    if (confirmName === card.name) {
+    if (confirmName === card.profile.name) {
       dispatch(deleteCard(cardId));
       history.push("/");
     } else {
@@ -51,9 +50,72 @@ const CardDetail = ({ match }) => {
     }
   };
 
-  const handelEditButtonClick = () => {
+  const handleEditButtonClick = () => {
     console.log("edit needed");
   };
+
+  const handleAddFieldClicked = () => {
+    dispatch(addField({ field, cardId }));
+    toggleHideCustomField(true);
+    setField({
+      name: "",
+      type: "",
+      value: "",
+    });
+  };
+
+  const renderData = (data) => {
+    return Object.entries(data).map(([k, v]) =>
+      k !== "customFields" ? (
+        <NormalTextContainer key={k}>
+          {`${k.toUpperCase()}: ${v}`}
+        </NormalTextContainer>
+      ) : (
+        v.map((field) => (
+          <NormalTextContainer key={field.name}>
+            {`${field.name.toUpperCase()}: ${field.value}`}
+          </NormalTextContainer>
+        ))
+      )
+    );
+  };
+
+  const renderAddField = (
+    <CustomFieldContainer>
+      <FormInput
+        type="text"
+        value={field.name}
+        name="name"
+        onChange={(e) => setField({ ...field, name: e.target.value })}
+        label="Field Name"
+      />
+      <select
+        name="type"
+        onChange={(e) => setField({ ...field, type: e.target.value })}
+      >
+        <option value="text" defaultValue>
+          Text
+        </option>
+        <option value="number">Number</option>
+        <option value="tel">Phone</option>
+        <option value="email">Email</option>
+        <option value="date">date</option>
+      </select>
+      <FormInput
+        type={field.type}
+        value={field.value}
+        name="value"
+        onChange={(e) => setField({ ...field, value: e.target.value })}
+        label={field.type === "date" ? null : "Value"}
+      />
+
+      {field.name.length && field.value.length ? (
+        <CustomButton addbutton onClick={handleAddFieldClicked}>
+          Add
+        </CustomButton>
+      ) : null}
+    </CustomFieldContainer>
+  );
 
   if (card) {
     const { createdAt } = card.meta;
@@ -65,7 +127,16 @@ const CardDetail = ({ match }) => {
           <SmallTextContainer>
             created at: {createdAt.slice(0, 10)}
           </SmallTextContainer>
-          {renderData(cardId, otherFields)}
+          {renderData(otherFields)}
+          {hideCustomField ? null : renderAddField}
+          {
+            <CustomButton
+              addbutton
+              onClick={() => toggleHideCustomField(false)}
+            >
+              Add Field
+            </CustomButton>
+          }
         </CardDetailContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>
@@ -92,7 +163,7 @@ const CardDetail = ({ match }) => {
             <CustomButton deletebutton onClick={handleDeleteButtonClick}>
               DELETE
             </CustomButton>
-            <CustomButton editbutton onClick={handelEditButtonClick}>
+            <CustomButton editbutton onClick={handleEditButtonClick}>
               EDIT
             </CustomButton>
           </InteractionsContainer>

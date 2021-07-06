@@ -40,11 +40,9 @@ const CardsOverview = () => {
     <React.Fragment>
       <SearchAndAddContainer>
         <Search searchValue={searchValue} handleChange={handleChange} />
-        {/* <Link to="/add"> */}
         <CustomButton addbutton onClick={() => history.push("/add")}>
           ADD
         </CustomButton>
-        {/* </Link> */}
       </SearchAndAddContainer>
       <CardsOverviewContainer>{renderFilteredCards()}</CardsOverviewContainer>
     </React.Fragment>
