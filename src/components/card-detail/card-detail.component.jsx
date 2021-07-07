@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCard, addField } from "../../redux/ducks/cardsSlice";
+import { deleteCard } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
@@ -14,7 +14,6 @@ import {
   SmallTextContainer,
   ConfirmDeleteContainer,
   InteractionsContainer,
-  CustomFieldContainer,
 } from "./card-detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -29,13 +28,13 @@ const CardDetail = ({ match }) => {
 
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
-  const [hideCustomField, toggleHideCustomField] = useState(true);
+  // const [hideCustomField, toggleHideCustomField] = useState(true);
 
-  const [field, setField] = useState({
-    name: "",
-    type: "",
-    value: "",
-  });
+  // const [field, setField] = useState({
+  //   name: "",
+  //   type: "",
+  //   value: "",
+  // });
 
   const handleDeleteButtonClick = () => {
     setHideConfirmBox(false);
@@ -54,15 +53,15 @@ const CardDetail = ({ match }) => {
     console.log("edit needed");
   };
 
-  const handleAddFieldClicked = () => {
-    dispatch(addField({ field, cardId }));
-    toggleHideCustomField(true);
-    setField({
-      name: "",
-      type: "",
-      value: "",
-    });
-  };
+  // const handleAddFieldClicked = () => {
+  //   dispatch(addField({ field, cardId }));
+  //   toggleHideCustomField(true);
+  //   setField({
+  //     name: "",
+  //     type: "",
+  //     value: "",
+  //   });
+  // };
 
   const renderData = (data) => {
     return Object.entries(data).map(([k, v]) =>

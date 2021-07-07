@@ -10,7 +10,7 @@ const Search = ({ searchValue, handleChange }) => {
       <form>
         <FormInput
           type="search"
-          handleChange={handleChange}
+          onChange={handleChange}
           value={searchValue}
           label="search"
           name="search"

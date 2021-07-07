@@ -39,7 +39,8 @@ const NewClientForm = () => {
       customFields: [],
     });
 
-  const handleCreateButtonClicked = () => {
+  const handleCreateButtonClicked = (e) => {
+    e.preventDefault();
     dispatch(createCard(profile));
     resetState();
     history.push("/");
@@ -98,6 +99,9 @@ const NewClientForm = () => {
         />
 
         {profile.customFields.length ? renderCustomFields : null}
+        <CustomButton addfieldbutton onClick={handleAddFieldButtonClicked}>
+          ADD FIELD
+        </CustomButton>
       </FormContainer>
       {!hideNewFieldForm ? (
         <NewField
@@ -113,9 +117,6 @@ const NewClientForm = () => {
         />
       ) : null}
       <ButtonsContainer>
-        <CustomButton addfieldbutton onClick={handleAddFieldButtonClicked}>
-          ADD FIELD
-        </CustomButton>
         <CustomButton
           createbutton
           onClick={handleCreateButtonClicked}
