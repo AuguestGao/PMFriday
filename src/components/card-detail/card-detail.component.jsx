@@ -80,42 +80,42 @@ const CardDetail = ({ match }) => {
     );
   };
 
-  const renderAddField = (
-    <CustomFieldContainer>
-      <FormInput
-        type="text"
-        value={field.name}
-        name="name"
-        onChange={(e) => setField({ ...field, name: e.target.value })}
-        label="Field Name"
-      />
-      <select
-        name="type"
-        onChange={(e) => setField({ ...field, type: e.target.value })}
-      >
-        <option value="text" defaultValue>
-          Text
-        </option>
-        <option value="number">Number</option>
-        <option value="tel">Phone</option>
-        <option value="email">Email</option>
-        <option value="date">date</option>
-      </select>
-      <FormInput
-        type={field.type}
-        value={field.value}
-        name="value"
-        onChange={(e) => setField({ ...field, value: e.target.value })}
-        label={field.type === "date" ? null : "Value"}
-      />
+  // const renderAddField = (
+  //   <CustomFieldContainer>
+  //     <FormInput
+  //       type="text"
+  //       value={field.name}
+  //       name="name"
+  //       onChange={(e) => setField({ ...field, name: e.target.value })}
+  //       label="Field Name"
+  //     />
+  //     <select
+  //       name="type"
+  //       onChange={(e) => setField({ ...field, type: e.target.value })}
+  //     >
+  //       <option value="text" defaultValue>
+  //         Text
+  //       </option>
+  //       <option value="number">Number</option>
+  //       <option value="tel">Phone</option>
+  //       <option value="email">Email</option>
+  //       <option value="date">date</option>
+  //     </select>
+  //     <FormInput
+  //       type={field.type}
+  //       value={field.value}
+  //       name="value"
+  //       onChange={(e) => setField({ ...field, value: e.target.value })}
+  //       label={field.type === "date" ? null : "Value"}
+  //     />
 
-      {field.name.length && field.value.length ? (
-        <CustomButton addbutton onClick={handleAddFieldClicked}>
-          Add
-        </CustomButton>
-      ) : null}
-    </CustomFieldContainer>
-  );
+  //     {field.name.length && field.value.length ? (
+  //       <CustomButton addbutton onClick={handleAddFieldClicked}>
+  //         Add
+  //       </CustomButton>
+  //     ) : null}
+  //   </CustomFieldContainer>
+  // );
 
   if (card) {
     const { createdAt } = card.meta;
@@ -128,15 +128,15 @@ const CardDetail = ({ match }) => {
             created at: {createdAt.slice(0, 10)}
           </SmallTextContainer>
           {renderData(otherFields)}
-          {hideCustomField ? null : renderAddField}
-          {
+          {/* {hideCustomField ? null : renderAddField} */}
+          {/* {
             <CustomButton
               addbutton
               onClick={() => toggleHideCustomField(false)}
             >
               Add Field
             </CustomButton>
-          }
+          } */}
         </CardDetailContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>

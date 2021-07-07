@@ -6,7 +6,14 @@ import { createCard } from "../../redux/ducks/cardsSlice";
 
 import FormInput from "../FormInput/FormInput.component";
 import CustomButton from "../CustomButtom/CustomButton.component";
-import { FormContainer } from "./NewClientForm.styles";
+import {
+  NewClientFormPageContainer,
+  FormContainer,
+  ButtonsContainer,
+  CustomFieldRenderContainer,
+} from "./NewClientForm.styles";
+
+import NewField from "../NewField/NewField.Component";
 
 const NewClientForm = () => {
   const [profile, setProfile] = useState({
@@ -14,86 +21,113 @@ const NewClientForm = () => {
     address: "",
     email: "",
     mobile: "",
+    customFields: [],
   });
+
+  const [hideNewFieldForm, toggleHideNewFieldForm] = useState(true);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
 
-  const onNameChange = (e) => setProfile({ ...profile, name: e.target.value });
-  const onAddressChange = (e) =>
-    setProfile({ ...profile, address: e.target.value });
-  const onEmailChange = (e) =>
-    setProfile({ ...profile, email: e.target.value });
-  const onMobileChange = (e) =>
-    setProfile({ ...profile, mobile: e.target.value });
-
-  const handleCreateButtonClicked = () => {
-    dispatch(createCard(profile));
+  const resetState = () =>
     setProfile({
       name: "",
       address: "",
       email: "",
       mobile: "",
+      customFields: [],
     });
+
+  const handleCreateButtonClicked = () => {
+    dispatch(createCard(profile));
+    resetState();
     history.push("/");
   };
 
   const handleCancelButtonClicked = () => {
-    setProfile({
-      name: "",
-      address: "",
-      email: "",
-      phone: "",
-    });
+    resetState();
     history.push("/");
   };
 
+  const handleAddFieldButtonClicked = (e) => {
+    e.preventDefault();
+    toggleHideNewFieldForm(false);
+  };
+
+  const renderCustomFields = profile.customFields.map((field) => (
+    <CustomFieldRenderContainer>
+      {field.name}: {field.value}
+    </CustomFieldRenderContainer>
+  ));
+
   return (
-    <FormContainer>
-      <h2>New Client</h2>
-      <FormInput
-        type="text"
-        name="profileName"
-        value={profile.name}
-        label="Name"
-        onChange={onNameChange}
-      />
-      <FormInput
-        type="text"
-        name="profileAddress"
-        value={profile.address}
-        label="Address"
-        onChange={onAddressChange}
-      />
+    <NewClientFormPageContainer>
+      <FormContainer>
+        <h2>New Client</h2>
+        <FormInput
+          type="text"
+          name="profileName"
+          value={profile.name}
+          label="Name"
+          onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+          required
+        />
+        <FormInput
+          type="text"
+          name="profileAddress"
+          value={profile.address}
+          label="Address"
+          onChange={(e) => setProfile({ ...profile, address: e.target.value })}
+        />
 
-      <FormInput
-        type="email"
-        name="proemail"
-        value={profile.email}
-        label="Email"
-        onChange={onEmailChange}
-      />
+        <FormInput
+          type="email"
+          name="profileEmail"
+          value={profile.email}
+          label="Email"
+          onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+        />
 
-      <FormInput
-        type="tel"
-        name="profilMobile"
-        value={profile.mobile}
-        label="Mobile"
-        onChange={onMobileChange}
-      />
+        <FormInput
+          type="tel"
+          name="profilMobile"
+          value={profile.mobile}
+          label="Mobile"
+          onChange={(e) => setProfile({ ...profile, mobile: e.target.value })}
+        />
 
-      <CustomButton
-        createbutton
-        onClick={handleCreateButtonClicked}
-        disabled={!profile.name.length}
-      >
-        CREATE
-      </CustomButton>
-      <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
-        CANCEL
-      </CustomButton>
-    </FormContainer>
+        {profile.customFields.length ? renderCustomFields : null}
+      </FormContainer>
+      {!hideNewFieldForm ? (
+        <NewField
+          pushToProfile={(field) => {
+            const fields = profile.customFields;
+            setProfile({
+              ...profile,
+              customFields: [...fields, field],
+            });
+            toggleHideNewFieldForm(true);
+          }}
+          cancelAction={() => toggleHideNewFieldForm(true)}
+        />
+      ) : null}
+      <ButtonsContainer>
+        <CustomButton addfieldbutton onClick={handleAddFieldButtonClicked}>
+          ADD FIELD
+        </CustomButton>
+        <CustomButton
+          createbutton
+          onClick={handleCreateButtonClicked}
+          disabled={!profile.name}
+        >
+          CREATE
+        </CustomButton>
+        <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
+          CANCEL
+        </CustomButton>
+      </ButtonsContainer>
+    </NewClientFormPageContainer>
   );
 };
 
