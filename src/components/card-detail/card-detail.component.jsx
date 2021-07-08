@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 import FormInput from "../FormInput/FormInput.component";
+import TimeEntryForm from "../TimeEntryForm/TimeEntryForm.component";
 
 import {
   PageContainer,
@@ -28,6 +29,7 @@ const CardDetail = ({ match }) => {
 
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
+  const [hideTimeEntryForm, ToggleHideTimeEntryForm] = useState(true);
   // const [hideCustomField, toggleHideCustomField] = useState(true);
 
   // const [field, setField] = useState({
@@ -79,6 +81,8 @@ const CardDetail = ({ match }) => {
     );
   };
 
+  const renderTimes = (times) => {};
+
   // const renderAddField = (
   //   <CustomFieldContainer>
   //     <FormInput
@@ -127,6 +131,18 @@ const CardDetail = ({ match }) => {
             created at: {createdAt.slice(0, 10)}
           </SmallTextContainer>
           {renderData(otherFields)}
+          {hideTimeEntryForm ? null : (
+            <TimeEntryForm
+              cardId={cardId}
+              // ToggleHideTimeEntryForm={ToggleHideTimeEntryForm}
+            />
+          )}
+          <CustomButton
+            addbutton
+            onClick={() => ToggleHideTimeEntryForm(false)}
+          >
+            Add Time Field
+          </CustomButton>
           {/* {hideCustomField ? null : renderAddField} */}
           {/* {
             <CustomButton

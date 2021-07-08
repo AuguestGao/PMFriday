@@ -4,7 +4,7 @@ const initialState = [];
 // {
 //  meta: { }
 //  profile: {...,customField:[]},
-//  ot: [{}, {}, {}],
+//  times: [{}, {}, {}],
 //  note: '',
 //  todo: [{}, {}]
 // }
@@ -39,9 +39,21 @@ const cardsSlice = createSlice({
         existingCard.meta.isArchived = true;
       }
     },
+
+    addTimes(state, action) {
+      const { cardId, times } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        if (existingCard.hasOwnProperty("times")) {
+          existingCard.times.push(...times);
+        } else {
+          existingCard["times"] = [...times];
+        }
+      }
+    },
   },
 });
 
-export const { createCard, deleteCard } = cardsSlice.actions;
+export const { createCard, deleteCard, addTimes } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
