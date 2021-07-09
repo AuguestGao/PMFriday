@@ -64,7 +64,7 @@ const disabledButton = css`
 
 const getButtonStyle = (props) => {
   if (props.addbutton) {
-    return addbuttonstyles;
+    return props.disabled ? disabledButton : addbuttonstyles;
   } else if (props.createbutton) {
     return props.disabled ? disabledButton : createbuttonstyles;
   } else if (props.deletebutton) {

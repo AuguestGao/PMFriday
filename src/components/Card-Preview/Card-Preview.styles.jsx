@@ -7,8 +7,8 @@ export const CardLinkContainer = styled(Link)`
 
 export const CardContainer = styled.div`
   display: flex;
-
-  border: 2px solid coral;
+  border: 3px solid darkcyan;
+  /* background-color: cadetblue; */
   width: 400px;
   margin: 10px 20px;
   padding: 20px 20px;
@@ -18,7 +18,7 @@ export const CardContainer = styled.div`
   box-shadow: 4px 4px 2px 1px gray;
 
   .name {
-    color: coral;
+    color: black;
     font-weight: bolder;
     font-size: 1.3rem;
   }

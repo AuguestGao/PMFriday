@@ -13,7 +13,7 @@ import {
   CustomFieldRenderContainer,
 } from "./NewClientForm.styles";
 
-import NewField from "../NewField/NewField.Component";
+import NewField from "../NewField/NewField.component";
 
 const NewClientForm = () => {
   const [profile, setProfile] = useState({

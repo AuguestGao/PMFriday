@@ -6,7 +6,7 @@ const initialState = [];
 //  profile: {...,customField:[]},
 //  times: [{}, {}, {}],
 //  note: '',
-//  todo: [{}, {}]
+//  todos: [{}, {}]
 // }
 
 const cardsSlice = createSlice({
@@ -26,6 +26,9 @@ const cardsSlice = createSlice({
               isArchived: false,
             },
             profile,
+            times: [],
+            note: "",
+            todos: { actives: [], completions: [] },
           },
         };
       },
@@ -40,20 +43,31 @@ const cardsSlice = createSlice({
       }
     },
 
-    addTimes(state, action) {
-      const { cardId, times } = action.payload;
+    addNew(state, action) {
+      const { cardId, target, data } = action.payload;
       const existingCard = state.find((card) => card.meta.id === cardId);
       if (existingCard) {
-        if (existingCard.hasOwnProperty("times")) {
-          existingCard.times.push(...times);
-        } else {
-          existingCard["times"] = [...times];
+        switch (target) {
+          case "profile":
+            existingCard.profile.customFields.push(data);
+            break;
+          case "times":
+            existingCard.times.push(data);
+            break;
+          case "todos":
+            break;
+          default:
+            return;
         }
       }
     },
+
+    updateOld(state, action) {},
+
+    remove(state, payload) {},
   },
 });
 
-export const { createCard, deleteCard, addTimes } = cardsSlice.actions;
+export const { createCard, deleteCard, addNew } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

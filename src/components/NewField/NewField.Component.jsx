@@ -5,7 +5,7 @@ import CustomButton from "../CustomButtom/CustomButton.component";
 
 import { NewFieldContainer, CustomFieldContainer } from "./NewField.styles";
 
-const NewField = ({ pushToProfile, cancelAction }) => {
+const NewField = ({ pushToProfile }) => {
   const [field, setField] = useState({
     name: "",
     type: "",
@@ -25,10 +25,7 @@ const NewField = ({ pushToProfile, cancelAction }) => {
     resetField();
   };
 
-  const handleCancelClicked = (e) => {
-    e.preventDefault();
-    cancelAction();
-  };
+  const activeAddFieldButton = field.name.length && field.value.length;
 
   return (
     <NewFieldContainer>
@@ -50,7 +47,7 @@ const NewField = ({ pushToProfile, cancelAction }) => {
           <option value="number">Number</option>
           <option value="tel">Phone</option>
           <option value="email">Email</option>
-          <option value="date">date</option>
+          <option value="date">Date</option>
         </select>
         <FormInput
           type={field.type}
@@ -64,12 +61,9 @@ const NewField = ({ pushToProfile, cancelAction }) => {
       <CustomButton
         addbutton
         onClick={handleAddClicked}
-        disable={field.name.length && field.value.length ? false : true}
+        disabled={!activeAddFieldButton}
       >
         ADD
-      </CustomButton>
-      <CustomButton cancelbutton onClick={handleCancelClicked}>
-        CANCEL
       </CustomButton>
     </NewFieldContainer>
   );

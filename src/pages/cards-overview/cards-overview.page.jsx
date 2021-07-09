@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import Card from "../../components/Card/Card.component";
+import CardPreview from "../../components/Card-Preview/Card-Preview.component";
 import Search from "../../components/Search/Search.component";
 import CustomButton from "../../components/CustomButtom/CustomButton.component";
 
@@ -31,7 +31,7 @@ const CardsOverview = () => {
 
   const renderFilteredCards = () =>
     filteredCards.length ? (
-      filteredCards.map((card) => <Card key={card.meta.id} {...card} />)
+      filteredCards.map((card) => <CardPreview key={card.meta.id} {...card} />)
     ) : (
       <NoRecordContainer>no record found...</NoRecordContainer>
     );

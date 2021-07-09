@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export const NewFieldContainer = styled.div`
+export const NewTimeContainer = styled.div`
   margin: 10p auto;
   box-sizing: border-box;
 `;
 
-export const CustomFieldContainer = styled.div`
+export const TimeEntryContainer = styled.div`
   border-radius: 10px;
   color: #000;
   width: 90%;

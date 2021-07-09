@@ -1,7 +1,7 @@
 import React from "react";
-import { CardLinkContainer, CardContainer } from "./Card.styles";
+import { CardLinkContainer, CardContainer } from "./Card-Preview.styles";
 
-const Card = ({ meta, profile }) => {
+const CardPreview = ({ meta, profile }) => {
   const { id, createdAt } = meta;
   const { name } = profile;
   return (
@@ -14,4 +14,4 @@ const Card = ({ meta, profile }) => {
   );
 };
 
-export default Card;
+export default CardPreview;

@@ -15,7 +15,7 @@ export const FormInputContainer = styled.input`
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 
   &:focus {
     outline: none;
@@ -28,7 +28,7 @@ export const FormInputContainer = styled.input`
 
 export const FormInputLabel = styled.label`
   color: lightgray;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
