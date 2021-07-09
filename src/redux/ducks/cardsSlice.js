@@ -62,12 +62,41 @@ const cardsSlice = createSlice({
       }
     },
 
-    updateOld(state, action) {},
+    claimTime(state, action) {
+      const { cardId, timeId, timeValue } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        const existingTime = existingCard.times.find(
+          (time) => time.id === timeId
+        );
+        if (existingTime) {
+          existingTime.used = Number(existingTime.used) + Number(timeValue);
+        }
+      }
+    },
+
+    updateOld(state, action) {
+      const { cardId, target, data } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        switch (target) {
+          case "profile":
+            break;
+          case "times":
+            existingCard.times.push(data);
+            break;
+          case "todos":
+            break;
+          default:
+            return;
+        }
+      }
+    },
 
     remove(state, payload) {},
   },
 });
 
-export const { createCard, deleteCard, addNew } = cardsSlice.actions;
+export const { createCard, deleteCard, addNew, claimTime } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

@@ -27,7 +27,7 @@ const NewTime = ({ pushToTimes }) => {
 
   const handleAddTimeClicked = (e) => {
     e.preventDefault();
-    pushToTimes(newTime);
+    pushToTimes({ ...newTime, total: Number(newTime.total) });
     resetNewTime();
   };
 
@@ -48,6 +48,7 @@ const NewTime = ({ pushToTimes }) => {
           name="total"
           label="Total Time"
           value={newTime.total}
+          step="0.01"
           onChange={(e) => setNewTime({ ...newTime, total: e.target.value })}
         />
         <select

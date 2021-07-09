@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCard, addNew } from "../../redux/ducks/cardsSlice";
+import { deleteCard, addNew, claimTime } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
@@ -20,6 +20,8 @@ import {
   TodosContainer,
   NoteContainer,
   NormalTextContainer,
+  ConfirmDeleteContainer,
+  InteractionsContainer,
 } from "./Card-Detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -31,11 +33,43 @@ const CardDetail = ({ match }) => {
 
   const { times, note, todos } = card;
   const { name, ...otherFields } = card.profile;
-  // const [times, setTimes] = useState(card.times);
-  // const [note, setNote] = useState(card.note);
-  // const [todos, setTodos] = useState(card.todos);
+
+  const idToTimeEntries = times.reduce((acc, entry) => {
+    return { ...acc, [entry.id]: 0 };
+  }, {});
+
+  const [timeEntry, setTimeEntry] = useState(idToTimeEntries);
+  const [hideConfirmBox, setHideConfirmBox] = useState(true);
+  const [confirmName, setConfirmName] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleEnterTimeClicked = (e, id) => {
+    e.preventDefault();
+    // console.log(timeEntry, timeEntry[id]);
+    dispatch(
+      claimTime({ cardId, timeId: id, timeValue: Number(timeEntry[id]) })
+    );
+    setTimeEntry(idToTimeEntries);
+  };
+
+  const handleDeleteButtonClick = () => {
+    setHideConfirmBox(false);
+  };
+
+  const handleConfirmDelete = () => {
+    if (confirmName === card.profile.name) {
+      dispatch(deleteCard(cardId));
+      history.push("/");
+    } else {
+      window.alert("Unmatching name, delete failed");
+    }
+  };
+
+  const handleEditButtonClick = () => {
+    console.log("edit needed");
+  };
 
   const renderProfile = (fields) =>
     Object.entries(fields).map(([k, v]) =>
@@ -61,11 +95,43 @@ const CardDetail = ({ match }) => {
   const renderTimesOrTodos = (target, data) => {
     if (target === "times") {
       return data.length ? (
-        data.map((time) => (
-          <div key={time.id}>
-            {time.name}, total: {time.total}, used: {time.used}, {time.unit}
-          </div>
-        ))
+        <table>
+          <tr>
+            <td>Category</td>
+            <td>Unit</td>
+            <td>Total</td>
+            <td>Used</td>
+            <td>Remain</td>
+            <td>Progress</td>
+          </tr>
+          {data.map(({ id, name, unit, total, used }) => (
+            <tr>
+              <td>{name}</td>
+              <td>{unit}</td>
+              <td>{total.toFixed(1)}</td>
+              <td>{used.toFixed(1)}</td>
+              <td>{total.toFixed(1) - used.toFixed(1)}</td>
+              <td>
+                <progress value={used} max={total} />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  onChange={(e) =>
+                    setTimeEntry({ ...timeEntry, [id]: Number(e.target.value) })
+                  }
+                ></input>
+                <CustomButton
+                  addbutton
+                  onClick={(e) => handleEnterTimeClicked(e, id)}
+                  disabled={!timeEntry[id]}
+                >
+                  +
+                </CustomButton>
+              </td>
+            </tr>
+          ))}
+        </table>
       ) : (
         <h3>Enter times</h3>
       );
@@ -129,6 +195,36 @@ const CardDetail = ({ match }) => {
           </TodosContainer>
         </MainContainer>
         <NoteContainer>{renderNote}</NoteContainer>
+        {!hideConfirmBox ? (
+          <ConfirmDeleteContainer>
+            <FormInput
+              type="text"
+              onChange={(e) => setConfirmName(e.target.value)}
+              label={"Enter Client Name"}
+              value={confirmName}
+            />
+            <InteractionsContainer>
+              <CustomButton deletebutton onClick={handleConfirmDelete}>
+                Confirm
+              </CustomButton>
+              <CustomButton
+                cancelbutton
+                onClick={() => setHideConfirmBox(true)}
+              >
+                Cancel
+              </CustomButton>
+            </InteractionsContainer>
+          </ConfirmDeleteContainer>
+        ) : (
+          <InteractionsContainer>
+            <CustomButton deletebutton onClick={handleDeleteButtonClick}>
+              DELETE
+            </CustomButton>
+            <CustomButton editbutton onClick={handleEditButtonClick}>
+              EDIT
+            </CustomButton>
+          </InteractionsContainer>
+        )}
       </PageContainer>
     );
   }
