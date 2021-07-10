@@ -1,28 +1,23 @@
 import React, { useState } from "react";
-import { nanoid } from "@reduxjs/toolkit";
 import FormInput from "../FormInput/FormInput.component";
 import CustomButton from "../CustomButtom/CustomButton.component";
 
 import { NewTimeContainer, TimeEntryContainer } from "./NewTime.styles";
 
 const NewTime = ({ pushToTimes }) => {
-  const id = nanoid();
-
   const [newTime, setNewTime] = useState({
     name: "",
     total: "",
     unit: "hour",
     used: 0,
-    id,
   });
 
   const resetNewTime = () =>
     setNewTime({
+      ...newTime,
       name: "",
       total: "",
       unit: "hour",
-      used: 0,
-      id,
     });
 
   const handleAddTimeClicked = (e) => {

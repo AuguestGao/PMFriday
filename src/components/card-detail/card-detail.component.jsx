@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteCard, addNew, claimTime } from "../../redux/ducks/cardsSlice";
+import {
+  deleteCard,
+  addNew,
+  claimTime,
+  toggleTodo,
+} from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
@@ -8,6 +13,7 @@ import FormInput from "../FormInput/FormInput.component";
 // import TimeEntryForm from "../TimeEntryForm/TimeEntryForm.component";
 import NewField from "../NewField/NewField.component";
 import NewTime from "../NewTime/NewTime.component";
+import NewTodo from "../NewTodo/NewTodo.component";
 
 import {
   NotFoundContainer,
@@ -104,51 +110,100 @@ const CardDetail = ({ match }) => {
             <td>Remain</td>
             <td>Progress</td>
           </tr>
-          {data.map(({ id, name, unit, total, used }) => (
-            <tr>
-              <td>{name}</td>
-              <td>{unit}</td>
-              <td>{total.toFixed(1)}</td>
-              <td>{used.toFixed(1)}</td>
-              <td>{total.toFixed(1) - used.toFixed(1)}</td>
-              <td>
-                <progress value={used} max={total} />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setTimeEntry({ ...timeEntry, [id]: Number(e.target.value) })
-                  }
-                ></input>
-                <CustomButton
-                  addbutton
-                  onClick={(e) => handleEnterTimeClicked(e, id)}
-                  disabled={!timeEntry[id]}
-                >
-                  +
-                </CustomButton>
-              </td>
-            </tr>
-          ))}
+          {data.map(({ id, name, unit, total, used }) => {
+            const remain = total - used;
+            return (
+              <tr>
+                <td>{name}</td>
+                <td>{unit}</td>
+                <td>{total.toFixed(1)}</td>
+                <td>{used.toFixed(1)}</td>
+                <td>{remain.toFixed(1)}</td>
+                <td>
+                  <progress value={used} max={total} />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    onChange={(e) =>
+                      setTimeEntry({
+                        ...timeEntry,
+                        [id]: Number(e.target.value),
+                      })
+                    }
+                  ></input>
+                  <CustomButton
+                    addbutton
+                    onClick={(e) => handleEnterTimeClicked(e, id)}
+                    disabled={!timeEntry[id]}
+                  >
+                    +
+                  </CustomButton>
+                </td>
+              </tr>
+            );
+          })}
         </table>
       ) : (
         <h3>Enter times</h3>
       );
     } else if (target === "todos") {
-      const { actives, completions } = data;
+      const actives = [];
+      const completions = [];
+      for (const todo of data) {
+        todo.isDone ? completions.push(todo) : actives.push(todo);
+      }
 
       return (
         <div>
           <h2>Active</h2>
           {actives.length ? (
-            actives.map((todo) => <div key={todo.id}>{todo.content}</div>)
+            actives.map((todo) => {
+              const { id, content } = todo;
+              return (
+                <div key={id}>
+                  <input
+                    type="checkbox"
+                    onChange={() =>
+                      dispatch(
+                        toggleTodo({
+                          cardId,
+                          todoId: todo.id,
+                        })
+                      )
+                    }
+                  />
+                  <div>{content}</div>
+                </div>
+              );
+            })
           ) : (
             <p>Bravo! You finished all your todos</p>
           )}
           <h2> Complete</h2>
           {completions.length ? (
-            completions.map((todo) => <div key={todo.id}>{todo.content}</div>)
+            completions.map((todo) => {
+              const { id, content } = todo;
+              return (
+                <div key={id}>
+                  <input
+                    type="checkbox"
+                    checked
+                    onChange={() =>
+                      dispatch(
+                        toggleTodo({
+                          cardId,
+                          todoId: todo.id,
+                        })
+                      )
+                    }
+                  />
+                  <div style={{ "text-decoration": "line-through" }}>
+                    {content}
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p>Nothing came through yet.</p>
           )}
@@ -191,6 +246,11 @@ const CardDetail = ({ match }) => {
           </LeftPanelContainer>
           <TodosContainer>
             <h1>Todos</h1>
+            <NewTodo
+              pushToTodos={(todo) =>
+                dispatch(addNew({ cardId, target: "todos", data: todo }))
+              }
+            />
             {renderTimesOrTodos("todos", todos)}
           </TodosContainer>
         </MainContainer>

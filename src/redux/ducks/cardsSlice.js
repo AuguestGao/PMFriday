@@ -28,7 +28,7 @@ const cardsSlice = createSlice({
             profile,
             times: [],
             note: "",
-            todos: { actives: [], completions: [] },
+            todos: [],
           },
         };
       },
@@ -46,15 +46,17 @@ const cardsSlice = createSlice({
     addNew(state, action) {
       const { cardId, target, data } = action.payload;
       const existingCard = state.find((card) => card.meta.id === cardId);
+      const id = nanoid();
       if (existingCard) {
         switch (target) {
           case "profile":
             existingCard.profile.customFields.push(data);
             break;
           case "times":
-            existingCard.times.push(data);
+            existingCard.times.push({ ...data, id });
             break;
           case "todos":
+            existingCard.todos.push({ ...data, id });
             break;
           default:
             return;
@@ -71,6 +73,19 @@ const cardsSlice = createSlice({
         );
         if (existingTime) {
           existingTime.used = Number(existingTime.used) + Number(timeValue);
+        }
+      }
+    },
+
+    toggleTodo(state, action) {
+      const { cardId, todoId } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        const existingTodo = existingCard.todos.find(
+          (todo) => todo.id === todoId
+        );
+        if (existingTodo) {
+          existingTodo.isDone = !existingTodo.isDone;
         }
       }
     },
@@ -97,6 +112,7 @@ const cardsSlice = createSlice({
   },
 });
 
-export const { createCard, deleteCard, addNew, claimTime } = cardsSlice.actions;
+export const { createCard, deleteCard, addNew, claimTime, toggleTodo } =
+  cardsSlice.actions;
 
 export default cardsSlice.reducer;
