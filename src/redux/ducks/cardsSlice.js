@@ -90,6 +90,14 @@ const cardsSlice = createSlice({
       }
     },
 
+    saveNote(state, action) {
+      const { cardId, note } = action.payload;
+      const existingCard = state.find((card) => card.meta.id === cardId);
+      if (existingCard) {
+        existingCard.note = { ...note };
+      }
+    },
+
     updateOld(state, action) {
       const { cardId, target, data } = action.payload;
       const existingCard = state.find((card) => card.meta.id === cardId);
@@ -112,7 +120,13 @@ const cardsSlice = createSlice({
   },
 });
 
-export const { createCard, deleteCard, addNew, claimTime, toggleTodo } =
-  cardsSlice.actions;
+export const {
+  createCard,
+  deleteCard,
+  addNew,
+  claimTime,
+  toggleTodo,
+  saveNote,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;

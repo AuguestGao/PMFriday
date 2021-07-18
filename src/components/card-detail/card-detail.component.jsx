@@ -5,8 +5,16 @@ import {
   addNew,
   claimTime,
   toggleTodo,
+  saveNote,
 } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  convertFromRaw,
+} from "draft-js";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 import FormInput from "../FormInput/FormInput.component";
@@ -47,6 +55,17 @@ const CardDetail = ({ match }) => {
   const [timeEntry, setTimeEntry] = useState(idToTimeEntries);
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
+  const [editorState, setEditorState] = useState(() =>
+    // EditorState.createWithContent(convertFromRaw(note))
+
+    {
+      if (!note) {
+        return EditorState.createEmpty();
+      } else {
+        return EditorState.createWithContent(convertFromRaw(note));
+      }
+    }
+  );
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -75,6 +94,42 @@ const CardDetail = ({ match }) => {
 
   const handleEditButtonClick = () => {
     console.log("edit needed");
+  };
+
+  const onChange = (editorState) => {
+    // const contentState = editorState.getCurrentContent();
+    // persist data
+    // window.localStorage.setItem(
+    //   "content",
+    //   JSON.stringify(convertToRaw(contentState))
+    // );
+    setEditorState(editorState);
+  };
+
+  const onUnderlineClick = () =>
+    onChange(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"));
+  const onBoldClick = () =>
+    onChange(RichUtils.toggleInlineStyle(editorState, "BOLD"));
+  const onItalicClick = () =>
+    onChange(RichUtils.toggleInlineStyle(editorState, "ITALIC"));
+
+  const handleKeyCommand = (command) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      onchange(newState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
+  const handleSaveNoteClicked = () => {
+    console.log(editorState.getCurrentContent());
+    dispatch(
+      saveNote({
+        cardId,
+        note: convertToRaw(editorState.getCurrentContent()),
+      })
+    );
   };
 
   const renderProfile = (fields) =>
@@ -212,14 +267,29 @@ const CardDetail = ({ match }) => {
     }
   };
 
-  const renderNote = note ? (
-    <div>
-      <h2>NOTE:</h2>
-      <div>{note}</div>
-    </div>
-  ) : (
-    <h2>Add Note</h2>
-  );
+  const renderNote = () => {
+    return (
+      <div className="editorcontainer">
+        <button onClick={onUnderlineClick}>U</button>
+        <button onClick={onBoldClick}>
+          <b>B</b>
+        </button>
+        <button onClick={onItalicClick}>
+          <em>I</em>
+        </button>
+        <div className="editors"></div>
+        {/* <textarea placeholder="write anything..." /> */}
+        <Editor
+          editorState={editorState}
+          handleKeyCommand={handleKeyCommand}
+          onChange={setEditorState}
+        />
+        <CustomButton cancelbutton onClick={handleSaveNoteClicked}>
+          SAVE
+        </CustomButton>
+      </div>
+    );
+  };
 
   if (card) {
     return (
@@ -254,7 +324,7 @@ const CardDetail = ({ match }) => {
             {renderTimesOrTodos("todos", todos)}
           </TodosContainer>
         </MainContainer>
-        <NoteContainer>{renderNote}</NoteContainer>
+        <NoteContainer>{renderNote()}</NoteContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>
             <FormInput
