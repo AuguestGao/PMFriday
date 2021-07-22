@@ -13,6 +13,9 @@ const Header = () => {
       <Link to="/">
         <span>HOME</span>
       </Link>
+      <Link to="/signin">
+        <span>SIGNIN</span>
+      </Link>
     </HeaderContainer>
   );
 };

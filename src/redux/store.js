@@ -1,9 +1,11 @@
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 
-import cardsReducer from './ducks/cardsSlice'
+import cardsReducer from "./ducks/cardsSlice";
+import userReducer from "./ducks/userSlice";
 
 export default configureStore({
-    reducer: {
-        cards: cardsReducer
-    }
-})
+  reducer: {
+    cards: cardsReducer,
+    user: userReducer,
+  },
+});
