@@ -3,6 +3,7 @@ import { Card, Alert, Button, Form, Container } from "react-bootstrap";
 import { auth } from "../../firebase/firebase";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { isEmpty } from "lodash";
 
 const Signin = () => {
   const [user, setUser] = useState({
@@ -10,7 +11,7 @@ const Signin = () => {
     password: "",
   });
   const [error, setError] = useState("");
-  const currentUser = useSelector((state) => state.user.current);
+  const currentUser = useSelector((state) => state.user);
   const history = useHistory();
 
   const handleSignin = async (e) => {
@@ -29,12 +30,11 @@ const Signin = () => {
     }
   };
 
-  return (
+  const renderSigninForm = () => (
     <Container
       className="d-flex flex-column align-items-center  justify-content-center w-50"
       style={{ minWidth: "300px", maxWidth: "500px", minHeight: "100vh" }}
     >
-      {currentUser ? <Redirect to="/" /> : null}
       <Card className="w-100 p-3">
         <Card.Body>
           <h1 className="text-center">PMFriday</h1>
@@ -83,6 +83,8 @@ const Signin = () => {
       </Card>
     </Container>
   );
+
+  return <>{isEmpty(currentUser) ? renderSigninForm() : <Redirect to="/" />}</>;
 };
 
 export default Signin;

@@ -17,7 +17,7 @@ const Home = () => {
   const handleSignout = async () => {
     await auth.signOut();
     dispatch(setCurrentUser("null"));
-    history.push("/login");
+    history.push("/signin");
   };
 
   return (

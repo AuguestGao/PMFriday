@@ -120,7 +120,7 @@ const Signup = () => {
           </Form>
         </Card.Body>
         <div className="text-center mb-2">
-          Already have an account? <Link to="/login">Sign In</Link>
+          Already have an account? <Link to="/signin">Sign In</Link>
         </div>
       </Card>
     </Container>

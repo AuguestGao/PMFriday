@@ -9,7 +9,6 @@ export const CustomFieldContainer = styled.div`
   border-radius: 10px;
   color: #000;
   width: 90%;
-  height: 90px;
   padding: 20px;
   margin: 10px auto;
   border: solid 1px #999;

@@ -1,27 +1,28 @@
 import React, { useState } from "react";
+import { nanoid } from "@reduxjs/toolkit";
 
 import FormInput from "../FormInput/FormInput.component";
 import CustomButton from "../CustomButtom/CustomButton.component";
 
 import { NewFieldContainer, CustomFieldContainer } from "./NewField.styles";
 
-const NewField = ({ pushToProfile }) => {
+const NewField = ({ addToProfile }) => {
   const [field, setField] = useState({
     name: "",
-    type: "",
+    type: "text",
     value: "",
   });
 
   const resetField = () =>
     setField({
       name: "",
-      type: "",
+      type: "text",
       value: "",
     });
 
-  const handleAddClicked = (e) => {
+  const handleAddFieldClicked = (e) => {
     e.preventDefault();
-    pushToProfile(field);
+    addToProfile({ ...field, id: nanoid() });
     resetField();
   };
 
@@ -54,17 +55,17 @@ const NewField = ({ pushToProfile }) => {
           value={field.value}
           name="value"
           onChange={(e) => setField({ ...field, value: e.target.value })}
-          label={field.type === "date" ? null : "Value"}
+          label={field.type === "date" ? null : "Field Value"}
         />
+        <CustomButton
+          className="mt-2"
+          addbutton
+          onClick={handleAddFieldClicked}
+          disabled={!activeAddFieldButton}
+        >
+          ADD
+        </CustomButton>
       </CustomFieldContainer>
-
-      <CustomButton
-        addbutton
-        onClick={handleAddClicked}
-        disabled={!activeAddFieldButton}
-      >
-        ADD
-      </CustomButton>
     </NewFieldContainer>
   );
 };

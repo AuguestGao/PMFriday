@@ -19,7 +19,7 @@ export const NoRecordContainer = styled.h1`
 
 export const SearchAndAddContainer = styled.div`
   width: 100%;
-  /* margin: 0 auto; */
+  margin: 4rem auto;
   padding: 0 10%;
   box-sizing: border-box;
   display: flex;

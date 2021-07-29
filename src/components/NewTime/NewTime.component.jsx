@@ -6,49 +6,50 @@ import { NewTimeContainer, TimeEntryContainer } from "./NewTime.styles";
 
 const NewTime = ({ pushToTimes }) => {
   const [newTime, setNewTime] = useState({
-    name: "",
-    total: "",
-    unit: "hour",
-    used: 0,
+    timeName: "",
+    timeTotal: "",
+    timeUnit: "hour",
   });
 
   const resetNewTime = () =>
     setNewTime({
-      ...newTime,
-      name: "",
-      total: "",
-      unit: "hour",
+      timeName: "",
+      timeTotal: "",
+      timeUnit: "hour",
     });
 
   const handleAddTimeClicked = (e) => {
     e.preventDefault();
-    pushToTimes({ ...newTime, total: Number(newTime.total) });
+    pushToTimes({ ...newTime, timeTotal: Number(newTime.total), timeused: 0 });
     resetNewTime();
   };
 
-  const activeAddTimeButton = newTime.name.length && newTime.total.length;
+  const activeAddTimeButton =
+    newTime.timeName.length && newTime.timeTotal.length;
 
   return (
     <NewTimeContainer>
       <TimeEntryContainer>
         <FormInput
           type="text"
-          name="name"
+          name="timeName"
           label="Category"
-          value={newTime.name}
-          onChange={(e) => setNewTime({ ...newTime, name: e.target.value })}
+          value={newTime.timeName}
+          onChange={(e) => setNewTime({ ...newTime, timeName: e.target.value })}
         />
         <FormInput
           type="number"
-          name="total"
+          name="timeTotal"
           label="Total Time"
-          value={newTime.total}
+          value={newTime.timeTotal}
           step="0.01"
-          onChange={(e) => setNewTime({ ...newTime, total: e.target.value })}
+          onChange={(e) =>
+            setNewTime({ ...newTime, timeTotal: e.target.value })
+          }
         />
         <select
-          name="unit"
-          onChange={(e) => setNewTime({ ...newTime, unit: e.target.value })}
+          name="timeUnit"
+          onChange={(e) => setNewTime({ ...newTime, timeUnit: e.target.value })}
         >
           <option value="hour" defaultValue>
             hours

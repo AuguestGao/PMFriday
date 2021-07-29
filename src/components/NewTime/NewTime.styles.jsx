@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NewTimeContainer = styled.div`
-  margin: 10p auto;
+  margin: 10px auto;
   box-sizing: border-box;
 `;
 

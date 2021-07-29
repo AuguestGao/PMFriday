@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import cardsReducer from "./ducks/cardsSlice";
 import userReducer from "./ducks/userSlice";
 

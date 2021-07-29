@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   deleteCard,
-  addNew,
   claimTime,
   toggleTodo,
   saveNote,
+  addNew,
+  changeCardStatus,
 } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 import {
@@ -18,10 +19,10 @@ import {
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 import FormInput from "../FormInput/FormInput.component";
-// import TimeEntryForm from "../TimeEntryForm/TimeEntryForm.component";
 import NewField from "../NewField/NewField.component";
 import NewTime from "../NewTime/NewTime.component";
 import NewTodo from "../NewTodo/NewTodo.component";
+import ProfileForm from "../ProfileForm/ProfileForm.component";
 
 import {
   NotFoundContainer,
@@ -39,17 +40,16 @@ import {
 } from "./Card-Detail.styles";
 
 const CardDetail = ({ match }) => {
+  const userId = useSelector((state) => state.user.id);
   const { cardId } = match.params;
-  const card = useSelector((state) =>
-    state.cards.find((card) => card.meta.id === cardId)
-  );
-  const { createdAt } = card.meta;
+  const card = useSelector((state) => state.cards.data[cardId]);
 
-  const { times, note, todos } = card;
+  const { addedAt, times, note, todos } = card;
   const { name, ...otherFields } = card.profile;
 
-  const idToTimeEntries = times.reduce((acc, entry) => {
-    return { ...acc, [entry.id]: 0 };
+  // map timeId to entered time for claiming time
+  const idToTimeEntries = Object.keys(times).reduce((acc, timeId) => {
+    return { ...acc, [timeId]: 0 };
   }, {});
 
   const [timeEntry, setTimeEntry] = useState(idToTimeEntries);
@@ -57,7 +57,6 @@ const CardDetail = ({ match }) => {
   const [confirmName, setConfirmName] = useState("");
   const [editorState, setEditorState] = useState(() =>
     // EditorState.createWithContent(convertFromRaw(note))
-
     {
       if (!note) {
         return EditorState.createEmpty();
@@ -66,6 +65,7 @@ const CardDetail = ({ match }) => {
       }
     }
   );
+  const [showProfileForm, toggleProfileForm] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -90,6 +90,11 @@ const CardDetail = ({ match }) => {
     } else {
       window.alert("Unmatching name, delete failed");
     }
+  };
+
+  const handleSaveProfile = () => {
+    toggleProfileForm(!showProfileForm);
+    dispatch(changeCardStatus("loaded"));
   };
 
   const handleEditButtonClick = () => {
@@ -132,26 +137,26 @@ const CardDetail = ({ match }) => {
     );
   };
 
-  const renderProfile = (fields) =>
-    Object.entries(fields).map(([k, v]) =>
-      k !== "customFields" ? (
-        k !== "createdAt" ? (
+  const renderProfile = (fields) => {
+    const { customFields, addedAt, ...defaultFields } = fields;
+    return (
+      <>
+        <NormalTextContainer key={"addedAt"}>
+          ADDEDED AT: {addedAt.slice(0, 10)}
+        </NormalTextContainer>
+        {Object.entries(defaultFields).map(([k, v]) => (
           <NormalTextContainer key={k}>
             {k.toUpperCase()}: {v}
           </NormalTextContainer>
-        ) : (
-          <NormalTextContainer key={k}>
-            CREATED AT: {v.slice(0, 10)}
-          </NormalTextContainer>
-        )
-      ) : (
-        v.map((field) => (
+        ))}
+        {Object.values(customFields).map((field) => (
           <NormalTextContainer key={field.name}>
             {field.name.toUpperCase()}: {field.value}
           </NormalTextContainer>
-        ))
-      )
+        ))}
+      </>
     );
+  };
 
   const renderTimesOrTodos = (target, data) => {
     if (target === "times") {
@@ -292,24 +297,35 @@ const CardDetail = ({ match }) => {
   };
 
   if (card) {
+    if (showProfileForm) {
+      return (
+        <ProfileForm
+          cardData={{ ...card.profile, id: cardId }}
+          saveProfile={handleSaveProfile}
+          cancelCreateProfile={() => toggleProfileForm(!showProfileForm)}
+        />
+      );
+    }
+
     return (
       <PageContainer>
         <TitleContainer>{name}</TitleContainer>
         <MainContainer>
           <LeftPanelContainer>
             <ProfileContainer>
-              {renderProfile({ createdAt, ...otherFields })}
-              <NewField
-                pushToProfile={(field) =>
-                  dispatch(addNew({ cardId, target: "profile", data: field }))
-                }
-              />
+              {renderProfile({ addedAt, ...otherFields })}
+              <CustomButton
+                editbutton
+                onClick={() => toggleProfileForm(!showProfileForm)}
+              >
+                EditProfile
+              </CustomButton>
             </ProfileContainer>
             <TimesContainer>
               {renderTimesOrTodos("times", times)}
               <NewTime
-                pushToTimes={(time) =>
-                  dispatch(addNew({ cardId, target: "times", data: time }))
+                addToTimes={(time) =>
+                  addNew({ userId, cardId, target: "times", data: time })
                 }
               />
             </TimesContainer>
@@ -317,8 +333,8 @@ const CardDetail = ({ match }) => {
           <TodosContainer>
             <h1>Todos</h1>
             <NewTodo
-              pushToTodos={(todo) =>
-                dispatch(addNew({ cardId, target: "todos", data: todo }))
+              addToTodos={(todo) =>
+                addNew({ userId, cardId, target: "todos", data: todo })
               }
             />
             {renderTimesOrTodos("todos", todos)}

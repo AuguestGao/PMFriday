@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
-export const NewClientFormPageContainer = styled.form`
-  width: 500px;
-  margin: auto;
+export const ProfileFormPageContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 export const FormContainer = styled.form`
-  width: 100%;
+  width: 40%;
+  max-width: 400px;
+  margin: 4rem auto;
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 20px;

@@ -7,7 +7,7 @@ export const CardLinkContainer = styled(Link)`
 
 export const CardContainer = styled.div`
   display: flex;
-  border: 3px solid darkcyan;
+  border: 3px solid wheat;
   /* background-color: cadetblue; */
   width: 400px;
   margin: 10px 20px;
@@ -15,17 +15,17 @@ export const CardContainer = styled.div`
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 4px 4px 2px 1px gray;
+  box-shadow: 4px 4px 2px 1px white;
 
   .name {
-    color: black;
+    color: wheat;
     font-weight: bolder;
     font-size: 1.3rem;
   }
 
   span {
     font-size: x-small;
-    color: black;
+    color: wheat;
   }
 
   &:hover {

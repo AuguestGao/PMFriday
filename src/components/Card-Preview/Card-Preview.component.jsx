@@ -1,14 +1,13 @@
 import React from "react";
 import { CardLinkContainer, CardContainer } from "./Card-Preview.styles";
 
-const CardPreview = ({ meta, profile }) => {
-  const { id, createdAt } = meta;
+const CardPreview = ({ cardId, addedAt, profile }) => {
   const { name } = profile;
   return (
-    <CardLinkContainer to={`/cards/${id}`}>
+    <CardLinkContainer to={`/card/${cardId}`}>
       <CardContainer>
         <span className="name">{name}</span>
-        <span>{createdAt.slice(0, 10)}</span>
+        <span>{addedAt.slice(0, 10)}</span>
       </CardContainer>
     </CardLinkContainer>
   );

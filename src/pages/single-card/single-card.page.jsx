@@ -2,14 +2,10 @@ import React from "react";
 // import { match } from "react-router-dom";
 
 import CardDetail from "../../components/Card-Detail/Card-Detail.component";
-import NewClientForm from "../../components/NewClientForm/NewClientForm.component";
+import ProfileForm from "../../components/ProfileForm/ProfileForm.component";
 
 const SingleCardPage = ({ match }) => {
-  return match.path !== "/add" ? (
-    <CardDetail match={match} />
-  ) : (
-    <NewClientForm />
-  );
+  return match.path !== "/new" ? <CardDetail match={match} /> : <ProfileForm />;
 };
 
 export default SingleCardPage;
