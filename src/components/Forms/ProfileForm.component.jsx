@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import _ from "lodash";
+import { firestore } from "../../firebase/firebase";
 
 import FormInput from "../FormInput/FormInput.component";
 import CustomButton from "../CustomButtom/CustomButton.component";
 import NewField from "../NewField/NewField.component";
-import { firestore } from "../../firebase/firebase";
-import { changeCardStatus } from "../../redux/ducks/cardsSlice";
+import { changeCardStatus, addNew } from "../../redux/ducks/cardsSlice";
 
 import {
-  ProfileFormPageContainer,
+  FormPageContainer,
   FormContainer,
   ButtonsContainer,
-} from "./ProfileForm.styles";
+} from "./Forms.styles";
 
-const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
+const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
   const isNewProfile = _.isEmpty(cardData);
   const [profile, setProfile] = useState(() => {
     return isNewProfile
@@ -35,11 +34,9 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
         };
   });
 
-  const [hideNewFieldForm, toggleHideNewFieldForm] = useState(true);
   const [error, setError] = useState("");
 
   const userId = useSelector((state) => state.user.id);
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const resetState = () =>
@@ -51,39 +48,32 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
       customFields: {},
     });
 
-  const handleAddFieldClicked = (e) => {
-    e.preventDefault();
-    toggleHideNewFieldForm(false);
-  };
-
   const handleSaveProfileClicked = async (e) => {
     e.preventDefault();
-    try {
-      isNewProfile
-        ? await firestore.collection(`users/${userId}/cards`).add({
-            profile,
-            times: {},
-            todos: [],
-            note: "",
-            addedAt: new Date().toISOString(),
-          })
-        : await firestore
-            .doc(`users/${userId}/cards/${cardData.id}`)
-            .update({ profile: profile });
-      dispatch(changeCardStatus("loading"));
-      saveProfile();
-      // console.log(cardDocRef.id);
-    } catch (err) {
-      setError(err.message);
-    }
 
+    if (isNewProfile) {
+      try {
+        await firestore.collection(`users/${userId}/cards`).add({
+          profile,
+          times: {},
+          todos: [],
+          note: {},
+          addedAt: new Date().toISOString(),
+        });
+        dispatch(changeCardStatus({ status: "loading" }));
+      } catch (err) {
+        setError(err.message);
+      }
+    } else {
+      dispatch(addNew({ cardId, target: "profile", data: profile }));
+    }
+    saveProfile();
     resetState();
-    history.push("/");
   };
 
   const handleCancelButtonClicked = () => {
     resetState();
-    cancelCreateProfile();
+    cancelSaveProfile();
   };
 
   const handleCustomFieldChange = (e) => {
@@ -98,7 +88,6 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
   };
 
   const handleRemoveFieldClicked = (e) => {
-    // e.preventDefault();
     const key = e.target.parentNode.id;
     const modifiedCustomFields = _.cloneDeep(profile.customFields);
     delete modifiedCustomFields[key];
@@ -111,7 +100,7 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
   };
 
   return (
-    <ProfileFormPageContainer>
+    <FormPageContainer>
       <FormContainer>
         <h2>Client Profile</h2>
         {error ? error : null}
@@ -130,7 +119,6 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
           label="Address"
           onChange={(e) => setProfile({ ...profile, address: e.target.value })}
         />
-
         <FormInput
           type="email"
           name="profileEmail"
@@ -138,7 +126,6 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
           label="Email"
           onChange={(e) => setProfile({ ...profile, email: e.target.value })}
         />
-
         <FormInput
           type="tel"
           name="profilMobile"
@@ -146,7 +133,6 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
           label="Mobile"
           onChange={(e) => setProfile({ ...profile, mobile: e.target.value })}
         />
-
         {_.isEmpty(profile.customFields)
           ? null
           : Object.entries(profile.customFields).map(([k, v]) => (
@@ -163,32 +149,29 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
                   label={v.name}
                   onChange={handleCustomFieldChange}
                 />
-                <div className="text-white" onClick={handleRemoveFieldClicked}>
+                <div
+                  className="text-white"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleRemoveFieldClicked}
+                >
                   &#x2716;
                 </div>
               </div>
             ))}
-
-        {!hideNewFieldForm ? (
-          <NewField
-            addToProfile={(props) => {
-              const { id, ...otherProps } = props;
-              setProfile({
-                ...profile,
-                customFields: {
-                  ...profile.customFields,
-                  [id]: { ...otherProps },
-                },
-              });
-              toggleHideNewFieldForm(true);
-            }}
-            onChange={handleCustomFieldChange}
-            cancelAction={() => toggleHideNewFieldForm(true)}
-          />
-        ) : null}
-        <CustomButton addfieldbutton onClick={handleAddFieldClicked}>
-          ADD FIELD
-        </CustomButton>
+        <NewField
+          isProfile
+          addToProfile={(props) => {
+            const { id, ...otherProps } = props;
+            setProfile({
+              ...profile,
+              customFields: {
+                ...profile.customFields,
+                [id]: { ...otherProps },
+              },
+            });
+          }}
+          onChange={handleCustomFieldChange}
+        />
       </FormContainer>
       <ButtonsContainer>
         <CustomButton
@@ -196,13 +179,13 @@ const ProfileForm = ({ saveProfile, cancelCreateProfile, cardData }) => {
           onClick={handleSaveProfileClicked}
           disabled={!profile.name}
         >
-          Save
+          Confirm
         </CustomButton>
         <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
           CANCEL
         </CustomButton>
       </ButtonsContainer>
-    </ProfileFormPageContainer>
+    </FormPageContainer>
   );
 };
 

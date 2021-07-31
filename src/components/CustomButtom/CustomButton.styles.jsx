@@ -34,7 +34,6 @@ const editbuttonstyles = css`
 `;
 
 const deletebuttonstyles = css`
-  ${"" /* margin: 10px auto; */}
   border-color: red;
   color: red;
 

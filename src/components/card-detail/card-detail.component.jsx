@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteCard,
   claimTime,
   toggleTodo,
-  saveNote,
   addNew,
   changeCardStatus,
+  autoSaveNote,
+  removeATodo,
+  autoSaveTodos,
 } from "../../redux/ducks/cardsSlice";
 import { useHistory } from "react-router-dom";
 import {
@@ -16,13 +17,14 @@ import {
   convertToRaw,
   convertFromRaw,
 } from "draft-js";
+import _ from "lodash";
 
 import CustomButton from "../CustomButtom/CustomButton.component";
 import FormInput from "../FormInput/FormInput.component";
-import NewField from "../NewField/NewField.component";
-import NewTime from "../NewTime/NewTime.component";
 import NewTodo from "../NewTodo/NewTodo.component";
-import ProfileForm from "../ProfileForm/ProfileForm.component";
+import ProfileForm from "../Forms/ProfileForm.component";
+import TimesForm from "../Forms/TimesForm.component";
+import { firestore } from "../../firebase/firebase";
 
 import {
   NotFoundContainer,
@@ -40,14 +42,14 @@ import {
 } from "./Card-Detail.styles";
 
 const CardDetail = ({ match }) => {
-  const userId = useSelector((state) => state.user.id);
   const { cardId } = match.params;
   const card = useSelector((state) => state.cards.data[cardId]);
+  const userId = useSelector((state) => state.user.id);
 
   const { addedAt, times, note, todos } = card;
   const { name, ...otherFields } = card.profile;
 
-  // map timeId to entered time for claiming time
+  // map timeId to entered time for time claiming
   const idToTimeEntries = Object.keys(times).reduce((acc, timeId) => {
     return { ...acc, [timeId]: 0 };
   }, {});
@@ -55,37 +57,57 @@ const CardDetail = ({ match }) => {
   const [timeEntry, setTimeEntry] = useState(idToTimeEntries);
   const [hideConfirmBox, setHideConfirmBox] = useState(true);
   const [confirmName, setConfirmName] = useState("");
-  const [editorState, setEditorState] = useState(() =>
-    // EditorState.createWithContent(convertFromRaw(note))
-    {
-      if (!note) {
-        return EditorState.createEmpty();
-      } else {
-        return EditorState.createWithContent(convertFromRaw(note));
-      }
+  const [editorState, setEditorState] = useState(() => {
+    if (_.isEmpty(note)) {
+      return EditorState.createEmpty();
+    } else {
+      return EditorState.createWithContent(convertFromRaw(note));
     }
-  );
+  });
   const [showProfileForm, toggleProfileForm] = useState(false);
+  const [showTimesForm, toggleTimesForm] = useState(false);
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleEnterTimeClicked = (e, id) => {
-    e.preventDefault();
-    // console.log(timeEntry, timeEntry[id]);
-    dispatch(
-      claimTime({ cardId, timeId: id, timeValue: Number(timeEntry[id]) })
-    );
-    setTimeEntry(idToTimeEntries);
+  const resetClaimTime = () => {
+    setTimeEntry(idToTimeEntries); //reset all time claim to 0
   };
 
-  const handleDeleteButtonClick = () => {
+  const handleClaimTimeClicked = async (e, id) => {
+    e.preventDefault();
+    dispatch(claimTime({ cardId, timeId: id, newUsed: timeEntry[id] }));
+    resetClaimTime();
+  };
+
+  const handleSaveChangeCardClick = async () => {
+    try {
+      await firestore
+        .doc(`users/${userId}/cards/${cardId}`)
+        .update({ ...card });
+      resetClaimTime();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDiscardChangeCardClick = () => {
+    history.push("/");
+  };
+
+  const handleDeleteCardClick = () => {
     setHideConfirmBox(false);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (confirmName === card.profile.name) {
-      dispatch(deleteCard(cardId));
+      try {
+        await firestore.doc(`users/${userId}/cards/${cardId}`).delete();
+      } catch (err) {
+        setError(err.message);
+      }
+
       history.push("/");
     } else {
       window.alert("Unmatching name, delete failed");
@@ -97,26 +119,18 @@ const CardDetail = ({ match }) => {
     dispatch(changeCardStatus("loaded"));
   };
 
-  const handleEditButtonClick = () => {
-    console.log("edit needed");
+  const handleSaveTimes = () => {
+    toggleTimesForm(!showTimesForm);
   };
 
-  const onChange = (editorState) => {
-    // const contentState = editorState.getCurrentContent();
-    // persist data
-    // window.localStorage.setItem(
-    //   "content",
-    //   JSON.stringify(convertToRaw(contentState))
-    // );
-    setEditorState(editorState);
-  };
+  const onDraftEditorChange = (editorState) => setEditorState(editorState);
 
   const onUnderlineClick = () =>
-    onChange(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"));
+    onDraftEditorChange(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"));
   const onBoldClick = () =>
-    onChange(RichUtils.toggleInlineStyle(editorState, "BOLD"));
+    onDraftEditorChange(RichUtils.toggleInlineStyle(editorState, "BOLD"));
   const onItalicClick = () =>
-    onChange(RichUtils.toggleInlineStyle(editorState, "ITALIC"));
+    onDraftEditorChange(RichUtils.toggleInlineStyle(editorState, "ITALIC"));
 
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -127,14 +141,8 @@ const CardDetail = ({ match }) => {
     return "not-handled";
   };
 
-  const handleSaveNoteClicked = () => {
-    console.log(editorState.getCurrentContent());
-    dispatch(
-      saveNote({
-        cardId,
-        note: convertToRaw(editorState.getCurrentContent()),
-      })
-    );
+  const handleRemoveTodoClicked = (e) => {
+    dispatch(removeATodo({ cardId, todoId: e.target.parentNode.id }));
   };
 
   const renderProfile = (fields) => {
@@ -160,49 +168,54 @@ const CardDetail = ({ match }) => {
 
   const renderTimesOrTodos = (target, data) => {
     if (target === "times") {
-      return data.length ? (
+      return !_.isEmpty(data) ? (
         <table>
-          <tr>
-            <td>Category</td>
-            <td>Unit</td>
-            <td>Total</td>
-            <td>Used</td>
-            <td>Remain</td>
-            <td>Progress</td>
-          </tr>
-          {data.map(({ id, name, unit, total, used }) => {
-            const remain = total - used;
-            return (
-              <tr>
-                <td>{name}</td>
-                <td>{unit}</td>
-                <td>{total.toFixed(1)}</td>
-                <td>{used.toFixed(1)}</td>
-                <td>{remain.toFixed(1)}</td>
-                <td>
-                  <progress value={used} max={total} />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    onChange={(e) =>
-                      setTimeEntry({
-                        ...timeEntry,
-                        [id]: Number(e.target.value),
-                      })
-                    }
-                  ></input>
-                  <CustomButton
-                    addbutton
-                    onClick={(e) => handleEnterTimeClicked(e, id)}
-                    disabled={!timeEntry[id]}
-                  >
-                    +
-                  </CustomButton>
-                </td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <td>Category</td>
+              <td>Unit</td>
+              <td>Total</td>
+              <td>Used</td>
+              <td>Remain</td>
+              <td>Progress</td>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(data).map(([id, v]) => {
+              const remain = Number(v.value) - Number(v.used);
+              return (
+                <tr key={id}>
+                  <td>{v.name}</td>
+                  <td>{v.unit}</td>
+                  <td>{Number(v.value).toFixed(1)}</td>
+                  <td>{Number(v.used).toFixed(1)}</td>
+                  <td>{remain.toFixed(1)}</td>
+                  <td>
+                    <progress value={v.used} max={v.value} />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={timeEntry[id]}
+                      onChange={(e) =>
+                        setTimeEntry({
+                          ...timeEntry,
+                          [id]: Number(e.target.value),
+                        })
+                      }
+                    ></input>
+                    <CustomButton
+                      addbutton
+                      onClick={(e) => handleClaimTimeClicked(e, id)}
+                      disabled={!timeEntry[id]}
+                    >
+                      +
+                    </CustomButton>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       ) : (
         <h3>Enter times</h3>
@@ -215,13 +228,13 @@ const CardDetail = ({ match }) => {
       }
 
       return (
-        <div>
+        <div onBlur={() => dispatch(autoSaveTodos({ cardId, todos }))}>
           <h2>Active</h2>
           {actives.length ? (
             actives.map((todo) => {
               const { id, content } = todo;
               return (
-                <div key={id}>
+                <div key={id} id={id} className="d-flex flex-row">
                   <input
                     type="checkbox"
                     onChange={() =>
@@ -234,6 +247,13 @@ const CardDetail = ({ match }) => {
                     }
                   />
                   <div>{content}</div>
+                  <div
+                    className="text-white"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleRemoveTodoClicked}
+                  >
+                    &#x2716;
+                  </div>
                 </div>
               );
             })
@@ -245,7 +265,7 @@ const CardDetail = ({ match }) => {
             completions.map((todo) => {
               const { id, content } = todo;
               return (
-                <div key={id}>
+                <div key={id} id={id} className="d-flex flex-row">
                   <input
                     type="checkbox"
                     checked
@@ -260,6 +280,13 @@ const CardDetail = ({ match }) => {
                   />
                   <div style={{ "text-decoration": "line-through" }}>
                     {content}
+                  </div>
+                  <div
+                    className="text-white"
+                    style={{ cursor: "pointer" }}
+                    onClick={handleRemoveTodoClicked}
+                  >
+                    &#x2716;
                   </div>
                 </div>
               );
@@ -283,15 +310,19 @@ const CardDetail = ({ match }) => {
           <em>I</em>
         </button>
         <div className="editors"></div>
-        {/* <textarea placeholder="write anything..." /> */}
         <Editor
           editorState={editorState}
           handleKeyCommand={handleKeyCommand}
           onChange={setEditorState}
+          onBlur={() =>
+            dispatch(
+              autoSaveNote({
+                cardId,
+                note: convertToRaw(editorState.getCurrentContent()),
+              })
+            )
+          }
         />
-        <CustomButton cancelbutton onClick={handleSaveNoteClicked}>
-          SAVE
-        </CustomButton>
       </div>
     );
   };
@@ -300,15 +331,28 @@ const CardDetail = ({ match }) => {
     if (showProfileForm) {
       return (
         <ProfileForm
-          cardData={{ ...card.profile, id: cardId }}
+          cardData={{ ...card.profile }}
+          cardId={cardId}
           saveProfile={handleSaveProfile}
-          cancelCreateProfile={() => toggleProfileForm(!showProfileForm)}
+          cancelSaveProfile={() => toggleProfileForm(!showProfileForm)}
+        />
+      );
+    }
+
+    if (showTimesForm) {
+      return (
+        <TimesForm
+          timesData={card.times}
+          cardId={cardId}
+          saveTimes={handleSaveTimes}
+          cancelSaveTimes={() => toggleTimesForm(!showTimesForm)}
         />
       );
     }
 
     return (
       <PageContainer>
+        {error ? <div>{error}</div> : null}
         <TitleContainer>{name}</TitleContainer>
         <MainContainer>
           <LeftPanelContainer>
@@ -323,18 +367,19 @@ const CardDetail = ({ match }) => {
             </ProfileContainer>
             <TimesContainer>
               {renderTimesOrTodos("times", times)}
-              <NewTime
-                addToTimes={(time) =>
-                  addNew({ userId, cardId, target: "times", data: time })
-                }
-              />
+              <CustomButton
+                editbutton
+                onClick={() => toggleTimesForm(!showTimesForm)}
+              >
+                EditTimes
+              </CustomButton>
             </TimesContainer>
           </LeftPanelContainer>
           <TodosContainer>
             <h1>Todos</h1>
             <NewTodo
-              addToTodos={(todo) =>
-                addNew({ userId, cardId, target: "todos", data: todo })
+              pushToTodos={(todo) =>
+                dispatch(addNew({ cardId, target: "todos", data: todo }))
               }
             />
             {renderTimesOrTodos("todos", todos)}
@@ -363,11 +408,14 @@ const CardDetail = ({ match }) => {
           </ConfirmDeleteContainer>
         ) : (
           <InteractionsContainer>
-            <CustomButton deletebutton onClick={handleDeleteButtonClick}>
-              DELETE
+            <CustomButton editbutton onClick={handleSaveChangeCardClick}>
+              SaveChange
             </CustomButton>
-            <CustomButton editbutton onClick={handleEditButtonClick}>
-              EDIT
+            <CustomButton editbutton onClick={handleDiscardChangeCardClick}>
+              DiscardChange
+            </CustomButton>
+            <CustomButton deletebutton onClick={handleDeleteCardClick}>
+              DELETE_CARD
             </CustomButton>
           </InteractionsContainer>
         )}

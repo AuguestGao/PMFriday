@@ -1,16 +1,14 @@
 import React from "react";
-
 import FormInput from "../FormInput/FormInput.component";
-
 import SearchContainer from "./Search.styles";
 
-const Search = ({ searchValue, handleChange }) => {
+const Search = ({ searchValue, handleSearchInputChange }) => {
   return (
     <SearchContainer>
       <form>
         <FormInput
           type="search"
-          onChange={handleChange}
+          onChange={handleSearchInputChange}
           value={searchValue}
           label="search"
           name="search"

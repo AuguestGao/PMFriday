@@ -17,7 +17,6 @@ const Header = () => {
   return (
     <Navbar
       expand="md"
-      // fixed="top"
       className="pt-0 w-100"
       style={{ backgroundColor: `var(--primaryColor)` }}
     >

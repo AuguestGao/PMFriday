@@ -33,14 +33,14 @@ function App() {
         });
       } else {
         dispatch(setCurrentUser(null));
-        dispatch(clearCards());
+        dispatch(clearCards({ status: "pending", data: {} }));
       }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [dispatch]);
+  }, []);
 
   return (
     <Router>
@@ -55,11 +55,6 @@ function App() {
           />
           <Route exact path="/signin" component={Signin} />
           <Route exact path="/signup" component={Signup} />
-          {/* <PrivateRoute
-            path="/new"
-            component={SingleCardPage}
-            authedComponent
-          /> */}
           <PrivateRoute
             path="/card/:cardId"
             component={SingleCardPage}

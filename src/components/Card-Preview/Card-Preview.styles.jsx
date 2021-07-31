@@ -8,7 +8,6 @@ export const CardLinkContainer = styled(Link)`
 export const CardContainer = styled.div`
   display: flex;
   border: 3px solid wheat;
-  /* background-color: cadetblue; */
   width: 400px;
   margin: 10px 20px;
   padding: 20px 20px;

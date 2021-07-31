@@ -6,23 +6,13 @@ import CustomButton from "../CustomButtom/CustomButton.component";
 import { NewTodoContainer } from "./NewTodo.styles";
 
 const NewTodo = ({ pushToTodos }) => {
-  const id = nanoid();
+  const [content, setContent] = useState("");
 
-  const [todo, setTodo] = useState({
-    id,
-    content: "",
-    isDone: false,
-  });
-
-  const resetTodo = () =>
-    setTodo({
-      ...todo,
-      content: "",
-    });
+  const resetTodo = () => setContent("");
 
   const handleAddTodoClicked = (e) => {
     e.preventDefault();
-    pushToTodos(todo);
+    pushToTodos({ id: nanoid(), isDone: false, content });
     resetTodo();
   };
 
@@ -32,13 +22,13 @@ const NewTodo = ({ pushToTodos }) => {
         type="text"
         name="content"
         label="new entry"
-        value={todo.content}
-        onChange={(e) => setTodo({ ...todo, content: e.target.value })}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
       <CustomButton
         addbutton
         onClick={handleAddTodoClicked}
-        disabled={!todo.content}
+        disabled={!content}
       >
         Add
       </CustomButton>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Card, Alert, Button, Form, Container } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-
+import { Link, useHistory, Redirect } from "react-router-dom";
+import { isEmpty } from "lodash";
+import { useSelector } from "react-redux";
 import { auth, createUserProfileDocument } from "../../firebase/firebase";
 
 const Signup = () => {
@@ -14,6 +15,7 @@ const Signup = () => {
   const [error, setError] = useState("");
 
   const history = useHistory();
+  const currentUser = useSelector((state) => state.user);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ const Signup = () => {
     }
   };
 
-  return (
+  const renderSignupForm = () => (
     <Container
       className="d-flex flex-column align-items-center  justify-content-center w-50"
       style={{ minWidth: "300px", maxWidth: "500px", minHeight: "100vh" }}
@@ -125,6 +127,7 @@ const Signup = () => {
       </Card>
     </Container>
   );
+  return <>{isEmpty(currentUser) ? renderSignupForm() : <Redirect to="/" />}</>;
 };
 
 export default Signup;

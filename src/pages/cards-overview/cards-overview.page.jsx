@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import _ from "lodash";
 
 import CardPreview from "../../components/Card-Preview/Card-Preview.component";
-import ProfileForm from "../../components/ProfileForm/ProfileForm.component";
+import ProfileForm from "../../components/Forms/ProfileForm.component";
 import Search from "../../components/Search/Search.component";
 import CustomButton from "../../components/CustomButtom/CustomButton.component";
 import { firestore } from "../../firebase/firebase";
@@ -28,11 +27,15 @@ const CardsOverview = () => {
   const [showProfileForm, toggleProfileForm] = useState(false);
   const cardStatus = useSelector((state) => state.cards.status);
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
-  const getAllCards = async (userId) => {
-    const cardsCollectionRef = firestore.collection(`users/${userId}/cards`);
+  const getAllCards = async () => {
+    if (!currentUser.id) {
+      dispatch(loadCards(null));
+    }
+    const cardsCollectionRef = firestore.collection(
+      `users/${currentUser.id}/cards`
+    );
     const cardsCollectionSnapshot = await cardsCollectionRef.get();
     const cardsCollection = {};
     cardsCollectionSnapshot.forEach((doc) => {
@@ -46,10 +49,10 @@ const CardsOverview = () => {
   };
 
   useEffect(() => {
-    getAllCards(currentUser.id);
-  }, [cardStatus]);
+    getAllCards();
+  }, [cardStatus, currentUser.id]);
 
-  const handleChange = (e) => {
+  const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);
   };
 
@@ -60,7 +63,7 @@ const CardsOverview = () => {
 
   const renderFilteredCards = () => {
     const cardsArr = mapObj2Arr(cards);
-    const filteredCards = cardsArr.map((card) =>
+    const filteredCards = cardsArr.filter((card) =>
       card.profile.name.toLowerCase().includes(searchValue.toLowerCase())
         ? card
         : null
@@ -69,12 +72,13 @@ const CardsOverview = () => {
     return filteredCards.length ? (
       filteredCards.map((card) => <CardPreview key={card.cardId} {...card} />)
     ) : (
-      <NoRecordContainer>all cards perished</NoRecordContainer>
+      <NoRecordContainer>No record found ...</NoRecordContainer>
     );
   };
 
   return (
     <div>
+      <h2 className="text-center">Welcome, {currentUser.displayName}</h2>
       {cards.status === "pending" ? (
         <h1>loading... please wait</h1>
       ) : showProfileForm ? (
@@ -85,7 +89,10 @@ const CardsOverview = () => {
       ) : (
         <React.Fragment>
           <SearchAndAddContainer>
-            <Search searchValue={searchValue} handleChange={handleChange} />
+            <Search
+              searchValue={searchValue}
+              handleSearchInputChange={handleSearchInputChange}
+            />
             <CustomButton
               addbutton
               onClick={() => toggleProfileForm(!showProfileForm)}

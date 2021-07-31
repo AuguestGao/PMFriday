@@ -1,6 +1,4 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { firestore } from "../../firebase/firebase";
-// import _ from "lodash";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: "pending",
@@ -13,17 +11,8 @@ const cardsSlice = createSlice({
   reducers: {
     loadCards(state, action) {
       if (!action.payload) {
-        //payload is empty
-        // console.log(
-        //   "in card slice (not action payload = true)",
-        //   action.payload
-        // );
         return { ...state, status: "loaded" };
       } else {
-        // console.log(
-        //   "in card slice  (not action payload = false):",
-        //   action.payload
-        // );
         return { status: "loaded", data: { ...action.payload } };
       }
     },
@@ -32,55 +21,30 @@ const cardsSlice = createSlice({
       return { ...state, status: action.payload };
     },
 
-    clearCards() {
+    clearCards(state, action) {
       return {
-        status: "pending",
-        data: {},
+        ...action.payload,
       };
     },
 
-    createCard: {
-      reducer(state, action) {
-        state.cards.data([]);
-      },
-      prepare({ profile, userId }) {
-        return {
-          payload: {
-            userId,
-            addedAt: new Date().toISOString(),
-            isArchived: false,
-            profile,
-            times: {},
-            todos: [],
-            note: "",
-          },
-        };
-      },
-    },
-
-    deleteCard(state, action) {
-      const existingCard = state.data.find(
-        (card) => card.meta.id === action.payload
-      );
-      if (existingCard) {
-        existingCard.meta.isArchived = true;
-      }
+    claimTime(state, action) {
+      const { cardId, timeId, newUsed } = action.payload;
+      state.data[cardId]["times"][timeId]["used"] += Number(newUsed);
     },
 
     addNew(state, action) {
       const { cardId, target, data } = action.payload;
-      const existingCard = state.data.find((card) => card.meta.id === cardId);
-      const id = nanoid();
+      const existingCard = state.data[cardId];
       if (existingCard) {
         switch (target) {
           case "profile":
-            existingCard.profile.customFields.push(data);
+            existingCard.profile = data;
             break;
           case "times":
-            existingCard.times.push({ ...data, id });
+            existingCard.times = data;
             break;
           case "todos":
-            existingCard.todos.push({ ...data, id });
+            existingCard.todos.push(data);
             break;
           default:
             return;
@@ -88,22 +52,17 @@ const cardsSlice = createSlice({
       }
     },
 
-    claimTime(state, action) {
-      const { cardId, timeId, timeValue } = action.payload;
-      const existingCard = state.data.find((card) => card.meta.id === cardId);
+    autoSaveNote(state, action) {
+      const { cardId, note } = action.payload;
+      const existingCard = state.data[cardId];
       if (existingCard) {
-        const existingTime = existingCard.times.find(
-          (time) => time.id === timeId
-        );
-        if (existingTime) {
-          existingTime.used = Number(existingTime.used) + Number(timeValue);
-        }
+        existingCard.note = { ...note };
       }
     },
 
     toggleTodo(state, action) {
       const { cardId, todoId } = action.payload;
-      const existingCard = state.data.find((card) => card.meta.id === cardId);
+      const existingCard = state.data[cardId];
       if (existingCard) {
         const existingTodo = existingCard.todos.find(
           (todo) => todo.id === todoId
@@ -114,33 +73,23 @@ const cardsSlice = createSlice({
       }
     },
 
-    saveNote(state, action) {
-      const { cardId, note } = action.payload;
-      const existingCard = state.data.find((card) => card.meta.id === cardId);
+    removeATodo(state, action) {
+      const { cardId, todoId } = action.payload;
+      const existingCard = state.data[cardId];
       if (existingCard) {
-        existingCard.note = { ...note };
+        existingCard.todos = [
+          ...existingCard.todos.filter((todo) => todo.id !== todoId),
+        ];
       }
     },
 
-    updateOld(state, action) {
-      const { cardId, target, data } = action.payload;
-      const existingCard = state.data.find((card) => card.meta.id === cardId);
+    autoSaveTodos(state, action) {
+      const { cardId, todos } = action.payload;
+      const existingCard = state.data[cardId];
       if (existingCard) {
-        switch (target) {
-          case "profile":
-            break;
-          case "times":
-            existingCard.times.push(data);
-            break;
-          case "todos":
-            break;
-          default:
-            return;
-        }
+        existingCard.todos = [...todos];
       }
     },
-
-    // remove(state, payload) {},
   },
 });
 
@@ -151,43 +100,16 @@ export const mapObj2Arr = (obj) => {
   );
 };
 
-export const addNew = async (userId, cardId, target, data) => {
-  const id = nanoid();
-  console.log(userId, cardId, target, data);
-  try {
-    const cardDocRef = firestore.doc(`users/${userId}/cards/${cardId}`);
-    switch (target) {
-      case "profile":
-        await cardDocRef.profile.customFields.add({ [id]: data });
-        // existingCard.profile.customFields.push(data);
-        break;
-      case "times":
-        await cardDocRef.times.update({ [id]: data });
-        // existingCard.times.push({ ...data, id });
-        break;
-      case "todos":
-        await cardDocRef.update({
-          todos: firestore.FieldValue.arrayUnion(data),
-        });
-        // existingCard.todos.push({ ...data, id });
-        break;
-      default:
-        return;
-    }
-  } catch (err) {
-    console.log("err adding new: ", err.message);
-  }
-};
-
 export const {
   loadCards,
   changeCardStatus,
   clearCards,
-  createCard,
-  deleteCard,
-  claimTime,
+  addNew,
   toggleTodo,
-  saveNote,
+  autoSaveNote,
+  removeATodo,
+  autoSaveTodos,
+  claimTime,
 } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
