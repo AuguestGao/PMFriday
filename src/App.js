@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setCurrentUser } from "./redux/ducks/userSlice";
@@ -40,26 +45,19 @@ function App() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>
       <div className="App">
         <Header />
         <Switch>
-          <PrivateRoute
-            exact
-            path="/"
-            component={CardsOverview}
-            authedComponent
-          />
-          <Route exact path="/signin" component={Signin} />
-          <Route exact path="/signup" component={Signup} />
-          <PrivateRoute
-            path="/card/:cardId"
-            component={SingleCardPage}
-            authedComponent
-          />
+          <PrivateRoute exact path="/" component={CardsOverview} />
+          <Route path="/signin" component={Signin} />
+          <Route path="/signup" component={Signup} />
+          <PrivateRoute path="/card/:cardId" component={SingleCardPage} />
+          {/* redirect to home if route doesn't exist */}
+          <Redirect to="/" />
         </Switch>
       </div>
     </Router>

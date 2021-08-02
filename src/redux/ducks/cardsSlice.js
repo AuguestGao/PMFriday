@@ -23,7 +23,8 @@ const cardsSlice = createSlice({
 
     clearCards(state, action) {
       return {
-        ...action.payload,
+        status: "pending",
+        data: {},
       };
     },
 

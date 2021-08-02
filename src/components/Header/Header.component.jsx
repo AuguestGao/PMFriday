@@ -31,7 +31,7 @@ const Header = () => {
                 </Link>
               </Nav.Item>
               <Nav.Item className="m-3" onClick={handleSignout}>
-                <Link to="/signin" className="text-white">
+                <Link to="/" className="text-white">
                   Sign out
                 </Link>
               </Nav.Item>

@@ -30,9 +30,6 @@ const CardsOverview = () => {
   const dispatch = useDispatch();
 
   const getAllCards = async () => {
-    if (!currentUser.id) {
-      dispatch(loadCards(null));
-    }
     const cardsCollectionRef = firestore.collection(
       `users/${currentUser.id}/cards`
     );
@@ -41,6 +38,7 @@ const CardsOverview = () => {
     cardsCollectionSnapshot.forEach((doc) => {
       cardsCollection[doc.id] = doc.data();
     });
+    // const cardsCollection = { ...cards };
     if (_.isEmpty(cardsCollection)) {
       dispatch(loadCards(null));
     } else {
@@ -49,8 +47,10 @@ const CardsOverview = () => {
   };
 
   useEffect(() => {
-    getAllCards();
-  }, [cardStatus, currentUser.id]);
+    if (!_.isEmpty(currentUser)) {
+      getAllCards();
+    }
+  }, [dispatch, cards]);
 
   const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);
