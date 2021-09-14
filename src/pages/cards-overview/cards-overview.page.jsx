@@ -50,7 +50,7 @@ const CardsOverview = () => {
     if (!_.isEmpty(currentUser)) {
       getAllCards();
     }
-  }, [dispatch, cards]);
+  }, []);
 
   const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -84,7 +84,7 @@ const CardsOverview = () => {
       ) : showProfileForm ? (
         <ProfileForm
           saveProfile={handleSaveProfile}
-          cancelCreateProfile={() => toggleProfileForm(!showProfileForm)}
+          cancelSaveProfile={() => toggleProfileForm(!showProfileForm)}
         />
       ) : (
         <React.Fragment>
