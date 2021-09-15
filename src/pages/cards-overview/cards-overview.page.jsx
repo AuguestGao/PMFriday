@@ -77,7 +77,7 @@ const CardsOverview = () => {
   };
 
   return (
-    <div>
+    <article>
       <h2 className="text-center">Welcome, {currentUser.displayName}</h2>
       {cards.status === "pending" ? (
         <h1>loading... please wait</h1>
@@ -94,10 +94,10 @@ const CardsOverview = () => {
               handleSearchInputChange={handleSearchInputChange}
             />
             <CustomButton
-              addbutton
+              button
               onClick={() => toggleProfileForm(!showProfileForm)}
             >
-              +
+              NEW
             </CustomButton>
           </SearchAndAddContainer>
           <CardsOverviewContainer>
@@ -105,7 +105,7 @@ const CardsOverview = () => {
           </CardsOverviewContainer>
         </React.Fragment>
       )}
-    </div>
+    </article>
   );
 };
 

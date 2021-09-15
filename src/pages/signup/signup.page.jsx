@@ -109,14 +109,7 @@ const Signup = () => {
               />
             </Form.Group>
 
-            <Button
-              className="w-100 mt-2 mb-2"
-              type="submit"
-              style={{
-                backgroundColor: `var(--primaryColor)`,
-                borderColor: `var(--primaryColor)`,
-              }}
-            >
+            <Button className="w-100 mt-2 mb-2" type="submit">
               Sign up
             </Button>
           </Form>

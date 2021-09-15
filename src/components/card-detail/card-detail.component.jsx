@@ -39,6 +39,8 @@ import {
   NormalTextContainer,
   ConfirmDeleteContainer,
   InteractionsContainer,
+  InlineTodo,
+  InlineTimes,
 } from "./Card-Detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -90,10 +92,6 @@ const CardDetail = ({ match }) => {
     } catch (err) {
       setError(err.message);
     }
-  };
-
-  const handleDiscardChangeCardClick = () => {
-    history.push("/");
   };
 
   const handleDeleteCardClick = () => {
@@ -150,7 +148,7 @@ const CardDetail = ({ match }) => {
     return (
       <>
         <NormalTextContainer key={"addedAt"}>
-          ADDEDED AT: {addedAt.slice(0, 10)}
+          ADDED_AT: {addedAt.slice(0, 10)}
         </NormalTextContainer>
         {Object.entries(defaultFields).map(([k, v]) => (
           <NormalTextContainer key={k}>
@@ -169,56 +167,45 @@ const CardDetail = ({ match }) => {
   const renderTimesOrTodos = (target, data) => {
     if (target === "times") {
       return !_.isEmpty(data) ? (
-        <table>
-          <thead>
-            <tr>
-              <td>Category</td>
-              <td>Unit</td>
-              <td>Total</td>
-              <td>Used</td>
-              <td>Remain</td>
-              <td>Progress</td>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(data).map(([id, v]) => {
-              const remain = Number(v.value) - Number(v.used);
-              return (
-                <tr key={id}>
-                  <td>{v.name}</td>
-                  <td>{v.unit}</td>
+        <>
+          {Object.entries(data).map(([id, v]) => {
+            return (
+              <InlineTimes key={id}>
+                <p>{v.name}</p>
+                {/* <td>{v.unit}</td>
                   <td>{Number(v.value).toFixed(1)}</td>
                   <td>{Number(v.used).toFixed(1)}</td>
-                  <td>{remain.toFixed(1)}</td>
-                  <td>
-                    <progress value={v.used} max={v.value} />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={timeEntry[id]}
-                      onChange={(e) =>
-                        setTimeEntry({
-                          ...timeEntry,
-                          [id]: Number(e.target.value),
-                        })
-                      }
-                    ></input>
-                    <CustomButton
-                      addbutton
-                      onClick={(e) => handleClaimTimeClicked(e, id)}
-                      disabled={!timeEntry[id]}
-                    >
-                      +
-                    </CustomButton>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  <td>{remain.toFixed(1)}</td> */}
+                <div className="progress">
+                  <progress value={v.used} max={v.value} width="90%" />
+                </div>
+                <div className="action">
+                  {/* <div className="enterNumber"> */}
+                  <input
+                    type="number"
+                    value={timeEntry[id]}
+                    onChange={(e) =>
+                      setTimeEntry({
+                        ...timeEntry,
+                        [id]: Number(e.target.value),
+                      })
+                    }
+                  />
+                  {/* </div> */}
+                  <CustomButton
+                    button
+                    onClick={(e) => handleClaimTimeClicked(e, id)}
+                    disabled={!timeEntry[id]}
+                  >
+                    +
+                  </CustomButton>
+                </div>
+              </InlineTimes>
+            );
+          })}
+        </>
       ) : (
-        <h3>Enter times</h3>
+        <p>Enter times...</p>
       );
     } else if (target === "todos") {
       const actives = [];
@@ -229,71 +216,51 @@ const CardDetail = ({ match }) => {
 
       return (
         <div onBlur={() => dispatch(autoSaveTodos({ cardId, todos }))}>
-          <h2>Active</h2>
-          {actives.length ? (
-            actives.map((todo) => {
-              const { id, content } = todo;
-              return (
-                <div key={id} id={id} className="d-flex flex-row">
-                  <input
-                    type="checkbox"
-                    onChange={() =>
-                      dispatch(
-                        toggleTodo({
-                          cardId,
-                          todoId: todo.id,
-                        })
-                      )
-                    }
-                  />
-                  <div>{content}</div>
-                  <div
-                    className="text-white"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleRemoveTodoClicked}
-                  >
-                    &#x2716;
-                  </div>
+          {actives.map((todo) => {
+            const { id, content } = todo;
+            return (
+              <InlineTodo key={id} id={id}>
+                <input
+                  type="checkbox"
+                  onChange={() =>
+                    dispatch(
+                      toggleTodo({
+                        cardId,
+                        todoId: todo.id,
+                      })
+                    )
+                  }
+                />
+                <div className="content">{content}</div>
+                <div className="delete" onClick={handleRemoveTodoClicked}>
+                  &#x2716;
                 </div>
-              );
-            })
-          ) : (
-            <p>Bravo! You finished all your todos</p>
-          )}
-          <h2> Complete</h2>
-          {completions.length ? (
-            completions.map((todo) => {
-              const { id, content } = todo;
-              return (
-                <div key={id} id={id} className="d-flex flex-row">
-                  <input
-                    type="checkbox"
-                    checked
-                    onChange={() =>
-                      dispatch(
-                        toggleTodo({
-                          cardId,
-                          todoId: todo.id,
-                        })
-                      )
-                    }
-                  />
-                  <div style={{ "text-decoration": "line-through" }}>
-                    {content}
-                  </div>
-                  <div
-                    className="text-white"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleRemoveTodoClicked}
-                  >
-                    &#x2716;
-                  </div>
+              </InlineTodo>
+            );
+          })}
+          {completions.map((todo) => {
+            const { id, content } = todo;
+            return (
+              <InlineTodo key={id} id={id}>
+                <input
+                  type="checkbox"
+                  checked
+                  onChange={() =>
+                    dispatch(
+                      toggleTodo({
+                        cardId,
+                        todoId: todo.id,
+                      })
+                    )
+                  }
+                />
+                <div className="complete">{content}</div>
+                <div className="delete" onClick={handleRemoveTodoClicked}>
+                  &#x2716;
                 </div>
-              );
-            })
-          ) : (
-            <p>Nothing came through yet.</p>
-          )}
+              </InlineTodo>
+            );
+          })}
         </div>
       );
     }
@@ -359,24 +326,24 @@ const CardDetail = ({ match }) => {
             <ProfileContainer>
               {renderProfile({ addedAt, ...otherFields })}
               <CustomButton
-                editbutton
+                button
                 onClick={() => toggleProfileForm(!showProfileForm)}
               >
-                EditProfile
+                Edit&nbsp;Profile
               </CustomButton>
             </ProfileContainer>
             <TimesContainer>
               {renderTimesOrTodos("times", times)}
               <CustomButton
-                editbutton
+                button
                 onClick={() => toggleTimesForm(!showTimesForm)}
               >
-                EditTimes
+                Edit&nbsp;Times
               </CustomButton>
             </TimesContainer>
           </LeftPanelContainer>
           <TodosContainer>
-            <h1>Todos</h1>
+            <h3>Todos</h3>
             <NewTodo
               pushToTodos={(todo) =>
                 dispatch(addNew({ cardId, target: "todos", data: todo }))
@@ -396,26 +363,20 @@ const CardDetail = ({ match }) => {
             />
             <InteractionsContainer>
               <CustomButton deletebutton onClick={handleConfirmDelete}>
-                Confirm
+                CONFIRM DELETE
               </CustomButton>
-              <CustomButton
-                cancelbutton
-                onClick={() => setHideConfirmBox(true)}
-              >
+              <CustomButton button onClick={() => setHideConfirmBox(true)}>
                 Cancel
               </CustomButton>
             </InteractionsContainer>
           </ConfirmDeleteContainer>
         ) : (
           <InteractionsContainer>
-            <CustomButton editbutton onClick={handleSaveChangeCardClick}>
-              SaveChange
-            </CustomButton>
-            <CustomButton editbutton onClick={handleDiscardChangeCardClick}>
-              DiscardChange
-            </CustomButton>
             <CustomButton deletebutton onClick={handleDeleteCardClick}>
-              DELETE_CARD
+              DELETE
+            </CustomButton>
+            <CustomButton button onClick={handleSaveChangeCardClick}>
+              SAVE
             </CustomButton>
           </InteractionsContainer>
         )}

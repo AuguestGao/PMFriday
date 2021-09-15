@@ -39,9 +39,7 @@ const Signin = () => {
         <Card.Body>
           <h1 className="text-center">PMFriday</h1>
           <p className="text-center">Personal Project Management Assistant</p>
-          <h2 className="text-center" style={{ color: `var(--primaryColor)` }}>
-            Sign In
-          </h2>
+          <h2 className="text-center">Sign In</h2>
           {error && <Alert variant="warning">{error}</Alert>}
           <Form onSubmit={handleSignin}>
             <Form.Group id="email" className="mt-2 mb-2">
@@ -65,14 +63,7 @@ const Signin = () => {
               />
             </Form.Group>
 
-            <Button
-              className="w-100 mt-2 mb-2"
-              type="submit"
-              style={{
-                backgroundColor: `var(--primaryColor)`,
-                borderColor: `var(--primaryColor)`,
-              }}
-            >
+            <Button className="w-100 mt-2 mb-2" type="submit" style={{}}>
               Sign in
             </Button>
           </Form>

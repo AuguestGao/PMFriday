@@ -26,9 +26,10 @@ const NewTodo = ({ pushToTodos }) => {
         onChange={(e) => setContent(e.target.value)}
       />
       <CustomButton
-        addbutton
+        button
         onClick={handleAddTodoClicked}
         disabled={!content}
+        style={{ marginTop: "10px" }}
       >
         Add
       </CustomButton>

@@ -1,34 +1,13 @@
+import { property } from "lodash";
 import styled, { css } from "styled-components";
 
-const addbuttonstyles = css`
-  border-color: coral;
-  color: coral;
+const buttonstyles = css`
+  border-color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.primaty};
+  background-color: ${(props) => props.theme.colors.neutral};
 
   &:hover {
-    background-color: coral;
-    border-color: white;
-    color: white;
-  }
-`;
-
-const createbuttonstyles = css`
-  border-color: #4c8bf5;
-  color: #4c8bf5;
-
-  &:hover {
-    background-color: #4c8bf5;
-    border-color: white;
-    color: white;
-  }
-`;
-
-const editbuttonstyles = css`
-  border-color: burlywood;
-  color: burlywood;
-
-  &:hover {
-    background-color: burlywood;
-    border-color: white;
+    background-color: ${(props) => props.theme.colors.primary};
     color: white;
   }
 `;
@@ -36,6 +15,7 @@ const editbuttonstyles = css`
 const deletebuttonstyles = css`
   border-color: red;
   color: red;
+  background-color: ${(props) => props.theme.colors.neutral};
 
   &:hover {
     background-color: red;
@@ -44,54 +24,41 @@ const deletebuttonstyles = css`
   }
 `;
 
-const cancelbuttonstyles = css`
-  margin: 0 auto;
+const disabledButtonStyles = css`
   border-color: gray;
   color: gray;
-
-  &:hover {
-    background-color: gray;
-    border-color: white;
-    color: white;
-  }
-`;
-
-const disabledButton = css`
-  border-color: gray;
-  color: gray;
+  background-color: ${(props) => props.theme.colors.neutral};
 `;
 
 const getButtonStyle = (props) => {
-  if (props.addbutton) {
-    return props.disabled ? disabledButton : addbuttonstyles;
-  } else if (props.createbutton) {
-    return props.disabled ? disabledButton : createbuttonstyles;
+  if (props.button) {
+    return props.disabled ? disabledButtonStyles : buttonstyles;
   } else if (props.deletebutton) {
     return deletebuttonstyles;
-  } else if (props.cancelbutton) {
-    return cancelbuttonstyles;
-  } else if (props.editbutton) {
-    return editbuttonstyles;
   } else {
     return null;
   }
 };
 
 const CustomButtonContainer = styled.button`
-  width: 90px;
-  height: 40px;
+  width: 100px;
+  height: 35px;
   border-radius: 10px;
-  border-width: 3px;
+  border-width: 2px;
   border-style: solid;
   background-color: white;
-  font-size: 1rem;
-  font-weight: bolder;
+  font-size: ${(props) => props.theme.sizes.md};
+  font-weight: bold;
   text-align: center;
   box-sizing: border-box;
   padding: 1px 3px;
 
   &:hover {
     cursor: pointer;
+  }
+
+  &.smallFont {
+    font-size: ${(props) => props.theme.sizes.sm};
   }
 
   ${getButtonStyle}

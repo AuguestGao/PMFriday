@@ -7,27 +7,29 @@ export const CardLinkContainer = styled(Link)`
 
 export const CardContainer = styled.div`
   display: flex;
-  border: 3px solid wheat;
+  border: 2px solid ${(props) => props.theme.colors.primary};
   width: 400px;
   margin: 10px 20px;
   padding: 20px 20px;
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 4px 4px 2px 1px white;
+  box-shadow: 4px 4px 2px 1px gray;
+  transition: all 0.2s ease-in-out;
 
   .name {
-    color: wheat;
+    color: ${(props) => props.theme.colors.primary};
     font-weight: bolder;
-    font-size: 1.3rem;
+    font-size: ${(props) => props.theme.sizes.lg};
   }
 
   span {
-    font-size: x-small;
-    color: wheat;
+    color: ${(props) => props.theme.colors.primary};
+    font-size: ${(props) => props.theme.sizes.sm};
   }
 
   &:hover {
     cursor: pointer;
+    background-color: ${(props) => props.theme.colors.accent};
   }
 `;

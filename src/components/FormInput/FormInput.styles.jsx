@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 
 const shrinkLabelStyles = css`
-  top: -16px;
+  top: -10px;
   font-size: 12px;
-  color: black;
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 export const GroupContainer = styled.div`
@@ -15,7 +15,8 @@ export const FormInputContainer = styled.input`
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
-  font-size: 1.1rem;
+  font-size: ${(props) => props.theme.sizes.lg};
+  background-color: ${(props) => props.theme.colors.neutral};
 
   &:focus {
     outline: none;
@@ -27,13 +28,13 @@ export const FormInputContainer = styled.input`
 `;
 
 export const FormInputLabel = styled.label`
-  color: lightgray;
-  font-size: 1.1rem;
+  color: ${(props) => props.theme.colors.primary};
+  font-size: ${(props) => props.theme.sizes.md};
   font-weight: normal;
   position: absolute;
   pointer-events: none;
-  left: 10px;
-  top: -5px;
+  left: 3px;
+  top: 8px;
   transition: 300ms ease all;
 
   &.shrink {

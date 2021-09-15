@@ -6,8 +6,8 @@ export const FormPageContainer = styled.div`
 `;
 
 export const FormContainer = styled.form`
-  width: 40%;
-  max-width: 400px;
+  width: 60%;
+  max-width: 600px;
   margin: 4rem auto;
   box-sizing: border-box;
   border: 2px solid black;
@@ -24,6 +24,10 @@ export const FormContainer = styled.form`
 
   button {
     width: 100%;
+  }
+
+  .delete-entry {
+    color: ${(props) => props.theme.colors.highlight};
   }
 `;
 

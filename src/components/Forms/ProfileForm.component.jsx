@@ -150,7 +150,7 @@ const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
                   onChange={handleCustomFieldChange}
                 />
                 <div
-                  className="text-white"
+                  className="delete-entry"
                   style={{ cursor: "pointer" }}
                   onClick={handleRemoveFieldClicked}
                 >
@@ -175,13 +175,13 @@ const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
       </FormContainer>
       <ButtonsContainer>
         <CustomButton
-          createbutton
+          button
           onClick={handleSaveProfileClicked}
           disabled={!profile.name}
         >
           Confirm
         </CustomButton>
-        <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
+        <CustomButton button onClick={handleCancelButtonClicked}>
           CANCEL
         </CustomButton>
       </ButtonsContainer>

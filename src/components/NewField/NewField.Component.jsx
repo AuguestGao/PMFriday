@@ -59,12 +59,19 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
             onChange={(e) => setField({ ...field, name: e.target.value })}
             label="Field Name"
           />
+          <label for="field_type">Field Value Type &nbsp;</label>
           <select
             name="type"
             onChange={(e) => setField({ ...field, type: e.target.value })}
-            value="text"
+            // value="text"
+            id="field_type"
+            style={{
+              margin: `10px 0 10px 3px`,
+            }}
           >
-            <option value="text">Text</option>
+            <option value="text" defaultValue>
+              Text
+            </option>
             <option value="number">Number</option>
             <option value="tel">Phone</option>
             <option value="email">Email</option>
@@ -79,7 +86,7 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
           />
           <CustomButton
             className="mt-2"
-            addbutton
+            button
             onClick={handleAddProfileFieldClicked}
             disabled={!activeAddFieldButton}
           >
@@ -116,7 +123,7 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
           />
           <CustomButton
             className="mt-2"
-            addbutton
+            button
             onClick={handleAddTimeFieldClicked}
             disabled={!activeAddFieldButton}
           >

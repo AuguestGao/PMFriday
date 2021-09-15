@@ -49,11 +49,11 @@ const TimesForm = ({ saveTimes, cancelSaveTimes, timesData, cardId }) => {
       id={k}
     >
       <p>
-        {v.name} <span style={{ color: "wheat" }}>{v.value}</span> {v.unit}
+        {v.name}: {v.value} {v.unit}
       </p>
 
       <div
-        className="text-white"
+        className="delete-entry"
         style={{ cursor: "pointer" }}
         onClick={handleRemoveTimeClicked}
       >
@@ -65,7 +65,7 @@ const TimesForm = ({ saveTimes, cancelSaveTimes, timesData, cardId }) => {
   return (
     <FormPageContainer>
       <FormContainer>
-        <h2>Approved Times</h2>
+        <h2>Times</h2>
         {_.isEmpty(times) ? null : renderTimes}
         <NewField
           addToTimes={(props) => {
@@ -78,10 +78,10 @@ const TimesForm = ({ saveTimes, cancelSaveTimes, timesData, cardId }) => {
         />
       </FormContainer>
       <ButtonsContainer>
-        <CustomButton createbutton onClick={handleSaveTimesClicked}>
-          Confirm
+        <CustomButton button onClick={handleSaveTimesClicked}>
+          CONFIRM
         </CustomButton>
-        <CustomButton cancelbutton onClick={handleCancelButtonClicked}>
+        <CustomButton button onClick={handleCancelButtonClicked}>
           CANCEL
         </CustomButton>
       </ButtonsContainer>
