@@ -16,6 +16,7 @@ import Signup from "./pages/signup/signup.page";
 import CardsOverview from "./pages/cards-overview/cards-overview.page";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.component";
 import Header from "./components/Header/Header.component";
+import Footer from "./Footer/Footer.component";
 import SingleCardPage from "./pages/single-card/single-card.page";
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           {/* redirect to home if route doesn't exist */}
           <Redirect to="/" />
         </Switch>
+        <Footer />
       </div>
     </Router>
   );

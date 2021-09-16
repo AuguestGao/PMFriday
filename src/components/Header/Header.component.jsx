@@ -19,7 +19,9 @@ const Header = () => {
     <HeaderWrapper>
       {isEmpty(user) ? null : (
         <>
-          <div onClick={() => history.push("/")}>PM&nbsp;Friday</div>
+          <div className="brand" onClick={() => history.push("/")}>
+            PM&nbsp;Friday
+          </div>
           <NavWrapper>
             <ul>
               <li onClick={() => history.push("/")}>

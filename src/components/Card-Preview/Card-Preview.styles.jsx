@@ -7,10 +7,11 @@ export const CardLinkContainer = styled(Link)`
 
 export const CardContainer = styled.div`
   display: flex;
-  border: 2px solid ${(props) => props.theme.colors.primary};
   width: 400px;
-  margin: 10px 20px;
+  min-width: 270px;
+  margin: 10px auto;
   padding: 20px 20px;
+  border: 2px solid ${(props) => props.theme.colors.primary};
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +21,7 @@ export const CardContainer = styled.div`
   .name {
     color: ${(props) => props.theme.colors.primary};
     font-weight: bolder;
-    font-size: ${(props) => props.theme.sizes.lg};
+    font-size: ${(props) => props.theme.fontSizes.subtitle};
   }
 
   span {
@@ -32,4 +33,8 @@ export const CardContainer = styled.div`
     cursor: pointer;
     background-color: ${(props) => props.theme.colors.accent};
   }
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    width: 270px;
+  } ;
 `;

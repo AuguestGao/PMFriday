@@ -33,9 +33,15 @@ const Signin = () => {
   const renderSigninForm = () => (
     <Container
       className="d-flex flex-column align-items-center  justify-content-center w-50"
-      style={{ minWidth: "300px", maxWidth: "500px", minHeight: "100vh" }}
+      style={{
+        gridArea: `1 / 1 / -1 / -1`,
+        width: "100%",
+        maxWidth: "600px",
+        minWidth: "300px",
+        height: "100%",
+      }}
     >
-      <Card className="w-100 p-3">
+      <Card className="w-100 p-3" style={{ top: "20%" }}>
         <Card.Body>
           <h1 className="text-center">PMFriday</h1>
           <p className="text-center">Personal Project Management Assistant</p>

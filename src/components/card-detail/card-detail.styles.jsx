@@ -6,11 +6,21 @@ export const NotFoundContainer = styled.h1`
 `;
 
 export const PageContainer = styled.div`
-  width: 60%;
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  width: 80%;
+  max-width: 700px;
   margin: 20px auto;
   padding: 15px;
   border: 2px solid black;
   border-radius: 15px;
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    width: 100%;
+    button {
+      font-size: ${(props) => props.theme.fontSizes.mobileText};
+    }
+  }
 `;
 
 export const TitleContainer = styled.h1`
@@ -25,46 +35,72 @@ export const MainContainer = styled.div`
   padding: 0;
   display: grid;
   grid-template-columns: 3fr 2fr;
+  grid-template-rows: repeat(3, 1fr) auto;
   grid-gap: 10px;
-`;
-
-export const LeftPanelContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
+  font-size: ${(props) => props.theme.fontSizes.mobileText};
 `;
 
 export const ProfileContainer = styled.div`
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
   width: 100%;
   border-bottom: 2px solid lightgray;
-  margin: 10px 3px;
-  padding-bottom: 15px; ;
+  margin: ${(props) => props.theme.sizes.xsm} auto;
+  padding-bottom: 15px;
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    grid-column: 1 / span 2;
+  }
 `;
 
 export const TimesContainer = styled.div`
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
   width: 100%;
-  margin: 5px;
+  margin: ${(props) => props.theme.sizes.xsm} auto;
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    grid-column: 1 / span 2;
+    border-bottom: 2px solid lightgray;
+  }
 `;
 
 export const TodosContainer = styled.div`
+  grid-row: 1 / span 2;
+  grid-column: 2 / span 1;
   width: 100%;
-  margin: 10px;
+  margin: ${(props) => props.theme.sizes.xsm} auto;
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
   border-left: 2px solid lightgray;
   padding: 20px;
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    grid-row: 3 / span 2;
+    grid-column: 1 / span 2;
+    border-left: none;
+    border-bottom: 2px solid lightgray;
+    padding: 0;
+
+    h3 {
+      font-size: ${(props) => props.theme.fontSizes.mobileSubtitle};
+    }
+  }
 `;
 
 export const NoteContainer = styled.div`
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
 
   .editorcontainer {
     background-color: ${(props) => props.theme.colors.accent};
     padding: 10px ${(props) => props.theme.sizes.lg};
     height: 100px;
+  }
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
   }
 `;
 
@@ -83,7 +119,6 @@ export const CardDetailContainer = styled.div`
 
 export const NormalTextContainer = styled.div`
   justify-items: flex-start;
-  font-size: 1rem;
   color: gray;
   margin-bottom: 10px;
   margin-left: 5px;

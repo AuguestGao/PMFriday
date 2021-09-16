@@ -31,7 +31,7 @@ import {
   PageContainer,
   TitleContainer,
   MainContainer,
-  LeftPanelContainer,
+  // LeftPanelContainer,
   ProfileContainer,
   TimesContainer,
   TodosContainer,
@@ -322,26 +322,26 @@ const CardDetail = ({ match }) => {
         {error ? <div>{error}</div> : null}
         <TitleContainer>{name}</TitleContainer>
         <MainContainer>
-          <LeftPanelContainer>
-            <ProfileContainer>
-              {renderProfile({ addedAt, ...otherFields })}
-              <CustomButton
-                button
-                onClick={() => toggleProfileForm(!showProfileForm)}
-              >
-                Edit&nbsp;Profile
-              </CustomButton>
-            </ProfileContainer>
-            <TimesContainer>
-              {renderTimesOrTodos("times", times)}
-              <CustomButton
-                button
-                onClick={() => toggleTimesForm(!showTimesForm)}
-              >
-                Edit&nbsp;Times
-              </CustomButton>
-            </TimesContainer>
-          </LeftPanelContainer>
+          {/* <LeftPanelContainer> */}
+          <ProfileContainer>
+            {renderProfile({ addedAt, ...otherFields })}
+            <CustomButton
+              button
+              onClick={() => toggleProfileForm(!showProfileForm)}
+            >
+              Edit&nbsp;Profile
+            </CustomButton>
+          </ProfileContainer>
+          <TimesContainer>
+            {renderTimesOrTodos("times", times)}
+            <CustomButton
+              button
+              onClick={() => toggleTimesForm(!showTimesForm)}
+            >
+              Edit&nbsp;Times
+            </CustomButton>
+          </TimesContainer>
+          {/* </LeftPanelContainer> */}
           <TodosContainer>
             <h3>Todos</h3>
             <NewTodo
@@ -358,12 +358,12 @@ const CardDetail = ({ match }) => {
             <FormInput
               type="text"
               onChange={(e) => setConfirmName(e.target.value)}
-              label={"Enter Client Name"}
+              label={"Enter Client Name to Confirm"}
               value={confirmName}
             />
             <InteractionsContainer>
               <CustomButton deletebutton onClick={handleConfirmDelete}>
-                CONFIRM DELETE
+                CONFIRM
               </CustomButton>
               <CustomButton button onClick={() => setHideConfirmBox(true)}>
                 Cancel

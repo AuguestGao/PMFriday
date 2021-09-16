@@ -2,25 +2,48 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 
-  html, body {
-    background-color: ${(props) => props.theme.colors.neutral};
+html, body {
     margin: 0;
     padding: 0;
     font-family: ${(props) => props.theme.fonts.main};
-  }
+    width: 100%;
+    background-color: ${(props) => props.theme.colors.neutral};
+};
 
+  .App {
+    display: grid;
+    grid-template-rows: 5rem auto;
+    grid-template-columns: 10rem minmax(40rem, 1fr) 10rem;
+    font-size: ${(props) => props.theme.fontSizes.text};
+
+    @media ${(props) => props.theme.breakpoints.tablet} {
+    grid-template-columns: 5rem minmax(15rem, 1fr) 5rem;
+  };
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    grid-template-columns: 2rem minmax(10rem, 1fr) 2rem;
+    font-size: ${(props) => props.theme.fontSizes.mobileText};
+  };
+
+
+  };
 
   a {
     text-decoration: none;
     cursor: pointer;
-  }
+    color: ${(props) => props.theme.colors.primary}
+  };
 
   code {
     font-family: ${(props) => props.theme.fonts.code};
-  }
+  };
 
-  button {
+button {
     background-color: ${(props) => props.theme.colors.neutral};
-  }
+  };
+
+div {
+  box-sizing: border-box;
+}
 
 `;

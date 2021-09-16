@@ -15,6 +15,7 @@ import {
 } from "../../redux/ducks/cardsSlice";
 
 import {
+  PageWrapper,
   CardsOverviewContainer,
   NoRecordContainer,
   SearchAndAddContainer,
@@ -77,8 +78,12 @@ const CardsOverview = () => {
   };
 
   return (
-    <article>
-      <h2 className="text-center">Welcome, {currentUser.displayName}</h2>
+    <PageWrapper>
+      {showProfileForm ? null : (
+        <p className="user-name">
+          Welcome, <span> {currentUser.displayName}</span>
+        </p>
+      )}
       {cards.status === "pending" ? (
         <h1>loading... please wait</h1>
       ) : showProfileForm ? (
@@ -105,7 +110,7 @@ const CardsOverview = () => {
           </CardsOverviewContainer>
         </React.Fragment>
       )}
-    </article>
+    </PageWrapper>
   );
 };
 

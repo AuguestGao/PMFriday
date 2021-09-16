@@ -1,20 +1,22 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.header`
-  grid-column: 2 / span 1;
   grid-row: 1 / span 1;
-  margin: 0;
-  padding: ${(props) => props.theme.sizes.xlg}
-    calc(2 * ${(props) => props.theme.sizes.xlg});
+  grid-column: 2 / span 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  div:first-of-type {
-    font-size: ${(props) => props.theme.sizes.xlg};
+  .brand {
+    font-size: ${(props) => props.theme.fontSizes.title};
     font-weight: 700;
     color: ${(props) => props.theme.colors.highlight};
     cursor: pointer;
+    vertical-align: center;
+
+    @media ${(props) => props.theme.breakpoints.mobile} {
+      font-size: ${(props) => props.theme.fontSizes.mobileTitle};
+    }
   }
 `;
 
@@ -30,13 +32,18 @@ export const NavWrapper = styled.nav`
   }
 
   li a {
-    font-size: ${(props) => props.theme.sizes.lg};
+    font-size: ${(props) => props.theme.fontSizes.subtitle};
     display: block;
     color: ${(props) => props.theme.colors.primary};
     text-align: center;
-    padding: 16px;
+    padding: ${(props) => props.theme.sizes.md};
     text-decoration: none;
     transition: all 0.3s ease-in-out;
+
+    @media ${(props) => props.theme.breakpoints.mobile} {
+      padding: ${(props) => props.theme.sizes.xxsm};
+      font-size: ${(props) => props.theme.fontSizes.mobileSubtitle};
+    }
   }
 
   li a:hover,

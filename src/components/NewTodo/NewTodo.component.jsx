@@ -21,7 +21,7 @@ const NewTodo = ({ pushToTodos }) => {
       <FormInput
         type="text"
         name="content"
-        label="new entry"
+        label="add new todo ..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />

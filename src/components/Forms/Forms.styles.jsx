@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
 export const FormPageContainer = styled.div`
+  grid-row: 1 / span 3;
   width: 100%;
   height: 100%;
+  min-height: calc(100vh - 20rem);
 `;
 
 export const FormContainer = styled.form`
-  width: 60%;
+  width: 80%;
   max-width: 600px;
-  margin: 4rem auto;
+  margin: auto;
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 20px;
@@ -28,6 +30,10 @@ export const FormContainer = styled.form`
 
   .delete-entry {
     color: ${(props) => props.theme.colors.highlight};
+  }
+
+  @media ${(props) => props.theme.breakpoints.mobile} {
+    width: 100%；;
   }
 `;
 
