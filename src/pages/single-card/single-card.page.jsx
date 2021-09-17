@@ -1,6 +1,6 @@
 import React from "react";
 
-import CardDetail from "../../components/Card-Detail/Card-Detail.component";
+import CardDetail from "../../components/Card-Detail/card-detail.component";
 import ProfileForm from "../../components/Forms/ProfileForm.component";
 
 const SingleCardPage = ({ match }) => {

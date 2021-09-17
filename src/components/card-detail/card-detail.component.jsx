@@ -40,7 +40,7 @@ import {
   InlineTodo,
   InlineTimes,
   InnerGrid,
-} from "./Card-Detail.styles";
+} from "./card-detail.styles";
 
 const CardDetail = ({ match }) => {
   const { cardId } = match.params;
