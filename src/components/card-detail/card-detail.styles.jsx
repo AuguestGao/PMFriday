@@ -98,8 +98,8 @@ export const NoteContainer = styled.div`
   .editorcontainer {
     background-color: ${(props) => props.theme.colors.accent};
     padding: 10px ${(props) => props.theme.sizes.lg};
-    height: 100%;
-    overflow: scroll;
+    height: 200px;
+    overflow-y: scroll;
   }
 
   @media ${(props) => props.theme.breakpoints.mobile} {
