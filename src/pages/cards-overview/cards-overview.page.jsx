@@ -39,7 +39,6 @@ const CardsOverview = () => {
     cardsCollectionSnapshot.forEach((doc) => {
       cardsCollection[doc.id] = doc.data();
     });
-    // const cardsCollection = { ...cards };
     if (_.isEmpty(cardsCollection)) {
       dispatch(loadCards(null));
     } else {
@@ -51,7 +50,7 @@ const CardsOverview = () => {
     if (!_.isEmpty(currentUser)) {
       getAllCards();
     }
-  }, []);
+  }, [cardStatus, currentUser]);
 
   const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);

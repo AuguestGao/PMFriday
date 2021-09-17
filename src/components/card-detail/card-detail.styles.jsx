@@ -15,8 +15,30 @@ export const PageContainer = styled.div`
   border: 2px solid black;
   border-radius: 15px;
 
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 5rem repeat(4, auto);
+  grid-template-areas:
+    "name name"
+    "profile todo"
+    "times todo"
+    "note  note"
+    "control  control";
+  grid-gap: 10px;
+  font-size: ${(props) => props.theme.fontSizes.text};
+
   @media ${(props) => props.theme.breakpoints.mobile} {
     width: 100%;
+    font-size: ${(props) => props.theme.fontSizes.mobileText};
+    grid-template-columns: auto;
+    grid-template-areas:
+      "name"
+      "profile"
+      "times"
+      "todo"
+      "note"
+      "control";
+
     button {
       font-size: ${(props) => props.theme.fontSizes.mobileText};
     }
@@ -24,50 +46,32 @@ export const PageContainer = styled.div`
 `;
 
 export const TitleContainer = styled.h1`
+  grid-area: name;
   color: ${(props) => props.theme.colors.primary};
   margin: 10px;
   text-align: center;
 `;
 
-export const MainContainer = styled.div`
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  grid-template-rows: repeat(3, 1fr) auto;
-  grid-gap: 10px;
-  font-size: ${(props) => props.theme.fontSizes.mobileText};
-`;
-
 export const ProfileContainer = styled.div`
-  grid-row: 1 / span 1;
-  grid-column: 1 / span 1;
+  grid-area: profile;
   width: 100%;
   border-bottom: 2px solid lightgray;
   margin: ${(props) => props.theme.sizes.xsm} auto;
   padding-bottom: 15px;
-
-  @media ${(props) => props.theme.breakpoints.mobile} {
-    grid-column: 1 / span 2;
-  }
 `;
 
 export const TimesContainer = styled.div`
-  grid-row: 2 / span 1;
-  grid-column: 1 / span 1;
+  grid-area: times;
   width: 100%;
   margin: ${(props) => props.theme.sizes.xsm} auto;
 
   @media ${(props) => props.theme.breakpoints.mobile} {
-    grid-column: 1 / span 2;
     border-bottom: 2px solid lightgray;
   }
 `;
 
 export const TodosContainer = styled.div`
-  grid-row: 1 / span 2;
-  grid-column: 2 / span 1;
+  grid-area: todo;
   width: 100%;
   margin: ${(props) => props.theme.sizes.xsm} auto;
   box-sizing: border-box;
@@ -77,8 +81,6 @@ export const TodosContainer = styled.div`
   padding: 20px;
 
   @media ${(props) => props.theme.breakpoints.mobile} {
-    grid-row: 3 / span 2;
-    grid-column: 1 / span 2;
     border-left: none;
     border-bottom: 2px solid lightgray;
     padding: 0;
@@ -90,14 +92,14 @@ export const TodosContainer = styled.div`
 `;
 
 export const NoteContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  grid-area: note;
   box-sizing: border-box;
 
   .editorcontainer {
     background-color: ${(props) => props.theme.colors.accent};
     padding: 10px ${(props) => props.theme.sizes.lg};
-    height: 100px;
+    height: 100%;
+    overflow: scroll;
   }
 
   @media ${(props) => props.theme.breakpoints.mobile} {
@@ -122,20 +124,18 @@ export const NormalTextContainer = styled.div`
   color: gray;
   margin-bottom: 10px;
   margin-left: 5px;
-
-  textarea {
-    width: 90%;
-    height: 200px;
-  }
 `;
 
 export const ConfirmDeleteContainer = styled.div`
+  grid-area: control;
   width: 100%;
   box-sizing: border-box;
   border-radius: ${(props) => props.theme.sizes.xsm};
   border: 2px solid ${(props) => props.theme.colors.highlight};
   margin: 20px auto;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
 
   button {
     width: 48%;
@@ -143,13 +143,11 @@ export const ConfirmDeleteContainer = styled.div`
 `;
 
 export const InteractionsContainer = styled.div`
+  grid-area: control;
   width: 100%;
   margin-top: 10px;
   display: flex;
   flex-direction: row;
-
-  /* flex-direction: row; */
-  /* flex-wrap: nowrap; */
   justify-content: space-between;
   align-items: center;
 
@@ -223,4 +221,12 @@ export const InlineTimes = styled.div`
       width: 30%;
     }
   }
+`;
+
+// InnerGrid is fixing the grid template discrepency between card-overview page and card-detail Component.
+export const InnerGrid = styled.div`
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
+  grid-template-rows: 3rem 3rem 1fr;
+  grid-template-columns: 1fr;
 `;

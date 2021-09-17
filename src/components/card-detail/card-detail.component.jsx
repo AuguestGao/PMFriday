@@ -30,8 +30,6 @@ import {
   NotFoundContainer,
   PageContainer,
   TitleContainer,
-  MainContainer,
-  // LeftPanelContainer,
   ProfileContainer,
   TimesContainer,
   TodosContainer,
@@ -41,6 +39,7 @@ import {
   InteractionsContainer,
   InlineTodo,
   InlineTimes,
+  InnerGrid,
 } from "./Card-Detail.styles";
 
 const CardDetail = ({ match }) => {
@@ -172,15 +171,10 @@ const CardDetail = ({ match }) => {
             return (
               <InlineTimes key={id}>
                 <p>{v.name}</p>
-                {/* <td>{v.unit}</td>
-                  <td>{Number(v.value).toFixed(1)}</td>
-                  <td>{Number(v.used).toFixed(1)}</td>
-                  <td>{remain.toFixed(1)}</td> */}
                 <div className="progress">
                   <progress value={v.used} max={v.value} width="90%" />
                 </div>
                 <div className="action">
-                  {/* <div className="enterNumber"> */}
                   <input
                     type="number"
                     value={timeEntry[id]}
@@ -191,7 +185,6 @@ const CardDetail = ({ match }) => {
                       })
                     }
                   />
-                  {/* </div> */}
                   <CustomButton
                     button
                     onClick={(e) => handleClaimTimeClicked(e, id)}
@@ -205,7 +198,7 @@ const CardDetail = ({ match }) => {
           })}
         </>
       ) : (
-        <p>Enter times...</p>
+        <p>add times...</p>
       );
     } else if (target === "todos") {
       const actives = [];
@@ -297,23 +290,27 @@ const CardDetail = ({ match }) => {
   if (card) {
     if (showProfileForm) {
       return (
-        <ProfileForm
-          cardData={{ ...card.profile }}
-          cardId={cardId}
-          saveProfile={handleSaveProfile}
-          cancelSaveProfile={() => toggleProfileForm(!showProfileForm)}
-        />
+        <InnerGrid>
+          <ProfileForm
+            cardData={{ ...card.profile }}
+            cardId={cardId}
+            saveProfile={handleSaveProfile}
+            cancelSaveProfile={() => toggleProfileForm(!showProfileForm)}
+          />
+        </InnerGrid>
       );
     }
 
     if (showTimesForm) {
       return (
-        <TimesForm
-          timesData={card.times}
-          cardId={cardId}
-          saveTimes={handleSaveTimes}
-          cancelSaveTimes={() => toggleTimesForm(!showTimesForm)}
-        />
+        <InnerGrid>
+          <TimesForm
+            timesData={card.times}
+            cardId={cardId}
+            saveTimes={handleSaveTimes}
+            cancelSaveTimes={() => toggleTimesForm(!showTimesForm)}
+          />
+        </InnerGrid>
       );
     }
 
@@ -321,44 +318,37 @@ const CardDetail = ({ match }) => {
       <PageContainer>
         {error ? <div>{error}</div> : null}
         <TitleContainer>{name}</TitleContainer>
-        <MainContainer>
-          {/* <LeftPanelContainer> */}
-          <ProfileContainer>
-            {renderProfile({ addedAt, ...otherFields })}
-            <CustomButton
-              button
-              onClick={() => toggleProfileForm(!showProfileForm)}
-            >
-              Edit&nbsp;Profile
-            </CustomButton>
-          </ProfileContainer>
-          <TimesContainer>
-            {renderTimesOrTodos("times", times)}
-            <CustomButton
-              button
-              onClick={() => toggleTimesForm(!showTimesForm)}
-            >
-              Edit&nbsp;Times
-            </CustomButton>
-          </TimesContainer>
-          {/* </LeftPanelContainer> */}
-          <TodosContainer>
-            <h3>Todos</h3>
-            <NewTodo
-              pushToTodos={(todo) =>
-                dispatch(addNew({ cardId, target: "todos", data: todo }))
-              }
-            />
-            {renderTimesOrTodos("todos", todos)}
-          </TodosContainer>
-        </MainContainer>
+        <ProfileContainer>
+          {renderProfile({ addedAt, ...otherFields })}
+          <CustomButton
+            button
+            onClick={() => toggleProfileForm(!showProfileForm)}
+          >
+            Edit&nbsp;Profile
+          </CustomButton>
+        </ProfileContainer>
+        <TimesContainer>
+          {renderTimesOrTodos("times", times)}
+          <CustomButton button onClick={() => toggleTimesForm(!showTimesForm)}>
+            Edit&nbsp;Times
+          </CustomButton>
+        </TimesContainer>
+        <TodosContainer>
+          <h3>Todos</h3>
+          <NewTodo
+            pushToTodos={(todo) =>
+              dispatch(addNew({ cardId, target: "todos", data: todo }))
+            }
+          />
+          {renderTimesOrTodos("todos", todos)}
+        </TodosContainer>
         <NoteContainer>{renderNote()}</NoteContainer>
         {!hideConfirmBox ? (
           <ConfirmDeleteContainer>
             <FormInput
               type="text"
               onChange={(e) => setConfirmName(e.target.value)}
-              label={"Enter Client Name to Confirm"}
+              label={"Enter Client Name"}
               value={confirmName}
             />
             <InteractionsContainer>

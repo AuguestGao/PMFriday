@@ -106,6 +106,9 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
             name="unit"
             onChange={(e) => setField({ ...field, unit: e.target.value })}
             value="hour"
+            style={{
+              margin: `10px 0 10px 3px`,
+            }}
           >
             <option value="minute">Minute</option>
             <option value="hour">Hour</option>

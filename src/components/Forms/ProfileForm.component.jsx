@@ -102,7 +102,7 @@ const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
   return (
     <FormPageContainer>
       <FormContainer>
-        <h2>New Profile</h2>
+        <h2>Profile</h2>
         {error ? error : null}
         <FormInput
           type="text"

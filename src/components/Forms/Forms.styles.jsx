@@ -10,7 +10,7 @@ export const FormPageContainer = styled.div`
 export const FormContainer = styled.form`
   width: 80%;
   max-width: 600px;
-  margin: auto;
+  margin: 10px auto;
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 20px;
@@ -33,12 +33,14 @@ export const FormContainer = styled.form`
   }
 
   @media ${(props) => props.theme.breakpoints.mobile} {
-    width: 100%；;
+    width: 100%;
+    padding: 20px;
   }
 `;
 
 export const ButtonsContainer = styled.div`
-  width: 100%;
+  width: 80%;
+  max-width: 600px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -48,7 +50,8 @@ export const ButtonsContainer = styled.div`
 
   button {
     width: 40%;
-    margin: auto;
+    max-width: 200px;
+    /* margin: auto; */
   }
 `;
 

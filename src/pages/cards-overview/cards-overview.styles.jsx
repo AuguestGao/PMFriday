@@ -5,7 +5,6 @@ export const PageWrapper = styled.article`
   grid-column: 2 / span 1;
   display: grid;
   min-height: 100%;
-  /* overflow: hidden; */
   justify-content: center;
   grid-template-rows: 3rem 3rem 1fr;
   grid-template-columns: 1fr;
@@ -20,8 +19,8 @@ export const PageWrapper = styled.article`
   p.user-name span {
     font-size: ${(props) => props.theme.fontSizes.title};
     text-decoration: underline;
-    text-decoration-style: double;
-    text-decoration-color: ${(props) => props.theme.colors.highlight};
+    text-decoration-thickness: 2px;
+    text-decoration-color: ${(props) => props.theme.colors.primary};
   }
 `;
 
