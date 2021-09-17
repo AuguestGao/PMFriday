@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# PM Friday
+### your project managent assistant
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Usage
+PM Friday is a project management app which helps to managing cases which requires time track. For the most project managemnt app such as Trello, I found there is no time easy-to-use time tracking feature that suits my need: listing used time and total approved time (by company) in one place that I can log time. 
 
-In the project directory, you can run:
 
-### `yarn start`
+## Features
+PM Friday uses Firebase authentication for signin, signup and signout functions, and uses Firestore as its NoSQL database. Therefore, it requires a firebase account and soem basic setup (see setup section). The route will be redirected to signin or to home page according to the situation. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Some buttons such add and create may be disabled for the sinario when creating a case without a name, for it makes the most sense. The minimum requirement of creating a card is to have a name, then the create button is clickable. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The home page is an card overview page where all the added card's name and creation time appears here. The search function allows the user to locate a case fastly and conviently. 
 
-### `yarn test`
+Clicking a case preview will enter the card detailed view where the user can add todo list, take note, and access to profile editting and time editting page. The case won't be save until the dave button is clicked. This is intentionally designed so for my own perference. A confirm deletion button is inspired by Github for preventing deletion by mistake. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lastly, PM Friday was designed mainly for desktop use, but added responsiveness enables other screen sizes. 
 
-### `yarn build`
+## Setup
+1. `yarn` after york the repo
+2. Sign up Firebase and create an app, copy the firebase config (apiKey, authDomain,...).
+3. create a file `.env.local` at the root path, replace the keys with below.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```node
+// in .env.local
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_APP_ID=
+```
+4. `yarn start` to run local development server. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Note
+The app is easily to be modified with more features. Fell free to clone and modify it to suit your need. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+_developed by Auguest Gao, 2021_
