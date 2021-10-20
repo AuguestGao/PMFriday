@@ -1,23 +1,42 @@
 # PM Friday
-### your project managent assistant
 
+#### your project managent assistant
 
-## Usage
-PM Friday is a project management app which helps to managing cases which requires time track. For the most project managemnt app such as Trello, I found there is no time easy-to-use time tracking feature that suits my need: listing used time and total approved time (by company) in one place that I can log time. 
+## Intro
 
+PM Friday is a project management app that helps to manage cases requiring time tracking. For most project management app such as Trello, I found there is no easy-to-use time tracking feature that suits my need: displaying used time and total approved time in one place.
 
 ## Features
-PM Friday uses Firebase authentication for signin, signup and signout functions, and uses Firestore as its NoSQL database. Therefore, it requires a firebase account and soem basic setup (see setup section). The route will be redirected to signin or to home page according to the situation. 
 
-Some buttons such add and create may be disabled for the sinario when creating a case without a name, for it makes the most sense. The minimum requirement of creating a card is to have a name, then the create button is clickable. 
+### Home Page
 
-The home page is an card overview page where all the added card's name and creation time appears here. The search function allows the user to locate a case fastly and conviently. 
+The home page becomes accessible after signing in if an account has been created. A new user can create an account by clicking the sign-up link, and they will be automatically signed in after an account is successfully created. Otherwise, the user will be redirected to the sign-in page. Sign-out is located in the navigation.
 
-Clicking a case preview will enter the card detailed view where the user can add todo list, take note, and access to profile editting and time editting page. The case won't be save until the dave button is clicked. This is intentionally designed so for my own perference. A confirm deletion button is inspired by Github for preventing deletion by mistake. 
+On the home page, all the project’s previews (name and date of creation) are displayed. A user may use the search bar to quickly locate the project of interest. An add button is provided to create new projects. A new page will prompt you with the profile of the profile, and project name is the minimum requirement.
 
-Lastly, PM Friday was designed mainly for desktop use, but added responsiveness enables other screen sizes. 
+### Project Page
 
-## Setup
+The project page shows all information about the particular project. Each project has the following sections: profile, times, todos, and note.
+Profile section shows the information filled during the project creation. “Edit profile” button allows the user to edit the profile info.
+
+The times section allows the user to add, modify, and delete time tracking. A progress bar shows the ratio of used time vs unused time along with the field is used to log time.
+
+The todo section allows users to add, delete, check and uncheck tasks with checked tasks that are put at the end of the todo list.
+
+The note section is a rich text editor for the users to write anything that doesn't fit in other sections.
+
+Finally, the project can be deleted from the project page. Confirmation of deletion was added for preventing a deletion by mistake, inspired by Github.
+
+Lastly, PM Friday was designed mainly for desktop use, but added responsiveness enables other screen sizes.
+
+## Usage
+
+### Note
+
+PMFriday provides user authentication via Firebase and storage in Firestore. To use, please sign up with firebase first and turn on Email/Password and Google as Sign-in provider before follwing the next step.
+
+### Setup
+
 1. `yarn` after york the repo
 2. Sign up Firebase and create an app, copy the firebase config (apiKey, authDomain,...).
 3. create a file `.env.local` at the root path, replace the keys with below.
@@ -31,10 +50,13 @@ REACT_APP_FIREBASE_STORAGE_BUCKET=
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
 REACT_APP_FIREBASE_APP_ID=
 ```
-4. `yarn start` to run local development server. 
 
-## Note
-The app is easily to be modified with more features. Fell free to clone and modify it to suit your need. 
+4. `yarn start` to run local development server.
 
+## Lastly
+
+PM Friday was designed mainly for desktop use, but added responsiveness enables other screen sizes.
+
+p.s. PMFriday is easily to be modified with more features. Fell free to clone and modify it to suit your need.
 
 _developed by Auguest Gao, 2021_
