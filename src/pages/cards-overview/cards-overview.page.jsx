@@ -30,27 +30,30 @@ const CardsOverview = () => {
 
   const dispatch = useDispatch();
 
-  const getAllCards = async () => {
-    const cardsCollectionRef = firestore.collection(
-      `users/${currentUser.id}/cards`
-    );
-    const cardsCollectionSnapshot = await cardsCollectionRef.get();
-    const cardsCollection = {};
-    cardsCollectionSnapshot.forEach((doc) => {
-      cardsCollection[doc.id] = doc.data();
-    });
-    if (_.isEmpty(cardsCollection)) {
-      dispatch(loadCards(null));
-    } else {
-      dispatch(loadCards(cardsCollection));
-    }
-  };
-
   useEffect(() => {
+    const getAllCards = async () => {
+      const cardsCollectionRef = firestore.collection(
+        `users/${currentUser.id}/cards`
+      );
+
+      const cardsCollectionSnapshot = await cardsCollectionRef.get();
+      const cardsCollection = {};
+      cardsCollectionSnapshot.forEach((doc) => {
+        cardsCollection[doc.id] = doc.data();
+      });
+
+      console.log(cardsCollection);
+      if (_.isEmpty(cardsCollection)) {
+        dispatch(loadCards(null));
+      } else {
+        dispatch(loadCards(cardsCollection));
+      }
+    };
+
     if (!_.isEmpty(currentUser)) {
       getAllCards();
     }
-  }, [cardStatus, currentUser]);
+  }, [cardStatus, currentUser, dispatch]);
 
   const handleSearchInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -72,7 +75,7 @@ const CardsOverview = () => {
     return filteredCards.length ? (
       filteredCards.map((card) => <CardPreview key={card.cardId} {...card} />)
     ) : (
-      <NoRecordContainer>No record found ...</NoRecordContainer>
+      <NoRecordContainer>No record found...</NoRecordContainer>
     );
   };
 

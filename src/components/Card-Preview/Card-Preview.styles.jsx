@@ -9,13 +9,13 @@ export const CardContainer = styled.div`
   display: flex;
   width: 400px;
   min-width: 270px;
-  margin: 10px auto;
+  /* margin: 10px auto; */
   padding: 20px 20px;
   border: 2px solid ${(props) => props.theme.colors.primary};
   border-radius: 10px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 4px 4px 2px 1px gray;
+  box-shadow: 3px 3px 10px 0px darkgray;
   transition: all 0.2s ease-in-out;
 
   .name {
@@ -31,7 +31,11 @@ export const CardContainer = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: ${(props) => props.theme.colors.accent};
+    background-color: ${(props) => props.theme.colors.primary};
+  }
+
+  &:hover * {
+    color: white;
   }
 
   @media ${(props) => props.theme.breakpoints.mobile} {

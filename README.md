@@ -37,12 +37,12 @@ PMFriday provides user authentication via Firebase and storage in Firestore. To 
 
 ### Setup
 
-1. `yarn` after york the repo
+1. `npm install` after clone the repo
 2. Sign up Firebase and create an app, copy the firebase config (apiKey, authDomain,...).
-3. create a file `.env.local` at the root path, replace the keys with below.
+3. create a file `.env` at the root path, replace the keys with below.
 
 ```node
-// in .env.local
+// in .env
 REACT_APP_FIREBASE_API_KEY=
 REACT_APP_FIREBASE_AUTH_DOMAIN=
 REACT_APP_FIREBASE_PROJECT_ID=
@@ -51,7 +51,7 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
 REACT_APP_FIREBASE_APP_ID=
 ```
 
-4. `yarn start` to run local development server.
+4. `npm start` to run local development server.
 
 ## Lastly
 
@@ -59,4 +59,4 @@ PM Friday was designed mainly for desktop use, but added responsiveness enables 
 
 p.s. PMFriday is easily to be modified with more features. Fell free to clone and modify it to suit your need.
 
-_developed by Auguest Gao, 2021_
+_developed by Auguest Gao_

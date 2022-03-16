@@ -16,6 +16,7 @@ export const FormInputContainer = styled.input`
   border-right-style: hidden;
   border-left-style: hidden;
   font-size: ${(props) => props.theme.sizes.lg};
+  color: white;
   background-color: ${(props) => props.theme.colors.neutral};
 
   &:focus {
@@ -28,7 +29,7 @@ export const FormInputContainer = styled.input`
 `;
 
 export const FormInputLabel = styled.label`
-  color: ${(props) => props.theme.colors.primary};
+  color: white;
   font-size: ${(props) => props.theme.sizes.md};
   font-weight: normal;
   position: absolute;

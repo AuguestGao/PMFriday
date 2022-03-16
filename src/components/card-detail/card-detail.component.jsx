@@ -262,13 +262,15 @@ const CardDetail = ({ match }) => {
   const renderNote = () => {
     return (
       <div className="editorcontainer">
-        <button onClick={onUnderlineClick}>U</button>
-        <button onClick={onBoldClick}>
-          <b>B</b>
-        </button>
-        <button onClick={onItalicClick}>
-          <em>I</em>
-        </button>
+        <div className="style-group">
+          <button onClick={onUnderlineClick}>U</button>
+          <button onClick={onBoldClick}>
+            <b>B</b>
+          </button>
+          <button onClick={onItalicClick}>
+            <em>I</em>
+          </button>
+        </div>
         <div className="editors"></div>
         <Editor
           editorState={editorState}

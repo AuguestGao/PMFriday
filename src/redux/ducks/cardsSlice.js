@@ -11,7 +11,7 @@ const cardsSlice = createSlice({
   reducers: {
     loadCards(state, action) {
       if (!action.payload) {
-        return { ...state, status: "loaded" };
+        return { status: "loaded", data: {} };
       } else {
         return { status: "loaded", data: { ...action.payload } };
       }

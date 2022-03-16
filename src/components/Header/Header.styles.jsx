@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.header`
-  grid-row: 1 / span 1;
-  grid-column: 2 / span 1;
+  grid-area: header;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,9 +31,9 @@ export const NavWrapper = styled.nav`
   }
 
   li a {
-    font-size: ${(props) => props.theme.fontSizes.subtitle};
+    font-size: ${(props) => props.theme.fontSizes.text};
     display: block;
-    color: ${(props) => props.theme.colors.primary};
+    color: white;
     text-align: center;
     padding: ${(props) => props.theme.sizes.md};
     text-decoration: none;
@@ -48,7 +47,7 @@ export const NavWrapper = styled.nav`
 
   li a:hover,
   li a:focus {
-    color: ${(props) => props.theme.colors.highlight};
+    color: ${(props) => props.theme.colors.primary};
     transform: scale(1.1);
   }
 `;

@@ -59,7 +59,7 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
             onChange={(e) => setField({ ...field, name: e.target.value })}
             label="Field Name"
           />
-          <label for="field_type">Field Value Type &nbsp;</label>
+          <label htmlFor="field_type">Field Value Type &nbsp;</label>
           <select
             name="type"
             onChange={(e) => setField({ ...field, type: e.target.value })}

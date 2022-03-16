@@ -32,18 +32,19 @@ const Signin = () => {
 
   const renderSigninForm = () => (
     <Container
-      className="d-flex flex-column align-items-center  justify-content-center w-50"
+      className="d-flex flex-column align-items-center justify-content-center w-50"
       style={{
         gridArea: `1 / 1 / -1 / -1`,
         width: "100%",
         maxWidth: "600px",
         minWidth: "300px",
         height: "100%",
+        color: "black",
       }}
     >
-      <Card className="w-100 p-3" style={{ top: "20%" }}>
+      <Card className="w-100 p-3">
         <Card.Body>
-          <h1 className="text-center">PMFriday</h1>
+          <h1 className="text-center">PM Friday</h1>
           <p className="text-center">Personal Project Management Assistant</p>
           <h2 className="text-center">Sign In</h2>
           {error && <Alert variant="warning">{error}</Alert>}
@@ -69,13 +70,16 @@ const Signin = () => {
               />
             </Form.Group>
 
-            <Button className="w-100 mt-2 mb-2" type="submit" style={{}}>
+            <Button className="w-100 mt-2 mb-2" type="submit">
               Sign in
             </Button>
           </Form>
         </Card.Body>
         <div className="text-center mb-2">
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account?{" "}
+          <Link to="/signup" className="sign">
+            Sign Up
+          </Link>
         </div>
       </Card>
     </Container>

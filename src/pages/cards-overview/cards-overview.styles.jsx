@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
 export const PageWrapper = styled.article`
-  grid-row: 2 / span 1;
-  grid-column: 2 / span 1;
+  grid-area: main;
   display: grid;
-  min-height: 100%;
   justify-content: center;
   grid-template-rows: 3rem 3rem 1fr;
   grid-template-columns: 1fr;
@@ -18,15 +16,15 @@ export const PageWrapper = styled.article`
 
   p.user-name span {
     font-size: ${(props) => props.theme.fontSizes.title};
+    text-decoration-thickness: 3px;
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: ${(props) => props.theme.colors.primary};
+    text-underline-offset: 2px;
+    text-decoration-color: ${(props) => props.theme.colors.highlight};
   }
 `;
 
 export const CardsOverviewContainer = styled.div`
   grid-row: 3 / span 1;
-  width: 100%;
   box-sizing: border-box;
   margin: ${(props) => props.theme.sizes.md} auto;
   display: flex;
@@ -40,8 +38,7 @@ export const CardsOverviewContainer = styled.div`
 export const NoRecordContainer = styled.h1`
   grid-row: 3 / span 1;
   width: 100%;
-  top: 50%;
-  left: 50%;
+  text-align: center;
 `;
 
 export const SearchAndAddContainer = styled.div`
