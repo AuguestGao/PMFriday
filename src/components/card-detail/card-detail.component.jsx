@@ -19,11 +19,8 @@ import {
 } from "draft-js";
 import _ from "lodash";
 
-import CustomButton from "../CustomButtom/CustomButton.component";
-import FormInput from "../FormInput/FormInput.component";
-import NewTodo from "../NewTodo/NewTodo.component";
-import ProfileForm from "../Forms/ProfileForm.component";
-import TimesForm from "../Forms/TimesForm.component";
+import { CustomButton, FormInput, NewTodo, ProfileForm, TimesForm } from "../";
+
 import { firestore } from "../../firebase/firebase";
 
 import {
@@ -42,7 +39,7 @@ import {
   InnerGrid,
 } from "./card-detail.styles";
 
-const CardDetail = ({ match }) => {
+export const CardDetail = ({ match }) => {
   const { cardId } = match.params;
   const card = useSelector((state) => state.cards.data[cardId]);
   const userId = useSelector((state) => state.user.id);
@@ -378,5 +375,3 @@ const CardDetail = ({ match }) => {
 
   return <NotFoundContainer>No card {cardId}</NotFoundContainer>;
 };
-
-export default CardDetail;

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
 
-import CardPreview from "../../components/Card-Preview/Card-Preview.component";
-import ProfileForm from "../../components/Forms/ProfileForm.component";
-import Search from "../../components/Search/Search.component";
-import CustomButton from "../../components/CustomButtom/CustomButton.component";
+import {
+  CardPreview,
+  ProfileForm,
+  Search,
+  CustomButton,
+} from "../../components";
+
 import { firestore } from "../../firebase/firebase";
 
 import {

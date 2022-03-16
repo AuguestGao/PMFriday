@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
-import FormInput from "../FormInput/FormInput.component";
-import CustomButton from "../CustomButtom/CustomButton.component";
+import { FormInput, CustomButton } from "../";
 
 import { NewTodoContainer } from "./NewTodo.styles";
 
-const NewTodo = ({ pushToTodos }) => {
+export const NewTodo = ({ pushToTodos }) => {
   const [content, setContent] = useState("");
 
   const resetTodo = () => setContent("");
@@ -36,5 +35,3 @@ const NewTodo = ({ pushToTodos }) => {
     </NewTodoContainer>
   );
 };
-
-export default NewTodo;

@@ -14,9 +14,7 @@ import { auth, createUserProfileDocument } from "./firebase/firebase";
 import Signin from "./pages/signin/signin.page";
 import Signup from "./pages/signup/signup.page";
 import CardsOverview from "./pages/cards-overview/cards-overview.page";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute.component";
-import Header from "./components/Header/Header.component";
-import Footer from "./Footer/Footer.component";
+import { PrivateRoute, Header, Footer } from "./components";
 import SingleCardPage from "./pages/single-card/single-card.page";
 
 function App() {

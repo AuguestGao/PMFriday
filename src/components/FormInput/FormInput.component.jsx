@@ -5,7 +5,7 @@ import {
   FormInputLabel,
 } from "./FormInput.styles";
 
-const FormInput = ({ label, ...props }) => (
+export const FormInput = ({ label, ...props }) => (
   <GroupContainer>
     <FormInputContainer {...props} />
     {label ? (
@@ -15,5 +15,3 @@ const FormInput = ({ label, ...props }) => (
     ) : null}
   </GroupContainer>
 );
-
-export default FormInput;
