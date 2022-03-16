@@ -1,9 +1,8 @@
-import { property } from "lodash";
 import styled, { css } from "styled-components";
 
 const buttonstyles = css`
   border-color: ${(props) => props.theme.colors.primary};
-  color: ${(props) => props.theme.colors.primaty};
+  color: ${(props) => props.theme.colors.primary};
   background-color: ${(props) => props.theme.colors.neutral};
 
   &:hover {
@@ -19,7 +18,6 @@ const deletebuttonstyles = css`
 
   &:hover {
     background-color: red;
-    border-color: white;
     color: white;
   }
 `;

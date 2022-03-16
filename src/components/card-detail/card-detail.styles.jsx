@@ -12,8 +12,8 @@ export const PageContainer = styled.div`
   max-width: 700px;
   margin: 20px auto;
   padding: 15px;
-  border: 2px solid black;
   border-radius: 15px;
+  box-shadow: 2px 2px 10px 3px ${(props) => props.theme.colors.primary};
 
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -50,6 +50,7 @@ export const TitleContainer = styled.h1`
   color: ${(props) => props.theme.colors.primary};
   margin: 10px;
   text-align: center;
+  text-shadow: 1px 1px 3px darkgray;
 `;
 
 export const ProfileContainer = styled.div`
@@ -99,7 +100,19 @@ export const NoteContainer = styled.div`
     background-color: ${(props) => props.theme.colors.accent};
     padding: 10px ${(props) => props.theme.sizes.lg};
     height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
+  }
+
+  .style-group {
+    display: flex;
+    flex: row nonwrap;
+    gap: 5px;
+  }
+
+  .style-group > button {
+    border: none;
+    width: 30px;
+    height: 30px;
   }
 
   @media ${(props) => props.theme.breakpoints.mobile} {

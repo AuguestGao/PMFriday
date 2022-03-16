@@ -14,10 +14,10 @@ export const theme = {
     mobileNote: "8px",
   },
   colors: {
-    neutral: "#efefef",
-    primary: "#181818",
-    highlight: "#ff3b3f",
-    accent: "#caebf2",
+    neutral: "#173f5f",
+    primary: "#f6d55c",
+    highlight: "#ed553b",
+    accent: "#20639b",
   },
   sizes: {
     xlg: "24px",

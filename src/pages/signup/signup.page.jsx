@@ -4,7 +4,6 @@ import { Link, useHistory, Redirect } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
 import { auth, createUserProfileDocument } from "../../firebase/firebase";
-import { autoSaveTodos } from "../../redux/ducks/cardsSlice";
 
 const Signup = () => {
   const [profile, setProfile] = useState({
@@ -56,11 +55,12 @@ const Signup = () => {
         maxWidth: "600px",
         minWidth: "300px",
         marginTop: "5%",
+        color: "black",
       }}
     >
       <Card className="w-100 p-3" style={{}}>
         <Card.Body>
-          <h1 className="text-center">PMFriday</h1>
+          <h1 className="text-center">PM Friday</h1>
           <p className="text-center">Personal Project Management Assistant</p>
           <h2 className="text-center">Sign up</h2>
           {error && <Alert variant="warning">{error}</Alert>}
@@ -120,7 +120,10 @@ const Signup = () => {
           </Form>
         </Card.Body>
         <div className="text-center mb-2">
-          Already have an account? <Link to="/signin">Sign In</Link>
+          Already have an account?{" "}
+          <Link to="/signin" className="sign">
+            Sign In
+          </Link>
         </div>
       </Card>
     </Container>
