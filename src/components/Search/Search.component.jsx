@@ -1,7 +1,7 @@
 import React from "react";
-import FormInput from "../FormInput/FormInput.component";
+import { FormInput } from "../";
 
-const Search = ({ searchValue, handleSearchInputChange }) => {
+export const Search = ({ searchValue, handleSearchInputChange }) => {
   return (
     <form>
       <FormInput
@@ -14,5 +14,3 @@ const Search = ({ searchValue, handleSearchInputChange }) => {
     </form>
   );
 };
-
-export default Search;

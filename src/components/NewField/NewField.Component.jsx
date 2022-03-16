@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
 
-import FormInput from "../FormInput/FormInput.component";
-import CustomButton from "../CustomButtom/CustomButton.component";
+import { FormInput, CustomButton } from "../";
 
 import { NewFieldContainer, CustomFieldContainer } from "./NewField.styles";
 
-const NewField = ({ addToProfile, isProfile, addToTimes }) => {
+export const NewField = ({ addToProfile, isProfile, addToTimes }) => {
   const [field, setField] = useState(() => {
     return isProfile
       ? {
@@ -137,5 +136,3 @@ const NewField = ({ addToProfile, isProfile, addToTimes }) => {
     </NewFieldContainer>
   );
 };
-
-export default NewField;

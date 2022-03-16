@@ -1,7 +1,7 @@
 import React from "react";
 import { CardLinkContainer, CardContainer } from "./Card-Preview.styles";
 
-const CardPreview = ({ cardId, addedAt, profile }) => {
+export const CardPreview = ({ cardId, addedAt, profile }) => {
   const { name } = profile;
   return (
     <CardLinkContainer to={`/card/${cardId}`}>
@@ -12,5 +12,3 @@ const CardPreview = ({ cardId, addedAt, profile }) => {
     </CardLinkContainer>
   );
 };
-
-export default CardPreview;

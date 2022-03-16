@@ -7,7 +7,7 @@ import { auth } from "../../firebase/firebase";
 
 import { HeaderWrapper, NavWrapper } from "./Header.styles";
 
-const Header = () => {
+export const Header = () => {
   const user = useSelector((state) => state.user);
   const history = useHistory();
 
@@ -37,5 +37,3 @@ const Header = () => {
     </HeaderWrapper>
   );
 };
-
-export default Header;

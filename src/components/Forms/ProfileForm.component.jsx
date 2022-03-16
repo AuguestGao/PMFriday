@@ -3,9 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
 import { firestore } from "../../firebase/firebase";
 
-import FormInput from "../FormInput/FormInput.component";
-import CustomButton from "../CustomButtom/CustomButton.component";
-import NewField from "../NewField/NewField.component";
+import { FormInput, CustomButton, NewField } from "../";
 import { changeCardStatus, addNew } from "../../redux/ducks/cardsSlice";
 
 import {
@@ -14,7 +12,12 @@ import {
   ButtonsContainer,
 } from "./Forms.styles";
 
-const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
+export const ProfileForm = ({
+  saveProfile,
+  cancelSaveProfile,
+  cardData,
+  cardId,
+}) => {
   const isNewProfile = _.isEmpty(cardData);
   const [profile, setProfile] = useState(() => {
     return isNewProfile
@@ -188,5 +191,3 @@ const ProfileForm = ({ saveProfile, cancelSaveProfile, cardData, cardId }) => {
     </FormPageContainer>
   );
 };
-
-export default ProfileForm;

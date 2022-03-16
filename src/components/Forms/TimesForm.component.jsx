@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import _ from "lodash";
 
-import CustomButton from "../CustomButtom/CustomButton.component";
-import NewField from "../NewField/NewField.component";
+import { CustomButton, NewField } from "../";
 import { addNew } from "../../redux/ducks/cardsSlice";
 
 import {
@@ -12,7 +11,12 @@ import {
   ButtonsContainer,
 } from "./Forms.styles";
 
-const TimesForm = ({ saveTimes, cancelSaveTimes, timesData, cardId }) => {
+export const TimesForm = ({
+  saveTimes,
+  cancelSaveTimes,
+  timesData,
+  cardId,
+}) => {
   const isNewTimes = _.isEmpty(timesData);
 
   const [times, setTimes] = useState(() => {
@@ -88,5 +92,3 @@ const TimesForm = ({ saveTimes, cancelSaveTimes, timesData, cardId }) => {
     </FormPageContainer>
   );
 };
-
-export default TimesForm;

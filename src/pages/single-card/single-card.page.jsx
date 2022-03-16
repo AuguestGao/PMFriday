@@ -1,7 +1,6 @@
 import React from "react";
 
-import CardDetail from "../../components/Card-Detail/card-detail.component";
-import ProfileForm from "../../components/Forms/ProfileForm.component";
+import { CardDetail, ProfileForm } from "../../components";
 
 const SingleCardPage = ({ match }) => {
   return match.path !== "/new" ? <CardDetail match={match} /> : <ProfileForm />;
