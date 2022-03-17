@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { auth } from "../../firebase/firebase";
 
-import { HeaderWrapper, NavWrapper } from "./Header.styles";
+import { HeaderWrapper, NavWrapper } from "./styled";
 
 export const Header = () => {
   const user = useSelector((state) => state.user);

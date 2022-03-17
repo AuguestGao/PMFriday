@@ -1,5 +1,5 @@
 import React from "react";
-import { FooterWrapper } from "./Footer.styles";
+import { FooterWrapper } from "./styled";
 
 export const Footer = () => (
   <FooterWrapper>

@@ -5,11 +5,7 @@ import _ from "lodash";
 import { CustomButton, NewField } from "../";
 import { addNew } from "../../redux/ducks/cardsSlice";
 
-import {
-  FormPageContainer,
-  FormContainer,
-  ButtonsContainer,
-} from "./Forms.styles";
+import { FormPageContainer, FormContainer, ButtonsContainer } from "./styled";
 
 export const TimesForm = ({
   saveTimes,

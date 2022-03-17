@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
 import { FormInput, CustomButton } from "../";
 
-import { NewTodoContainer } from "./NewTodo.styles";
+import { NewTodoContainer } from "./styled";
 
 export const NewTodo = ({ pushToTodos }) => {
   const [content, setContent] = useState("");

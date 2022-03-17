@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { nanoid } from "@reduxjs/toolkit";
 
-import { FormInput, CustomButton } from "../";
+import { FormInput, CustomButton } from "../../components";
 
-import { NewFieldContainer, CustomFieldContainer } from "./NewField.styles";
+import { NewFieldContainer, CustomFieldContainer } from "./styled";
 
 export const NewField = ({ addToProfile, isProfile, addToTimes }) => {
   const [field, setField] = useState(() => {

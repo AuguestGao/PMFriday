@@ -11,11 +11,11 @@ import { setCurrentUser } from "./redux/ducks/userSlice";
 import { clearCards } from "./redux/ducks/cardsSlice";
 import { auth, createUserProfileDocument } from "./firebase/firebase";
 
-import Signin from "./pages/signin/signin.page";
-import Signup from "./pages/signup/signup.page";
-import CardsOverview from "./pages/cards-overview/cards-overview.page";
+import Signin from "./pages/signin";
+import Signup from "./pages/signup";
+import CardsOverview from "./pages/cardsOverview";
+import SingleCardPage from "./pages/singleCard";
 import { PrivateRoute, Header, Footer } from "./components";
-import SingleCardPage from "./pages/single-card/single-card.page";
 
 function App() {
   const dispatch = useDispatch();
