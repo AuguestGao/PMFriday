@@ -169,7 +169,7 @@ export const CardDetail = ({ match }) => {
               <InlineTimes key={id}>
                 <p>{v.name}</p>
                 <div className="progress">
-                  <progress value={v.used} max={v.value} width="90%" />
+                  <progress value={v.used} max={v.value} />
                 </div>
                 <div className="action">
                   <input

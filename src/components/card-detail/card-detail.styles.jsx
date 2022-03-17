@@ -218,6 +218,11 @@ export const InlineTimes = styled.div`
 
   div.progress {
     grid-column: 2 / span 1;
+    background: transparent;
+  }
+
+  div.progress > progress {
+    width: 100%;
   }
 
   div.action {
