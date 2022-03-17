@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Alert, Button, Form, Container } from "react-bootstrap";
 import { Link, useHistory, Redirect } from "react-router-dom";
 import { isEmpty } from "lodash";
@@ -17,6 +17,17 @@ const Signup = () => {
   const history = useHistory();
   const currentUser = useSelector((state) => state.user);
 
+  useEffect(() => {
+    return () => {
+      setProfile({
+        displayName: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+      });
+    };
+  }, []);
+
   const handleSignup = async (e) => {
     e.preventDefault();
 
@@ -31,13 +42,6 @@ const Signup = () => {
       );
       await createUserProfileDocument(user, {
         displayName: profile.displayName,
-      });
-
-      setProfile({
-        displayName: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
       });
 
       history.push("/");

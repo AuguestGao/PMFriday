@@ -45,7 +45,6 @@ const CardsOverview = () => {
         cardsCollection[doc.id] = doc.data();
       });
 
-      console.log(cardsCollection);
       if (_.isEmpty(cardsCollection)) {
         dispatch(loadCards(null));
       } else {
