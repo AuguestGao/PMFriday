@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
 import { firestore } from "../../firebase/firebase";
@@ -97,6 +97,10 @@ export const ProfileForm = ({
       },
     });
   };
+
+  useEffect(() => {
+    return () => resetState();
+  }, []);
 
   return (
     <FormPageContainer>

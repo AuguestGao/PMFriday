@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Alert, Button, Form, Container } from "react-bootstrap";
 import { auth } from "../../firebase/firebase";
 import { Link, useHistory, Redirect } from "react-router-dom";
@@ -14,16 +14,25 @@ const Signin = () => {
   const currentUser = useSelector((state) => state.user);
   const history = useHistory();
 
-  const handleSignin = async (e) => {
-    e.preventDefault();
-
-    try {
-      await auth.signInWithEmailAndPassword(user.email, user.password);
+  useEffect(() => {
+    return () => {
       setUser({
         email: "",
         password: "",
       });
-      setError("");
+    };
+  }, []);
+
+  const handleSignin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const userCred = await auth.signInWithEmailAndPassword(
+        user.email,
+        user.password
+      );
+      console.log(userCred);
+      // dispatch(setCurrentUser(userCred));
       history.push("/");
     } catch (err) {
       setError(err.message);
