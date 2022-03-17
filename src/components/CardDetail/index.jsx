@@ -37,7 +37,7 @@ import {
   InlineTodo,
   InlineTimes,
   InnerGrid,
-} from "./card-detail.styles";
+} from "./styled";
 
 export const CardDetail = ({ match }) => {
   const { cardId } = match.params;

@@ -6,11 +6,7 @@ import { firestore } from "../../firebase/firebase";
 import { FormInput, CustomButton, NewField } from "../";
 import { changeCardStatus, addNew } from "../../redux/ducks/cardsSlice";
 
-import {
-  FormPageContainer,
-  FormContainer,
-  ButtonsContainer,
-} from "./Forms.styles";
+import { FormPageContainer, FormContainer, ButtonsContainer } from "./styled";
 
 export const ProfileForm = ({
   saveProfile,

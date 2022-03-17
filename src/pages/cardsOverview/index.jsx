@@ -22,7 +22,7 @@ import {
   CardsOverviewContainer,
   NoRecordContainer,
   SearchAndAddContainer,
-} from "./cards-overview.styles";
+} from "./styled";
 
 const CardsOverview = () => {
   const currentUser = useSelector((state) => state.user);

@@ -1,5 +1,5 @@
 import React from "react";
-import { CardLinkContainer, CardContainer } from "./Card-Preview.styles";
+import { CardLinkContainer, CardContainer } from "./styled";
 
 export const CardPreview = ({ cardId, addedAt, profile }) => {
   const { name } = profile;
